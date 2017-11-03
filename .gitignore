@@ -1,0 +1,36 @@
+# OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Sublime Text
+*.sublime*
+
+# Composer
+composer.lock
+vendor/*
+tests/vendor/*
+**/vendor/*
+
+# Bower
+bower_components/
+
+# Test related files
+tests/acceptance.suite.yml
+codecept.phar
+tests/*/*Tester.php
+selenium.log
+tests/_output
+tests/RoboFile.ini
+selenium-server-standalone.jar
+tests/_support/_generated/*
+
+# Never ignore
+!.gitignore
+!index.html
+!index.php
