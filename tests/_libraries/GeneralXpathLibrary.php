@@ -77,7 +77,7 @@ class GeneralXpathLibrary
 
 	public static $CDLApplication    = '//a[contains(@data-click, "FECredit-Base-Loan-Work-Loan-CD")]';
 
-	public static $iframeEnviroment  = 'PegaGadget1Ifr';
+	public static $iframeEnviroment  = '//div[@id="moduleGroupDiv"]//div[contains(@style, "display: block")]//div[contains(@id, "PegaWebGadget")]//iframe';
 	
 	public static $dealerCode        = '//input[@name="$PpyWorkPage$pDealer$pDealerCode"]';
 
@@ -106,7 +106,9 @@ class GeneralXpathLibrary
 	
 	public static $nationalId         = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalId"]';
 	
-	public static $dateOfIssue        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalIdDateIssue"]';
+	public static $dateOfIssue        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalIdDateIssue"]//following-sibling::img';
+
+	public static $todayLink          = '//a[@id="todayLink"]';
 	
 	public static $dateOfBirth        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pDateOfBirth"]';
 	
@@ -114,13 +116,15 @@ class GeneralXpathLibrary
 	
 	public static $phone              = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pPhoneNumber"]';
 	
-	public static $hometown           = '//select[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pHometown"]';
+	public static $hometown           = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pHometown"]';
+
+	public static $rowHometown  = '//tr[contains(@id, "$PD_ClassificationSchemeList$pSchemes$gHometownProv$ppxResults")]';
 	
 	public static $demoDataShortApp   = '//button[@data-click-id="[["showMenu",[{"dataSource":"DemoDataShortApp", "isNavTypeCustom":"false", "className":"FECredit-Base-Loan-Work-Loan-CD","menuAlign":"left","format":"menu-format-standard" , "loadBehavior":"ondisplay", "ellipsisAfter":"999","usingPage":"pyWorkPage", "useNewMenu":"true", "isMobile":"false", "navPageName":"pyNavigation1508927626414"},":event"]]]"]';
 	
 	public static $demoDataG1ShortApp = '//button[@id="pyNavigation1509437842034"]';
 	
-	public static $submitShortApp     = '//button[@data-click-id="[["setUserStart",["FINISHASSIGNMENT"]],["doFormSubmit",["pyActivity=FinishAssignment",":this","",":event"]]]"]';
+	public static $submitShortApp     = '//button[@data-test-id="20151224215849068133296"]';
 
 	// Step 2 
 	public static $demoDataDocument = '//button[@name="ScanApp_pyWorkPage_75"]';
@@ -186,6 +190,10 @@ class GeneralXpathLibrary
 	public static $errorMessage      = '//div[@data-node-id="DisplayErrors"]';
 	
 	public static $errorMessageTable = '//table[@id="ERRORTABLE"]';
+	
+	public static $popupMessage      = 'Please correct flagged fields before submitting the form!';
+
+	public static $errorDiv = '//div[contains(@class, "inputErrorDiv")]//span[contains(@class, "inputError")]';
 
     // Error message text 
     public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
