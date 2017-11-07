@@ -22,7 +22,7 @@ class initCest
      */
     public function __construct()
     {
-                $conn = oci_connect('MULCASTRANS', 'ANSF1UAT04itdbaBca', 'FINNUAT4');
+        $conn = oci_connect('MULCASTRANS', 'ANSF1UAT04itdbaBca', 'FINNUAT4');
 
 echo '<pre>';
 print_r($conn);
