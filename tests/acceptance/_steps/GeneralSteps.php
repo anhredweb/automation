@@ -50,9 +50,9 @@ class GeneralSteps extends \AcceptanceTester
         $I->switchToNextTab();
         $I->wait(2);
 
-        $I->click(\GeneralXpathLibrary::$createButton);
+        /*$I->click(\GeneralXpathLibrary::$createButton);
         $I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
-        $I->click(\GeneralXpathLibrary::$CDLApplication);
+        $I->click(\GeneralXpathLibrary::$CDLApplication);*/
 
         $I->click(\GeneralXpathLibrary::$createButton);
         $I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);

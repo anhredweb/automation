@@ -22,7 +22,7 @@ class initCest
      */
     public function __construct()
     {
-        $conn = oci_connect('MULCASTRANS', 'ANSF1UAT04itdbaBca', 'FINNUAT4');
+/*        $conn = oci_connect('MULCASTRANS', 'ANSF1UAT04itdbaBca', 'FINNUAT4');
 
 echo '<pre>';
 print_r($conn);
@@ -33,7 +33,7 @@ die;
         {
             $e = oci_error();
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-        }
+        }*/
         $this->defaultData = array(
             'dealer_code'    => '80000000250',
             'pos_code'       => '600725',
@@ -61,9 +61,9 @@ die;
      */
     public function createCDLApplication(AcceptanceTester $I, $scenario)
     {
-        $I->seeInDatabase('MULCASTRANS.LOS_APP_APPLICATIONS', array());
+        // $I->seeInDatabase('MULCASTRANS.LOS_APP_APPLICATIONS', array());
 
-        /*$I->amOnUrl(\GeneralXpathLibrary::$url);
+        $I->amOnUrl(\GeneralXpathLibrary::$url);
         $I = new AcceptanceTester\GeneralSteps($scenario);
 
         $I->wantTo('Login to PEGA UAT');
@@ -76,6 +76,6 @@ die;
         $I->initData($this->defaultData);
 
         $I->wantTo('Entry short data');
-        $I->shortApplication($this->defaultData);*/
+        $I->shortApplication($this->defaultData);
     }
 }

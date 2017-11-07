@@ -34,3 +34,11 @@ tests/_support/_generated/*
 !.gitignore
 !index.html
 !index.php
+
+# Chrome driver
+chromedriver/*
+start_chrome.sh
+
+# Gecko driver
+geckodriver/*
+start_firefox.sh
