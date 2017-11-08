@@ -132,39 +132,57 @@ class GeneralXpathLibrary
 	public static $submitDocument   = '//button[@name="ScanApp_pyWorkPage_85"]';
 
 	// Full data entry Stage
-	public static $goodType                 = '//input[@id="GoodTypeDesc"]';
+	public static $addItemButton         = '//div[@data-node-id="AddDelete"]//a[@data-test-id="2016121614080304138535"]';
 	
-	public static $brand                    = '//input[@id="BrandDesc"]';
+	public static $assetType             = '//select[@name="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l2$pAssetType"]';
 	
-	public static $assetMake                = '//input[@id="AssetMakeDesc"]';
+	public static $rowGoodData           = '//div[@gpropindex="PFinancialGoods1"]//div[@id="gridBody_right"]//table[@id="bodyTbl_right"]//tr[@id="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l1"]';	
 	
-	public static $assetModel               = '//input[@id="AssetModelDesc"]';
+	public static $collateral            = '//select[@name="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l2$pCollateral"]';
 	
-	public static $goodPrice                = '//input[@id="GoodPrice"]';
+	public static $goodType              = '//input[@id="GoodsTypeDesc"]';
+
+	public static $rowGoodType           = '//tr[contains(@id, "$PD_ClSubSchemeLevel1")]';
 	
-	public static $collateralDescription    = '//input[@id="CollateralDescription"]';
+	public static $brand                 = '//input[@id="BrandDesc"]';
+
+	public static $rowBrand              = '//tr[contains(@id, "$PD_ClSubSchemeLevel1")]';
 	
-	public static $downPayment              = '//input[@id="DownPayment"]';
+	public static $assetMake             = '//input[@id="AssetMakeDesc"]';
+
+	public static $rowAssetMake          = '//tr[contains(@id, "$PD_ClSubSchemeLevel2")]';
 	
-	public static $tenor                    = '//input[@id="RequestedTenure"]';	
+	public static $assetModel            = '//input[@id="AssetModelDesc"]';
+
+	public static $rowAssetModel         = '//tr[contains(@id, "$PD_ClSubSchemeLevel2")]';
 	
-	public static $isFbOwner                = '//input[@id="IsFBOwner"]';
+	public static $goodPrice             = '//input[@id="GoodsPrice"]';
 	
-	public static $maritalStatus            = '//input[@id="MaritalStatusId"]';
+	public static $collateralDescription = '//input[@id="CollateralDescription"]';
+
+	public static $saveGoodButton        = '//button[@id="RowDetailsButtonSubmit"]';
 	
-	public static $education                = '//input[@id="EducationId"]';
+	public static $downPayment           = '//input[@id="DownPayment"]';
 	
-	public static $personalIncome           = '//input[@id="NetAmount1"]';
+	public static $tenor                 = '//input[@id="RequestedTenure"]';	
 	
-	public static $familyIncome             = '//input[@id="NetAmount2"]';
+	public static $isFbOwner             = '//input[@id="IsFBOwner"]';
 	
-	public static $phoneReference1          = '//input[@id="CommunicationString1"]';
+	public static $maritalStatus         = '//input[@id="MaritalStatusId"]';
 	
-	public static $phoneReference2          = '//input[@id="CommunicationString2"]';
+	public static $education             = '//input[@id="EducationId"]';
 	
-	public static $demoDataFullDataEntry    = '//button[@data-click-id="[["showMenu",[{"dataSource":"DemoDataFullApp", "isNavTypeCustom":"false", "className":"FECredit-Base-Loan-Work-Loan-CD","menuAlign":"left","format":"menu-format-standard" , "loadBehavior":"ondisplay", "ellipsisAfter":"999","usingPage":"pyWorkPage", "useNewMenu":"true", "isMobile":"false", "navPageName":"pyNavigation1499600025595"},":event"]]]"]';
+	public static $personalIncome        = '//input[@id="NetAmount1"]';
 	
-	public static $demoDataG11FullDataEntry = '//button[@id="pyNavigation1509440340595"]';
+	public static $familyIncome          = '//input[@id="NetAmount2"]';
+	
+	public static $phoneReference1       = '//input[@id="CommunicationString1"]';
+	
+	public static $phoneReference2       = '//input[@id="CommunicationString2"]';
+	
+	public static $demoDataFullDataEntry    = '//button[@data-test-id="2015100605430907997129"]';
+	
+	public static $demoDataG11FullDataEntry = '//a[contains(@data-click, "DemoDataEnterFullAppG11")]';
 	
 	public static $submitFullDataEntry      = '//button[@data-click-id="[["setUserStart",["FINISHASSIGNMENT"]],["doFormSubmit",["pyActivity=FinishAssignment",":this","",":event"]]]"]';
 
@@ -220,17 +238,15 @@ class GeneralXpathLibrary
     public static $checkInButton = "Check-in";
 
     /**
-     * Function to get the Path for Template ID
+     * Function to get tab
      *
-     * @param   String $templateIDName Name of the Template
+     * @param  string $tabId Tab ID
      *
-     * @return string
+     * @return xpath
      */
-    public function categoryTemplateID($templateIDName)
+    public function getTabId($tabId)
     {
-        $path = "//div[@id='s2id_filter_category_template']/div/ul/li[contains(text(), '" . $templateIDName . "')]";
-
-        return $path;
+        return '//div[@data-node-id="FullAppContainer"]//div[contains(@id, "PEGA_TABBED")]//ul[@role="tablist"]//li[@id="Tab' . $tabId . '"]//a';
     }
 
     /**

@@ -31,7 +31,6 @@ class GeneralSteps extends \AcceptanceTester
 		$I->fillField(\GeneralXpathLibrary::$username, $username);
         $I->fillField(\GeneralXpathLibrary::$password, $password);
         $I->click(\GeneralXpathLibrary::$loginButton);
-        $I->wait(1);
 	}
 
 	/**
@@ -42,6 +41,7 @@ class GeneralSteps extends \AcceptanceTester
 	public function launchPortal()
 	{
 		$I = $this;
+		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$launchButton);
 		$I->waitForElement(\GeneralXpathLibrary::$FECaseManager, 2);
         $I->click(\GeneralXpathLibrary::$FECaseManager);
@@ -54,10 +54,11 @@ class GeneralSteps extends \AcceptanceTester
         $I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
         $I->click(\GeneralXpathLibrary::$CDLApplication);*/
 
+        $I->executeJS('window.scrollTo(0,0)');
+
         $I->click(\GeneralXpathLibrary::$createButton);
         $I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
         $I->click(\GeneralXpathLibrary::$CDLApplication);
-        $I->wait(2);
 	}
 
 	/**
@@ -70,6 +71,7 @@ class GeneralSteps extends \AcceptanceTester
 	public function initData($data)
 	{
 		$I = $this;
+		$I->wait(2);
 		$iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$iframeEnviroment, 'name');
 		$I->switchToIFrame($iframeName);
 		$I->wait(1);
@@ -123,19 +125,20 @@ class GeneralSteps extends \AcceptanceTester
 	public function shortApplication($data)
 	{
 		$I = $this;
+		$I->wait(3);
 		$I->fillField(\GeneralXpathLibrary::$firstname, $data['firstname']);
-		$I->wait(1);
+		$I->wait(2);
 		$I->fillField(\GeneralXpathLibrary::$lastname, $data['lastname']);
-		$I->wait(1);
+		$I->wait(2);
 		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['gender']));
 		$I->wait(2);
 		$I->fillField(\GeneralXpathLibrary::$nationalId, $data['national_id']);
 		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$dateOfIssue);
-		$I->wait(1);
+		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$todayLink);
 		// $I->fillField(\GeneralXpathLibrary::$dateOfIssue, $data['date_of_issue']);
-		$I->wait(1);
+		$I->wait(2);
 		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['date_of_birth']);
 		$I->wait(2);
 		$I->fillField(\GeneralXpathLibrary::$fbNumber, $data['fb_number']);
@@ -143,12 +146,94 @@ class GeneralSteps extends \AcceptanceTester
 		$I->fillField(\GeneralXpathLibrary::$phone, $data['phone']);
 		$I->wait(2);
 		$I->fillField(\GeneralXpathLibrary::$hometown, $data['hometown']);
-		$I->wait(1);
+		$I->wait(2);
 		$I->pressKey(\GeneralXpathLibrary::$hometown, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$rowHometown);
-		$I->wait(1);
+		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$submitShortApp);
 		$I->wait(2);
+	}
+
+	/**
+	 * Function to check documents for Application
+	 *
+	 * @param  array  $data  Data
+	 *
+	 * @return void
+	 */
+	public function shortApplicationDocument($data)
+	{
+		$I = $this;
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$demoDataDocument);
+		$I->wait(1);
+		$I->click(\GeneralXpathLibrary::$submitDocument);
+		$I->wait(2);
+	}
+
+	/**
+	 * Function to entry full data for Application
+	 *
+	 * @param  array  $data  Data
+	 *
+	 * @return void
+	 */
+	public function fullDataEntry($data)
+	{
+		$I = $this;
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$demoDataFullDataEntry);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$demoDataG11FullDataEntry);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$rowGoodData);
+		$I->wait(1);
+		$I->fillField(\GeneralXpathLibrary::$goodType, '');
+		$I->wait(1);
+		$I->fillField(\GeneralXpathLibrary::$goodType, $data['good_type']);
+		$I->wait(2);
+		$I->pressKey(\GeneralXpathLibrary::$goodType, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$rowGoodType);
+		$I->wait(2);
+		$I->fillField(\GeneralXpathLibrary::$brand, '');
+		$I->wait(1);
+		$I->fillField(\GeneralXpathLibrary::$brand, $data['brand']);
+		$I->wait(2);
+		$I->pressKey(\GeneralXpathLibrary::$brand, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$rowBrand);
+		$I->wait(1);
+		$I->fillField(\GeneralXpathLibrary::$assetMake, '');
+		$I->wait(1);
+		$I->fillField(\GeneralXpathLibrary::$assetMake, $data['asset_make']);
+		$I->wait(2);
+		$I->pressKey(\GeneralXpathLibrary::$assetMake, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$rowAssetMake);
+		$I->wait(1);
+		$I->fillField(\GeneralXpathLibrary::$assetModel, '');
+		$I->wait(1);
+		$I->fillField(\GeneralXpathLibrary::$assetModel, $data['asset_model']);
+		$I->wait(2);
+		$I->pressKey(\GeneralXpathLibrary::$assetModel, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$rowAssetModel);
+		$I->wait(2);
+		$I->fillField(\GeneralXpathLibrary::$goodPrice, $data['good_price']);
+		$I->wait(2);
+		$I->fillField(\GeneralXpathLibrary::$collateralDescription, $data['collateral_description']);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$collateralDescription);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$saveGoodButton);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::getTabId('3'));
+		$I->wait(5);
+		$I->fillField(\GeneralXpathLibrary::$downPayment, $data['down_payment']);
+		$I->wait(2);
+		$I->fillField(\GeneralXpathLibrary::$tenor, $data['tenor']);
+		$I->wait(10);
 	}
 }

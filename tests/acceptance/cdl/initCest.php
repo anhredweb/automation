@@ -47,7 +47,23 @@ die;
             'date_of_birth'  => date('m/d/Y', strtotime('11/10/1994')),
             'fb_number'      => '#FB' . date('YmdHi'),
             'phone'          => '01652679144',
-            'hometown'        => 'Hồ Chí Minh'
+            'hometown'        => 'Hồ Chí Minh',
+            'asset_type' => 'NEW',
+            'collateral' => 'P',
+            'good_type' => 'DESKTOP',
+            'brand' => 'DELL',
+            'asset_make' => 'DELL',
+            'asset_model' => 'DELL',
+            'good_price' => '12000000',
+            'collateral_description' => 'DESKTOP DELL',
+            'down_payment' => '3400000.00',
+            'tenor' => '8',
+            'is_fb_owner' => 'Y',
+            'education' => "76",
+            'marital_status' => '0',
+            'social_status' => '8',
+            'main_income' => '30000000',
+            'family_income' => '30000000',
         );
     }
 
@@ -77,5 +93,11 @@ die;
 
         $I->wantTo('Entry short data');
         $I->shortApplication($this->defaultData);
+        
+        $I->wantTo('Documents Stage');
+        $I->shortApplicationDocument($this->defaultData);
+
+        $I->wantTo('Entry full data');
+        $I->fullDataEntry($this->defaultData);
     }
 }
