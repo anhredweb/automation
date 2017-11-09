@@ -201,22 +201,28 @@ class GeneralXpathLibrary
 	public static $submitFullDataEntry      = '//button[contains(@data-click, "doFormSubmit")]';
 
 	// Data check Stage
-	public static $dataCheck          = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//a';
+	public static $dataCheck          = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//li[2]//a[1]';
 	
 	public static $verificationResult = '//select[@name="$PpyWorkPage$pLoanApp$pDCH$pResult"]';
 	
 	public static $demoDataDataCheck  = '//button[@name="DataCheck_pyWorkPage_"]';
-
-	public static $cicResult  = '//select[@id="CICCheckResult"]';
-
-	public static $submitDataCheck  = '//button[@name="DataCheck_pyWorkPage_44"]';
-
-	public static $okDataCheck  = '//button[@data-test-id="2016053114385707303299"]';
+	
+	public static $cicResult          = '//select[@id="CICCheckResult"]';
+	
+	public static $submitDataCheck    = '//button[@name="DataCheck_pyWorkPage_44"]';
+	
+	public static $okDataCheck        = '//button[@data-test-id="2016053114385707303299"]';
+	
+	public static $documentsTab       = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab2"]//a[@tabtitle="2. Documents"]';
+	
+	public static $cicTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab3"]//a[@tabtitle="3. CIC"]';
 
 	// public static $okDataCheck  = '//button[@data-click-id="[["setUserStart",["FINISHASSIGNMENT"]],["doFormSubmit",["pyActivity=FinishAssignment",":this","",":event"]]]"]';
 	
 	// Log off
-	public static $emailOnTop  = '//button[@data-test-id="2016053114385707303299"]';	
+	public static $emailOnTop  = '//a[@data-test-id="2015081110205103217443"]';
+
+	public static $logOff  = '//ul[contains(@style, "display: block;")]//a[contains(@data-click, "logOff")]';
 
     // Message
 	public static $errorMessage      = '//div[@data-node-id="DisplayErrors"]';
@@ -229,27 +235,6 @@ class GeneralXpathLibrary
 
     // Error message text 
     public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
-
-    //button
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
 
     /**
      * Function to get tab

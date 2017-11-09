@@ -54,9 +54,9 @@ die;
             'brand' => 'DELL',
             'asset_make' => 'DELL',
             'asset_model' => 'DELL',
-            'good_price' => '12000000',
+            'good_price' => '20000000',
             'collateral_description' => 'DESKTOP DELL',
-            'down_payment' => 3400000,
+            'down_payment' => 5000000,
             'tenor' => 8,
             'is_fb_owner' => 'Y',
             'education' => 76,
@@ -97,9 +97,12 @@ die;
         $I->shortApplication($this->defaultData);
         
         $I->wantTo('Documents Stage');
-        $I->shortApplicationDocument($this->defaultData);
+        $I->shortApplicationDocument();
 
         $I->wantTo('Entry full data');
         $I->fullDataEntry($this->defaultData);
+
+        $I->wantTo('Data Check');
+        $I->dataCheck();
     }
 }

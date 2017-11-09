@@ -194,11 +194,9 @@ class GeneralSteps extends \AcceptanceTester
 	/**
 	 * Function to check documents for Application
 	 *
-	 * @param  array  $data  Data
-	 *
 	 * @return void
 	 */
-	public function shortApplicationDocument($data)
+	public function shortApplicationDocument()
 	{
 		$I = $this;
 
@@ -299,7 +297,6 @@ class GeneralSteps extends \AcceptanceTester
 
 		if (!empty($data['down_payment']))
 		{
-			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$downPayment);
 			$I->wait(2);
 			$I->fillField(\GeneralXpathLibrary::$downPayment, '');
@@ -309,23 +306,6 @@ class GeneralSteps extends \AcceptanceTester
 
 		if (!empty($data['tenor']))
 		{
-			
-				// $I->wait(2);
-				// $I->fillField(\GeneralXpathLibrary::$tenor, 0);
-				// $I->wait(4);
-				// $I->fillField(\GeneralXpathLibrary::$tenor, (int) $data['tenor']);
-				// $tenor = $I->grabValueFrom(\GeneralXpathLibrary::$tenor);
-
-				// if ($tenor != (int) $data['tenor'])
-				// {
-				// 	$I->fillField(\GeneralXpathLibrary::$tenor, (int) $data['tenor']);
-				// 	$I->wait(2);
-				// }
-
-				// $I->wait(4);
-				// $I->seeInField(\GeneralXpathLibrary::$tenor, (int) $data['tenor']);
-
-				$I->wait(2);
 				$I->click(\GeneralXpathLibrary::$tenor);
 				$I->wait(2);
 				$I->fillField(\GeneralXpathLibrary::$tenor, '');
@@ -389,7 +369,6 @@ class GeneralSteps extends \AcceptanceTester
 			$I->click(\GeneralXpathLibrary::$personalIncome);
 			$I->wait(2);
 			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["main_income"] . '")');
-			$I->executeJS('return jQuery("input#NetAmount1").val("")');
 			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["main_income"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 
@@ -400,7 +379,6 @@ class GeneralSteps extends \AcceptanceTester
 			$I->click(\GeneralXpathLibrary::$familyIncome);
 			$I->wait(2);
 			$I->executeJS('return jQuery("input#NetAmount2").attr("data-value", "' . $data["family_income"] . '")');
-			$I->executeJS('return jQuery("input#NetAmount2").val("")');
 			$I->executeJS('return jQuery("input#NetAmount2").val("' . $data["family_income"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 		}
@@ -421,8 +399,6 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$phoneReference1);
 			$I->wait(2);
-			$I->executeJS('return jQuery("input#CommunicationString1").attr("data-value", "' . $data["phone_reference1"] . '")');
-			$I->executeJS('return jQuery("input#CommunicationString1").val("")');
 			$I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["phone_reference1"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('9'));
 		}
@@ -437,20 +413,62 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$phoneReference1);
 			$I->wait(2);
-			$I->executeJS('return jQuery("input#CommunicationString1").attr("data-value", "' . $data["phone_reference2"] . '")');
-			$I->executeJS('return jQuery("input#CommunicationString1").val("")');
 			$I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["phone_reference2"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('9'));
 		}
 
-		$I->wait(60);
+		$I->wait(2);
 
 		// Click submit data
-		// $I->click(\GeneralXpathLibrary::$submitFullDataEntry);
+		$I->click(\GeneralXpathLibrary::$submitFullDataEntry);
 		$I->wait(2);
 
 		// Check error messages
 		$I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
         $I->wait(2);
+	}
+
+	/**
+	 * Function to data check for Application
+	 *
+	 * @return void
+	 */
+	public function dataCheck()
+	{
+		$I = $this;
+
+		// Click Data check
+		$I->click(\GeneralXpathLibrary::$dataCheck);
+		$I->wait(2);
+
+		// Select verification result
+		$I->selectOption(\GeneralXpathLibrary::$verificationResult, array('value' => 'Positive'));
+		$I->wait(2);
+
+		// Click documents tab and demo data
+		$I->click(\GeneralXpathLibrary::$documentsTab);
+		$I->click(\GeneralXpathLibrary::$demoDataDataCheck);
+		$I->wait(2);
+
+		// Click CIC tab and select CIC result
+		$I->click(\GeneralXpathLibrary::$cicTab);
+		$I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Don't require"));
+		$I->wait(2);
+
+		// Click submit data
+		$I->click(\GeneralXpathLibrary::$submitDataCheck);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$okDataCheck);
+		$I->wait(2);
+	}
+
+	/**
+	 * Function to log off Pega
+	 *
+	 * @return void
+	 */
+	public function logOff()
+	{
+		$I = $this;
 	}
 }
