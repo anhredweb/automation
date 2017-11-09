@@ -431,7 +431,7 @@ class GeneralSteps extends \AcceptanceTester
 	/**
 	 * Function to data check for Application
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function dataCheck()
 	{
@@ -460,6 +460,12 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$okDataCheck);
 		$I->wait(2);
+
+		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+		$caseId = str_replace('(', '', $caseId);
+		$caseId = str_replace(')', '', $caseId);
+
+		return $caseId;
 	}
 
 	/**
@@ -467,8 +473,55 @@ class GeneralSteps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function logOff()
+	public function switchApplication()
 	{
 		$I = $this;
+		$I->switchToPreviousTab();
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$roleMenu);
+		$I->wait(2);
+		$I->moveMouseOver(\GeneralXpathLibrary::$switchApplication);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$riskAdmin);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$launchButton);
+		$I->wait(2);
+        $I->click(\GeneralXpathLibrary::$FECaseManager);
+        $I->wait(2);
+		$I->switchToNextTab();
+		$I->wait(2);
+	}
+
+	/**
+	 * Function to search application
+	 *
+	 * @param  string  $caseId  Case ID
+	 *
+	 * @return void
+	 */
+	public function searchApplication($caseId)
+	{
+		$I = $this;
+		$I->wait(10);
+		$I->click(\GeneralXpathLibrary::$emailOnTop2);
+		$I->wait(2);
+		$I->moveMouseOver(\GeneralXpathLibrary::$switchWorkPool);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$defaultWorkPool);
+		$I->wait(3);
+		$I->fillField(\GeneralXpathLibrary::$searchBox, $caseId);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$searchButton);
+		$I->wait(2);
+
+		$responseData = array();
+		$responseData['case_id']        = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+		$responseData['application_id'] = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
+		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalId);
+		$responseData['total_score']    = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
+
+		echo '<pre>';
+		print_r($responseData);
+		echo '</pre>';
 	}
 }

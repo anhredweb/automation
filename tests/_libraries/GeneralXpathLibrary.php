@@ -220,9 +220,9 @@ class GeneralXpathLibrary
 	// public static $okDataCheck  = '//button[@data-click-id="[["setUserStart",["FINISHASSIGNMENT"]],["doFormSubmit",["pyActivity=FinishAssignment",":this","",":event"]]]"]';
 	
 	// Log off
-	public static $emailOnTop  = '//a[@data-test-id="2015081110205103217443"]';
-
-	public static $logOff  = '//ul[contains(@style, "display: block;")]//a[contains(@data-click, "logOff")]';
+	public static $emailOnTop = '//a[@data-test-id="20140927131516034856137"]';
+	
+	public static $logOff     = '//ul[contains(@style, "display: block;")]//a[contains(@data-click, "logOff")]';
 
     // Message
 	public static $errorMessage      = '//div[@data-node-id="DisplayErrors"]';
@@ -230,11 +230,30 @@ class GeneralXpathLibrary
 	public static $errorMessageTable = '//table[@id="ERRORTABLE"]';
 	
 	public static $popupMessage      = 'Please correct flagged fields before submitting the form!';
-
-	public static $errorDiv = '//div[contains(@class, "inputErrorDiv")]//span[contains(@class, "inputError")]';
+	
+	public static $errorDiv          = '//div[contains(@class, "inputErrorDiv")]//span[contains(@class, "inputError")]';
 
     // Error message text 
     public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
+
+    // Access by LOS2
+	public static $emailOnTop2       = '//a[contains(@title, "nhut.le@fecredit.com.vn")]';
+	
+	public static $roleMenu          = '//a[@data-test-id="20140927131516034248306"]';
+	
+	public static $switchApplication = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]/a';
+	
+	public static $riskAdmin         = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l6")]//li[2]';
+	
+	public static $switchWorkPool    = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]/a';
+	
+	public static $defaultWorkPool   = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l4")]//li[1]';
+	
+	public static $searchBox         = '//input[@name="$PpyDisplayHarness$ppyTemplateInputBox"]';
+	
+	public static $searchButton      = '//button[@name="searchMenuButton"]';
+	
+	public static $decisionMaking    = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab7"]//a[@tabtitle="Decision Making"]';
 
     /**
      * Function to get tab
