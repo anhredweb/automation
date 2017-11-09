@@ -514,10 +514,14 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::$searchButton);
 		$I->wait(2);
 
+		// PEGA System use iframe so need to switch to iframe to access input
+		$I->switchToIFrame('PegaGadget1Ifr');
+		$I->wait(2);
+
 		$responseData = array();
 		$responseData['case_id']        = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
 		$responseData['application_id'] = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
-		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalId);
+		// $responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalId);
 		$responseData['total_score']    = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
 
 		echo '<pre>';
