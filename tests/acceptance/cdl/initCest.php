@@ -56,14 +56,16 @@ die;
             'asset_model' => 'DELL',
             'good_price' => '12000000',
             'collateral_description' => 'DESKTOP DELL',
-            'down_payment' => '3400000.00',
-            'tenor' => '8',
+            'down_payment' => 3400000,
+            'tenor' => 8,
             'is_fb_owner' => 'Y',
-            'education' => "76",
-            'marital_status' => '0',
-            'social_status' => '8',
-            'main_income' => '30000000',
-            'family_income' => '30000000',
+            'education' => 76,
+            'marital_status' => 'O',
+            'social_status' => 8,
+            'main_income' => '35000000',
+            'family_income' => '40000000',
+            'phone_reference1' => '01652679145',
+            'phone_reference2' => '01652679146',
         );
     }
 

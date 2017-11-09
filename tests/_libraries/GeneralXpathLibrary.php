@@ -168,15 +168,29 @@ class GeneralXpathLibrary
 	
 	public static $isFbOwner             = '//input[@id="IsFBOwner"]';
 	
-	public static $maritalStatus         = '//input[@id="MaritalStatusId"]';
+	public static $maritalStatus         = '//select[@id="MartialStatusId"]';
+
+	public static $socialStatus          = '//select[@id="SocialStatusId"]';
 	
-	public static $education             = '//input[@id="EducationId"]';
+	public static $education             = '//select[@id="EducationId"]';
+
+	public static $rowMainIncome         = '//div[@aria-labelledby="Tab8"]//div[@data-node-id="Income"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pIncome$pIncome$l1"]//td[3]';	
 	
 	public static $personalIncome        = '//input[@id="NetAmount1"]';
+
+	public static $rowFamilyIncome       = '//div[@aria-labelledby="Tab8"]//div[@data-node-id="Income"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pIncome$pIncome$l2"]//td[3]';
 	
 	public static $familyIncome          = '//input[@id="NetAmount2"]';
+
+	public static $rowPhoneReference1    = '//div[@aria-labelledby="Tab9"]//div[@data-node-id="OtherReferensedPersons"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l1"]';
+
+	public static $rowMobile1    = '// tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l1$pPerson$pPhones$l1"]//td[3]';
 	
 	public static $phoneReference1       = '//input[@id="CommunicationString1"]';
+
+	public static $rowPhoneReference2    = '//div[@aria-labelledby="Tab9"]//div[@data-node-id="OtherReferensedPersons"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l2"]';
+
+	public static $rowMobile2    = '// tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l2$pPerson$pPhones$l1"]//td[3]';
 	
 	public static $phoneReference2       = '//input[@id="CommunicationString2"]';
 	
@@ -184,7 +198,7 @@ class GeneralXpathLibrary
 	
 	public static $demoDataG11FullDataEntry = '//a[contains(@data-click, "DemoDataEnterFullAppG11")]';
 	
-	public static $submitFullDataEntry      = '//button[@data-click-id="[["setUserStart",["FINISHASSIGNMENT"]],["doFormSubmit",["pyActivity=FinishAssignment",":this","",":event"]]]"]';
+	public static $submitFullDataEntry      = '//button[contains(@data-click, "doFormSubmit")]';
 
 	// Data check Stage
 	public static $dataCheck          = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//a';
