@@ -354,7 +354,37 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 
 		// Family Tab
-		
+		$I->click(\GeneralXpathLibrary::getTabId('5'));
+		$I->wait(2);
+		$nationalId = (int) date('YmdHi');
+
+		if (!empty($data['is_fb_owner']) && $data['is_fb_owner'] == 'N')
+		{
+			$I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, 'FBFirstname');
+			$I->wait(2);
+			$I->fillField(\GeneralXpathLibrary::$fbOwnerLastname, 'FBLastname');
+			$I->wait(2);
+			$I->selectOption(\GeneralXpathLibrary::$fbOwnerRelationType, array('value' => "O"));
+			$I->wait(2);
+			$I->fillField(\GeneralXpathLibrary::$fbOwnerNationalId, $nationalId + 1);
+			$I->wait(2);
+		}
+
+		if ($data['marital_status'] == 'M' || $data['marital_status'] == 'C')
+		{
+			$I->fillField(\GeneralXpathLibrary::$spouseLastname, 'SpFirstname');
+			$I->wait(2);
+			$I->fillField(\GeneralXpathLibrary::$spouseFirstname, 'SpLastname');
+			$I->wait(2);
+			$spouseGender = $data['gender'] == 'M' ? 'F' : 'M';
+			$I->selectOption(\GeneralXpathLibrary::$spouseGender, array('value' => $spouseGender));
+			$I->wait(2);
+			$I->fillField(\GeneralXpathLibrary::$spouseNationalId, $nationalId + 2);
+			$I->wait(2);
+			$I->fillField(\GeneralXpathLibrary::$spouseRelationPeriod, 2);
+			$I->wait(2);
+		}
+
 		// Income Tab
 		$I->click(\GeneralXpathLibrary::getTabId('8'));
 		$I->wait(2);
@@ -514,7 +544,8 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 
 		// PEGA System use iframe so need to switch to iframe to access input
-		$I->switchToIFrame(\GeneralXpathLibrary::$decisionMakingFrame);
+		$iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$decisionMakingFrame, 'name');
+		$I->switchToIFrame($iframeName);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$decisionMaking);
 		$I->wait(1);

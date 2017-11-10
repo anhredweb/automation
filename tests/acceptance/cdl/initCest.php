@@ -58,9 +58,9 @@ die;
             'collateral_description' => 'DESKTOP DELL',
             'down_payment' => 5000000,
             'tenor' => 8,
-            'is_fb_owner' => 'Y',
+            'is_fb_owner' => 'N',
             'education' => 76,
-            'marital_status' => 'O',
+            'marital_status' => 'M',
             'social_status' => 8,
             'main_income' => '35000000',
             'family_income' => '40000000',
@@ -109,6 +109,6 @@ die;
         $I->switchApplication();
 
         $I->wantTo('Search Application');
-        $I->searchApplication('CDL-14478');
+        $I->searchApplication($caseId);
     }
 }

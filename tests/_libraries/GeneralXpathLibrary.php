@@ -196,7 +196,7 @@ class GeneralXpathLibrary
 
 	public static $fbOwnerFirstname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pFirstName"]';
 
-	public static $fbOwnerRelationType        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pRelation$pRelationType"]';
+	public static $fbOwnerRelationType        = '//select[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pRelation$pRelationType"]';
 
 	public static $fbOwnerNationalId        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pNationalId"]';
 
@@ -281,7 +281,7 @@ class GeneralXpathLibrary
 	
 	public static $searchButton        = '//button[@name="searchMenuButton"]';
 	
-	public static $decisionMakingFrame = 'PegaGadget1Ifr';
+	public static $decisionMakingFrame = '//div[@id="workarea"]//div[contains(@style, "display: block")]//iframe';
 	
 	public static $decisionMaking      = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab7"]//a[@tabtitle="Decision Making"]';
 
