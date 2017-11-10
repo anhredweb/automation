@@ -8,7 +8,6 @@
 namespace AcceptanceTester;
 
 use Codeception\Module\WebDriver;
-use \Facebook\WebDriver\WebDriverElement;
 
 /**
  * Class AdminManagerJoomla3Steps
@@ -477,17 +476,17 @@ class GeneralSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->switchToPreviousTab();
-		$I->wait(2);
+		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$roleMenu);
 		$I->wait(2);
 		$I->moveMouseOver(\GeneralXpathLibrary::$switchApplication);
-		$I->wait(2);
+		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$riskAdmin);
 		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$launchButton);
 		$I->wait(2);
         $I->click(\GeneralXpathLibrary::$FECaseManager);
-        $I->wait(2);
+        $I->wait(1);
 		$I->switchToNextTab();
 		$I->wait(2);
 	}
@@ -502,27 +501,52 @@ class GeneralSteps extends \AcceptanceTester
 	public function searchApplication($caseId)
 	{
 		$I = $this;
-		$I->wait(10);
+		$I->wait(5);
 		$I->click(\GeneralXpathLibrary::$emailOnTop2);
-		$I->wait(2);
+		$I->wait(1);
 		$I->moveMouseOver(\GeneralXpathLibrary::$switchWorkPool);
-		$I->wait(2);
+		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$defaultWorkPool);
-		$I->wait(3);
-		$I->fillField(\GeneralXpathLibrary::$searchBox, $caseId);
 		$I->wait(2);
+		$I->fillField(\GeneralXpathLibrary::$searchBox, $caseId);
+		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$searchButton);
 		$I->wait(2);
 
 		// PEGA System use iframe so need to switch to iframe to access input
-		$I->switchToIFrame('PegaGadget1Ifr');
-		$I->wait(2);
+		$I->switchToIFrame(\GeneralXpathLibrary::$decisionMakingFrame);
+		$I->wait(1);
+		$I->click(\GeneralXpathLibrary::$decisionMaking);
+		$I->wait(1);
 
 		$responseData = array();
-		$responseData['case_id']        = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+		$caseId = str_replace("(", "", $caseId);
+		$caseId = str_replace(")", "", $caseId);
+		$responseData['case_id']        = $caseId;
 		$responseData['application_id'] = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
-		// $responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalId);
-		$responseData['total_score']    = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
+		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
+		$I->wait(1);
+		$I->scrollTo(\GeneralXpathLibrary::$totalScore);
+		$responseData['total_score']        = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
+		$responseData['score_group']        = $I->grabTextFrom(\GeneralXpathLibrary::$scoreGroup);
+		$responseData['random_number']      = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
+		$responseData['gender_and_age']     = $I->grabTextFrom(\GeneralXpathLibrary::$genderAndAgeScore);
+		$responseData['marital_status']     = $I->grabTextFrom(\GeneralXpathLibrary::$maritalStatusScore);
+		$responseData['installment']        = $I->grabTextFrom(\GeneralXpathLibrary::$installmentScore);
+		$responseData['pos_region']         = $I->grabTextFrom(\GeneralXpathLibrary::$posRegionScore);
+		$responseData['cc_performance']     = $I->grabTextFrom(\GeneralXpathLibrary::$ccPerformanceScore);
+		$responseData['fb_owner']           = $I->grabTextFrom(\GeneralXpathLibrary::$fbOwnerScore);
+		$responseData['down_payment_ratio'] = $I->grabTextFrom(\GeneralXpathLibrary::$downpaymentRatioScore);
+		$responseData['pos_performance']    = $I->grabTextFrom(\GeneralXpathLibrary::$posPerformanceScore);
+		$responseData['owner_dpd_ever']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDpdEverScore);
+		$responseData['ref_dpd']            = $I->grabTextFrom(\GeneralXpathLibrary::$refDpdScore);
+		$I->scrollTo(\GeneralXpathLibrary::$ownerRejectedScore);
+		$responseData['owner_rejected']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerRejectedScore);
+		$responseData['owner_disbursed']    = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDisbursedScore);
+		$responseData['asset_brand']        = $I->grabTextFrom(\GeneralXpathLibrary::$assetBrandScore);
+		$responseData['effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$effectiveRateScore);
+		$responseData['document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
 
 		echo '<pre>';
 		print_r($responseData);

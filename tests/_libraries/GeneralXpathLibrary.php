@@ -20,7 +20,7 @@ class GeneralXpathLibrary
     // Original Scoring Stage
 	public static $caseId        = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]//span[contains(@class, "case_title")]';
 	
-	public static $nationnalId   = '//div[@section_index="4"]//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-4")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span';
+	public static $nationalIdScoring  = '//div[@section_index="4"]//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-4")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span';
 	
 	public static $applicationId = '//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-3")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span';
 	
@@ -133,6 +133,8 @@ class GeneralXpathLibrary
 
 	// Full data entry Stage
 	public static $addItemButton         = '//div[@data-node-id="AddDelete"]//a[@data-test-id="2016121614080304138535"]';
+
+	// Good Fields
 	
 	public static $assetType             = '//select[@name="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l2$pAssetType"]';
 	
@@ -161,10 +163,14 @@ class GeneralXpathLibrary
 	public static $collateralDescription = '//input[@id="CollateralDescription"]';
 
 	public static $saveGoodButton        = '//button[@id="RowDetailsButtonSubmit"]';
+
+	// Loan Fields
 	
 	public static $downPayment           = '//input[@id="DownPayment"]';
 	
-	public static $tenor                 = '//input[@id="RequestedTenure"]';	
+	public static $tenor                 = '//input[@id="RequestedTenure"]';
+
+	// Customer Fields	
 	
 	public static $isFbOwner             = '//input[@id="IsFBOwner"]';
 	
@@ -174,6 +180,28 @@ class GeneralXpathLibrary
 	
 	public static $education             = '//select[@id="EducationId"]';
 
+	// Family Fields
+
+	public static $spouseLastname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pLastName"]';
+
+	public static $spouseFirstname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pFirstName"]';
+
+	public static $spouseGender        = '//select[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pGender"]';
+
+	public static $spouseNationalId        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pNationalId"]';
+
+	public static $spouseRelationPeriod        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pRelation$pRelationPeriod"]';
+
+	public static $fbOwnerLastname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pLastName"]';
+
+	public static $fbOwnerFirstname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pFirstName"]';
+
+	public static $fbOwnerRelationType        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pRelation$pRelationType"]';
+
+	public static $fbOwnerNationalId        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pNationalId"]';
+
+	// Income Fields
+
 	public static $rowMainIncome         = '//div[@aria-labelledby="Tab8"]//div[@data-node-id="Income"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pIncome$pIncome$l1"]//td[3]';	
 	
 	public static $personalIncome        = '//input[@id="NetAmount1"]';
@@ -181,6 +209,8 @@ class GeneralXpathLibrary
 	public static $rowFamilyIncome       = '//div[@aria-labelledby="Tab8"]//div[@data-node-id="Income"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pIncome$pIncome$l2"]//td[3]';
 	
 	public static $familyIncome          = '//input[@id="NetAmount2"]';
+
+	// Reference Fields
 
 	public static $rowPhoneReference1    = '//div[@aria-labelledby="Tab9"]//div[@data-node-id="OtherReferensedPersons"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l1"]';
 
@@ -216,8 +246,6 @@ class GeneralXpathLibrary
 	public static $documentsTab       = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab2"]//a[@tabtitle="2. Documents"]';
 	
 	public static $cicTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab3"]//a[@tabtitle="3. CIC"]';
-
-	// public static $okDataCheck  = '//button[@data-click-id="[["setUserStart",["FINISHASSIGNMENT"]],["doFormSubmit",["pyActivity=FinishAssignment",":this","",":event"]]]"]';
 	
 	// Log off
 	public static $emailOnTop = '//a[@data-test-id="20140927131516034856137"]';
@@ -237,23 +265,25 @@ class GeneralXpathLibrary
     public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
 
     // Access by LOS2
-	public static $emailOnTop2       = '//a[contains(@title, "nhut.le@fecredit.com.vn")]';
+	public static $emailOnTop2         = '//a[contains(@title, "nhut.le@fecredit.com.vn")]';
 	
-	public static $roleMenu          = '//a[@data-test-id="20140927131516034248306"]';
+	public static $roleMenu            = '//a[@data-test-id="20140927131516034248306"]';
 	
-	public static $switchApplication = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]/a';
+	public static $switchApplication   = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]/a';
 	
-	public static $riskAdmin         = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l6")]//li[2]';
+	public static $riskAdmin           = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l6")]//li[2]';
 	
-	public static $switchWorkPool    = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]/a';
+	public static $switchWorkPool      = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]/a';
 	
-	public static $defaultWorkPool   = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l4")]//li[1]';
+	public static $defaultWorkPool     = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l4")]//li[1]';
 	
-	public static $searchBox         = '//input[@name="$PpyDisplayHarness$ppyTemplateInputBox"]';
+	public static $searchBox           = '//input[@name="$PpyDisplayHarness$ppyTemplateInputBox"]';
 	
-	public static $searchButton      = '//button[@name="searchMenuButton"]';
+	public static $searchButton        = '//button[@name="searchMenuButton"]';
 	
-	public static $decisionMaking    = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab7"]//a[@tabtitle="Decision Making"]';
+	public static $decisionMakingFrame = 'PegaGadget1Ifr';
+	
+	public static $decisionMaking      = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab7"]//a[@tabtitle="Decision Making"]';
 
     /**
      * Function to get tab
@@ -265,25 +295,5 @@ class GeneralXpathLibrary
     public function getTabId($tabId)
     {
         return '//div[@data-node-id="FullAppContainer"]//div[contains(@id, "PEGA_TABBED")]//ul[@role="tablist"]//li[@id="Tab' . $tabId . '"]//a';
-    }
-
-    /**
-     * Function to get the Path for Template
-     *
-     * @param   String $templateName Name of the Template
-     *
-     * @return string
-     */
-    public function categoryTemplate($templateName)
-    {
-        $path = "//div[@id='filter_category_template']/div/ul/li[contains(text(), '" . $templateName . "')]";
-
-        return $path;
-    }
-
-    public function xPathAccessory($accessoryName)
-    {
-        $path = ['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"];
-        return $path;
     }
 }

@@ -90,20 +90,20 @@ die;
         $I->wantTo('Launch to FE Manager 7');
         $I->launchPortal();
 
-        // $I->wantTo('Init data');
-        // $I->initData($this->defaultData);
+        $I->wantTo('Init data');
+        $I->initData($this->defaultData);
 
-        // $I->wantTo('Entry short data');
-        // $I->shortApplication($this->defaultData);
+        $I->wantTo('Entry short data');
+        $I->shortApplication($this->defaultData);
         
-        // $I->wantTo('Documents Stage');
-        // $I->shortApplicationDocument();
+        $I->wantTo('Documents Stage');
+        $I->shortApplicationDocument();
 
-        // $I->wantTo('Entry full data');
-        // $I->fullDataEntry($this->defaultData);
+        $I->wantTo('Entry full data');
+        $I->fullDataEntry($this->defaultData);
 
-        // $I->wantTo('Data Check');
-        // $caseId = $I->dataCheck();
+        $I->wantTo('Data Check');
+        $caseId = $I->dataCheck();
 
         $I->wantTo('Switch Application');
         $I->switchApplication();
