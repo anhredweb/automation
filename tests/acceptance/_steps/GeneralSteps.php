@@ -86,7 +86,7 @@ class GeneralSteps extends \AcceptanceTester
 		// Fill dealer code
 		$I->fillField(\GeneralXpathLibrary::$dealerCode, '');
 		$I->wait(1);
-		$I->fillField(\GeneralXpathLibrary::$dealerCode, $data['dealer_code']);
+		$I->fillField(\GeneralXpathLibrary::$dealerCode, $data['DEALER_CODE']);
 		$I->pressKey(\GeneralXpathLibrary::$dealerCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$rowDealerCode);
@@ -95,7 +95,7 @@ class GeneralSteps extends \AcceptanceTester
 		// Fill POS code
 		$I->fillField(\GeneralXpathLibrary::$posCode, '');
 		$I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$posCode, $data['pos_code']);
+        $I->fillField(\GeneralXpathLibrary::$posCode, $data['POS_CODE']);
         $I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$posCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
@@ -105,13 +105,13 @@ class GeneralSteps extends \AcceptanceTester
         // Select product group
         $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => ''));
         $I->wait(1);
-        $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => $data['product_group']));
+        $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => $data['PRODUCT_GROUP']));
         $I->wait(1);
 
         // Fill product scheme
         $I->fillField(\GeneralXpathLibrary::$productScheme, '');
         $I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$productScheme, $data['product_scheme']);
+        $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
         $I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$productScheme, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
@@ -147,37 +147,36 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 
 		// Select gender
-		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['gender']));
+		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['GENDER']));
 		$I->wait(2);
 
 		// Fill national Id
-		$I->fillField(\GeneralXpathLibrary::$nationalId, $data['national_id']);
+		$I->fillField(\GeneralXpathLibrary::$nationalId, $data['NATIONAL_ID']);
 		$I->wait(2);
 
 		// Fill date of issue
 		$I->click(\GeneralXpathLibrary::$dateOfIssue);
 		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$todayLink);
-		// $I->fillField(\GeneralXpathLibrary::$dateOfIssue, $data['date_of_issue']);
 		$I->wait(2);
 
 		// Fill date of birth
-		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['date_of_birth']);
+		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['DATE_OF_BIRTH']);
 		$I->wait(2);
 
 		// Fill family book number
-		$I->fillField(\GeneralXpathLibrary::$fbNumber, $data['fb_number']);
+		$I->fillField(\GeneralXpathLibrary::$fbNumber, $data['FB_NUMBER']);
 		$I->wait(2);
 
 		// Fill phone
-		$I->fillField(\GeneralXpathLibrary::$phone, $data['phone']);
+		$I->fillField(\GeneralXpathLibrary::$phone, $data['PHONE']);
 		$I->wait(2);
 
 		// Fill hometown
 		
-		if (!empty($data['hometown']))
+		if (!empty($data['HOMETOWN']))
 		{
-			$I->fillField(\GeneralXpathLibrary::$hometown, $data['hometown']);
+			$I->fillField(\GeneralXpathLibrary::$hometown, 'Hồ Chí Minh');
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$hometown, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(1);
@@ -233,12 +232,12 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::$rowGoodData);
 		$I->wait(2);
 
-		if (!empty($data['good_type']))
+		if (!empty($data['GOOD_TYPE']))
 		{
 			// Fill good type
 			$I->fillField(\GeneralXpathLibrary::$goodType, '');
 			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$goodType, $data['good_type']);
+			$I->fillField(\GeneralXpathLibrary::$goodType, $data['GOOD_TYPE']);
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$goodType, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(2);
@@ -248,7 +247,7 @@ class GeneralSteps extends \AcceptanceTester
 			// Fill good brand
 			$I->fillField(\GeneralXpathLibrary::$brand, '');
 			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$brand, $data['brand']);
+			$I->fillField(\GeneralXpathLibrary::$brand, $data['BRAND']);
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$brand, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(2);
@@ -258,7 +257,7 @@ class GeneralSteps extends \AcceptanceTester
 			// Fill asset make
 			$I->fillField(\GeneralXpathLibrary::$assetMake, '');
 			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$assetMake, $data['asset_make']);
+			$I->fillField(\GeneralXpathLibrary::$assetMake, $data['ASSET_MAKE']);
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$assetMake, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(2);
@@ -268,7 +267,7 @@ class GeneralSteps extends \AcceptanceTester
 			// Fill asset model
 			$I->fillField(\GeneralXpathLibrary::$assetModel, '');
 			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$assetModel, $data['asset_model']);
+			$I->fillField(\GeneralXpathLibrary::$assetModel, $data['ASSET_MODEL']);
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$assetModel, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(2);
@@ -277,11 +276,11 @@ class GeneralSteps extends \AcceptanceTester
 		}
 
 		// Fill good price
-		$I->fillField(\GeneralXpathLibrary::$goodPrice, $data['good_price']);
+		$I->fillField(\GeneralXpathLibrary::$goodPrice, $data['GOOD_PRICE']);
 		$I->wait(2);
 
 		// Fill collateral description
-		$I->fillField(\GeneralXpathLibrary::$collateralDescription, $data['collateral_description']);
+		$I->fillField(\GeneralXpathLibrary::$collateralDescription, $data['COLLATERAL_DESCRIPTION']);
 		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$collateralDescription);
 		$I->wait(2);
@@ -294,22 +293,22 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::getTabId('3'));
 		$I->wait(2);
 
-		if (!empty($data['down_payment']))
+		if (!empty($data['DOWNPAYMENT']))
 		{
 			$I->click(\GeneralXpathLibrary::$downPayment);
 			$I->wait(2);
 			$I->fillField(\GeneralXpathLibrary::$downPayment, '');
 			$I->wait(2);
-			$I->fillField(\GeneralXpathLibrary::$downPayment, (float) $data['down_payment']);
+			$I->fillField(\GeneralXpathLibrary::$downPayment, (float) $data['DOWNPAYMENT']);
 		}
 
-		if (!empty($data['tenor']))
+		if (!empty($data['TENOR']))
 		{
 				$I->click(\GeneralXpathLibrary::$tenor);
 				$I->wait(2);
 				$I->fillField(\GeneralXpathLibrary::$tenor, '');
 				$I->wait(2);
-				$I->fillField(\GeneralXpathLibrary::$tenor, (int) $data['tenor']);
+				$I->fillField(\GeneralXpathLibrary::$tenor, (int) $data['TENOR']);
 		}
 		
 		$I->wait(2);
@@ -319,7 +318,7 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 
 		// Check/Uncheck FB Owner
-		if (!empty($data['is_fb_owner']) && $data['is_fb_owner'] == 'Y')
+		if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'Y')
 		{
 			$I->wait(2);
 			$I->checkOption(\GeneralXpathLibrary::$isFbOwner);	
@@ -331,24 +330,24 @@ class GeneralSteps extends \AcceptanceTester
 		}
 
 		// Select education
-		if (isset($data['education']))
+		if (isset($data['EDUCATION']))
 		{
 			$I->wait(2);
-			$I->selectOption(\GeneralXpathLibrary::$education, array('value' => $data['education']));
+			$I->selectOption(\GeneralXpathLibrary::$education, array('value' => $data['EDUCATION']));
 		}
 
 		// Select marital status
-		if (isset($data['marital_status']))
+		if (isset($data['MARITAL_STATUS']))
 		{
 			$I->wait(2);
-			$I->selectOption(\GeneralXpathLibrary::$maritalStatus, array('value' => $data['marital_status']));
+			$I->selectOption(\GeneralXpathLibrary::$maritalStatus, array('value' => $data['MARITAL_STATUS']));
 		}
 
 		// Select social status
-		if (isset($data['social_status']))
+		if (isset($data['SOCIAL_STATUS']))
 		{
 			$I->wait(2);
-			$I->selectOption(\GeneralXpathLibrary::$socialStatus, array('value' => $data['social_status']));
+			$I->selectOption(\GeneralXpathLibrary::$socialStatus, array('value' => $data['SOCIAL_STATUS']));
 		}
 		
 		$I->wait(2);
@@ -358,7 +357,7 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 		$nationalId = (int) date('YmdHi');
 
-		if (!empty($data['is_fb_owner']) && $data['is_fb_owner'] == 'N')
+		if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
 		{
 			$I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, 'FBFirstname');
 			$I->wait(2);
@@ -370,13 +369,13 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 		}
 
-		if ($data['marital_status'] == 'M' || $data['marital_status'] == 'C')
+		if ($data['MARITAL_STATUS'] == 'M' || $data['MARITAL_STATUS'] == 'C')
 		{
 			$I->fillField(\GeneralXpathLibrary::$spouseLastname, 'SpFirstname');
 			$I->wait(2);
 			$I->fillField(\GeneralXpathLibrary::$spouseFirstname, 'SpLastname');
 			$I->wait(2);
-			$spouseGender = $data['gender'] == 'M' ? 'F' : 'M';
+			$spouseGender = $data['GENDER'] == 'M' ? 'F' : 'M';
 			$I->selectOption(\GeneralXpathLibrary::$spouseGender, array('value' => $spouseGender));
 			$I->wait(2);
 			$I->fillField(\GeneralXpathLibrary::$spouseNationalId, $nationalId + 2);
@@ -389,7 +388,7 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::getTabId('8'));
 		$I->wait(2);
 
-		if (!empty($data['personal_income']))
+		if (!empty($data['PERSONAL_INCOME']))
 		{
 			// Fill personal income
 			$I->wait(2);
@@ -397,8 +396,8 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$personalIncome);
 			$I->wait(2);
-			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["personal_income"] . '")');
-			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["personal_income"] . '")');
+			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["PERSONAL_INCOME"] . '")');
+			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["PERSONAL_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 
 			// Fill family income
@@ -407,8 +406,8 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$familyIncome);
 			$I->wait(2);
-			$I->executeJS('return jQuery("input#NetAmount2").attr("data-value", "' . $data["family_income"] . '")');
-			$I->executeJS('return jQuery("input#NetAmount2").val("' . $data["family_income"] . '")');
+			$I->executeJS('return jQuery("input#NetAmount2").attr("data-value", "' . $data["FAMILY_INCOME"] . '")');
+			$I->executeJS('return jQuery("input#NetAmount2").val("' . $data["FAMILY_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 		}
 
@@ -418,7 +417,7 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::getTabId('9'));
 		$I->wait(2);
 
-		if (!empty($data['phone_reference1']))
+		if (!empty($data['PHONE_REFERENCE1']))
 		{
 			// Fill phone reference 1
 			$I->wait(2);
@@ -428,11 +427,11 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$phoneReference1);
 			$I->wait(2);
-			$I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["phone_reference1"] . '")');
+			$I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["PHONE_REFERENCE1"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('9'));
 		}
 
-		if (!empty($data['phone_reference2']))
+		if (!empty($data['PHONE_REFERENCE2']))
 		{
 			// Fill phone reference 2
 			$I->wait(2);
@@ -442,7 +441,7 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$phoneReference1);
 			$I->wait(2);
-			$I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["phone_reference2"] . '")');
+			$I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["PHONE_REFERENCE2"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('9'));
 		}
 

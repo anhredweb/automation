@@ -23,37 +23,32 @@ class initCest
     public function __construct()
     {
         $this->defaultData = array(
-            'dealer_code'    => '80000000250',
-            'pos_code'       => '600725',
-            'product_group'  => '255',
-            'product_scheme' => '1019',
-            'firstname'      => 'Tu',
-            'lastname'       => 'Vuong',
-            'gender'         => 'M',
-            'national_id'    => date('YmdHi'),
-            'date_of_issue'  => date('m/d/Y'),
-            'date_of_birth'  => date('m/d/Y', strtotime('11/10/1994')),
-            'fb_number'      => '#FB' . date('YmdHi'),
-            'phone'          => '01652679144',
-            'hometown'        => 'Hồ Chí Minh',
-            'asset_type' => 'NEW',
-            'collateral' => 'P',
-            'good_type' => 'DESKTOP',
-            'brand' => 'DELL',
-            'asset_make' => 'DELL',
-            'asset_model' => 'DELL',
-            'good_price' => '20000000',
-            'collateral_description' => 'DESKTOP DELL',
-            'down_payment' => 5000000,
-            'tenor' => 8,
-            'is_fb_owner' => 'N',
-            'education' => 76,
-            'marital_status' => 'M',
-            'social_status' => 8,
-            'main_income' => '35000000',
-            'family_income' => '40000000',
-            'phone_reference1' => '01652679145',
-            'phone_reference2' => '01652679146',
+            'DEALER_CODE'            => '80000000250',
+            'POS_CODE'               => '600725',
+            'PRODUCT_GROUP'          => '255',
+            'PRODUCT_SCHEME'         => '1019',
+            'GENDER'                 => 'M',
+            'NATIONAL_ID'            => date('YmdHi'),
+            'DATE_OF_BIRTH'          => date('m/d/Y', strtotime('11/10/1994')),
+            'FB_NUMBER'              => '#FB' . date('YmdHi'),
+            'PHONE'                  => '01652679144',
+            'HOMETOWN'               => 'Hồ Chí Minh',
+            'GOOD_TYPE'              => 'DESKTOP',
+            'BRAND'                  => 'DELL',
+            'ASSET_MAKE'             => 'DELL',
+            'ASSET_MODEL'            => 'DELL',
+            'GOOD_PRICE'             => '20000000',
+            'COLLATERAL_DESCRIPTION' => 'DESKTOP DELL',
+            'DOWNPAYMENT'           => 5000000,
+            'TENOR'                  => 8,
+            'IS_FB_OWNER'            => 'N',
+            'EDUCATION'              => 76,
+            'MARITAL_STATUS'         => 'M',
+            'SOCIAL_STATUS'          => 8,
+            'PERSONAL_INCOME'        => '35000000',
+            'FAMILY_INCOME'          => '40000000',
+            'PHONE_REFERENCE1'       => '01652679145',
+            'PHONE_REFERENCE2'       => '01652679146',
         );
     }
 
@@ -62,7 +57,7 @@ class initCest
      *
      * @return  mixed
      */
-    public function connectOracle()
+    protected function connectOracle()
     {
         $db = "(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.11.14)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = finnuat4.fecredit.com.vn)))" ;
 
@@ -83,10 +78,10 @@ class initCest
      *
      * @return  array
      */
-    public function executeQuery()
+    protected function executeQuery()
     {
         $connection = $this->connectOracle();
-        $query      = "SELECT * FROM AUTOMATION_TEST_CASE";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE a";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
@@ -106,14 +101,14 @@ class initCest
     {
         $data = $this->executeQuery();
 
+        $I->amOnUrl(\GeneralXpathLibrary::$url);
+        $I = new AcceptanceTester\GeneralSteps($scenario);
+
+        $I->wantTo('Login to PEGA UAT');
+        $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
+
         foreach ($data as $key => $case)
         {
-            $I->amOnUrl(\GeneralXpathLibrary::$url);
-            $I = new AcceptanceTester\GeneralSteps($scenario);
-
-            $I->wantTo('Login to PEGA UAT');
-            $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
-
             $I->wantTo('Launch to FE Manager 7');
             $I->launchPortal();
 
