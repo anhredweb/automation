@@ -139,11 +139,11 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(3);
 
 		// Fill firstname
-		$I->fillField(\GeneralXpathLibrary::$firstname, $data['firstname']);
+		$I->fillField(\GeneralXpathLibrary::$firstname, 'Firstname');
 		$I->wait(2);
 
 		// Fill lastname
-		$I->fillField(\GeneralXpathLibrary::$lastname, $data['lastname']);
+		$I->fillField(\GeneralXpathLibrary::$lastname, 'Lastname');
 		$I->wait(2);
 
 		// Select gender
@@ -389,7 +389,7 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::getTabId('8'));
 		$I->wait(2);
 
-		if (!empty($data['main_income']))
+		if (!empty($data['personal_income']))
 		{
 			// Fill personal income
 			$I->wait(2);
@@ -397,8 +397,8 @@ class GeneralSteps extends \AcceptanceTester
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$personalIncome);
 			$I->wait(2);
-			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["main_income"] . '")');
-			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["main_income"] . '")');
+			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["personal_income"] . '")');
+			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["personal_income"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 
 			// Fill family income
@@ -579,8 +579,6 @@ class GeneralSteps extends \AcceptanceTester
 		$responseData['effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$effectiveRateScore);
 		$responseData['document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
 
-		echo '<pre>';
 		print_r($responseData);
-		echo '</pre>';
 	}
 }

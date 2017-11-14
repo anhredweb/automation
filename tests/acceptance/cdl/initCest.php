@@ -22,18 +22,6 @@ class initCest
      */
     public function __construct()
     {
-/*        $conn = oci_connect('MULCASTRANS', 'ANSF1UAT04itdbaBca', 'FINNUAT4');
-
-echo '<pre>';
-print_r($conn);
-echo '</pre>';
-die;
-
-        if (!$conn) 
-        {
-            $e = oci_error();
-            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-        }*/
         $this->defaultData = array(
             'dealer_code'    => '80000000250',
             'pos_code'       => '600725',
@@ -70,6 +58,43 @@ die;
     }
 
     /**
+     * Connect to Oracle.
+     *
+     * @return  mixed
+     */
+    public function connectOracle()
+    {
+        $db = "(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.11.14)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = finnuat4.fecredit.com.vn)))" ;
+
+        // Create connection to Oracle
+        $conn = oci_connect("MULCASTRANS", "ANSF1UAT04itdbaBca", $db);
+
+        if (!$conn) 
+        {
+            $m = oci_error();
+            return $m['message'];
+        }
+
+        return $conn;
+    }
+
+     /**
+     * Execute Query.
+     *
+     * @return  array
+     */
+    public function executeQuery()
+    {
+        $connection = $this->connectOracle();
+        $query      = "SELECT * FROM AUTOMATION_TEST_CASE";
+        $stid       = oci_parse($connection, $query);
+        oci_execute($stid);
+        $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+
+        return $data;
+    }
+
+    /**
      * Function to login
      *
      * @param   AcceptanceTester  $I         Acceptance Tester case.
@@ -79,36 +104,39 @@ die;
      */
     public function createCDLApplication(AcceptanceTester $I, $scenario)
     {
-        // $I->seeInDatabase('MULCASTRANS.LOS_APP_APPLICATIONS', array());
+        $data = $this->executeQuery();
 
-        $I->amOnUrl(\GeneralXpathLibrary::$url);
-        $I = new AcceptanceTester\GeneralSteps($scenario);
+        foreach ($data as $key => $case)
+        {
+            $I->amOnUrl(\GeneralXpathLibrary::$url);
+            $I = new AcceptanceTester\GeneralSteps($scenario);
 
-        $I->wantTo('Login to PEGA UAT');
-        $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
+            $I->wantTo('Login to PEGA UAT');
+            $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
 
-        $I->wantTo('Launch to FE Manager 7');
-        $I->launchPortal();
+            $I->wantTo('Launch to FE Manager 7');
+            $I->launchPortal();
 
-        $I->wantTo('Init data');
-        $I->initData($this->defaultData);
+            $I->wantTo('Init data');
+            $I->initData($case);
 
-        $I->wantTo('Entry short data');
-        $I->shortApplication($this->defaultData);
-        
-        $I->wantTo('Documents Stage');
-        $I->shortApplicationDocument();
+            $I->wantTo('Entry short data');
+            $I->shortApplication($case);
+            
+            $I->wantTo('Documents Stage');
+            $I->shortApplicationDocument();
 
-        $I->wantTo('Entry full data');
-        $I->fullDataEntry($this->defaultData);
+            $I->wantTo('Entry full data');
+            $I->fullDataEntry($case);
 
-        $I->wantTo('Data Check');
-        $caseId = $I->dataCheck();
+            $I->wantTo('Data Check');
+            $caseId = $I->dataCheck();
 
-        $I->wantTo('Switch Application');
-        $I->switchApplication();
+            $I->wantTo('Switch Application');
+            $I->switchApplication();
 
-        $I->wantTo('Search Application');
-        $I->searchApplication($caseId);
+            $I->wantTo('Search Application');
+            $I->searchApplication($caseId);
+        }
     }
 }
