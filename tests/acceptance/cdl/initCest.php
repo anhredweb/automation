@@ -127,11 +127,14 @@ class initCest
             $I->wantTo('Data Check');
             $caseId = $I->dataCheck();
 
-            $I->wantTo('Switch Application');
-            $I->switchApplication();
+            $I->wantTo('Switch Application to LOS2');
+            $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $I->searchApplication($caseId);
+            $status = $I->searchApplication($caseId);
+
+            $I->wantTo('Switch Application to Loan');
+            $I->switchApplicationToLoan();
         }
     }
 }

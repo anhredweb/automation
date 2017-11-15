@@ -19,6 +19,8 @@ class GeneralXpathLibrary
 
     // Original Scoring Stage
 	public static $caseId        = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]//span[contains(@class, "case_title")]';
+
+	public static $applicationStatus  = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-3")]//div[contains(@class, "dataValueRead")]//img//following-sibling::span';
 	
 	public static $nationalIdScoring  = '//div[@section_index="4"]//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-4")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span';
 	
@@ -173,6 +175,8 @@ class GeneralXpathLibrary
 	// Customer Fields	
 	
 	public static $isFbOwner             = '//input[@id="IsFBOwner"]';
+
+	public static $title                 = '//select[@id="Title"]';
 	
 	public static $maritalStatus         = '//select[@id="MartialStatusId"]';
 
@@ -270,6 +274,8 @@ class GeneralXpathLibrary
 	public static $roleMenu            = '//a[@data-test-id="20140927131516034248306"]';
 	
 	public static $switchApplication   = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]/a';
+
+	public static $loan                = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l6")]//li[1]';
 	
 	public static $riskAdmin           = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l6")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l6")]//li[2]';
 	

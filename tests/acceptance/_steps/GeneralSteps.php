@@ -51,10 +51,6 @@ class GeneralSteps extends \AcceptanceTester
         $I->switchToNextTab();
         $I->wait(2);
 
-        /*$I->click(\GeneralXpathLibrary::$createButton);
-        $I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
-        $I->click(\GeneralXpathLibrary::$CDLApplication);*/
-
         $I->executeJS('window.scrollTo(0,0)');
 
         $I->click(\GeneralXpathLibrary::$createButton);
@@ -154,6 +150,14 @@ class GeneralSteps extends \AcceptanceTester
 		$I->fillField(\GeneralXpathLibrary::$nationalId, $data['NATIONAL_ID']);
 		$I->wait(2);
 
+		$nationalId = $I->grabValueFrom(\GeneralXpathLibrary::$nationalId);
+
+		if ($nationalId != $data['NATIONAL_ID'])
+		{
+			$I->fillField(\GeneralXpathLibrary::$nationalId, $data['NATIONAL_ID']);
+			$I->wait(2);
+		}
+
 		// Fill date of issue
 		$I->click(\GeneralXpathLibrary::$dateOfIssue);
 		$I->wait(2);
@@ -168,12 +172,27 @@ class GeneralSteps extends \AcceptanceTester
 		$I->fillField(\GeneralXpathLibrary::$fbNumber, $data['FB_NUMBER']);
 		$I->wait(2);
 
+		$fbNumber = $I->grabValueFrom(\GeneralXpathLibrary::$fbNumber);
+
+		if ($fbNumber != $data['FB_NUMBER'])
+		{
+			$I->fillField(\GeneralXpathLibrary::$fbNumber, $data['FB_NUMBER']);
+			$I->wait(2);
+		}
+
 		// Fill phone
 		$I->fillField(\GeneralXpathLibrary::$phone, $data['PHONE']);
 		$I->wait(2);
 
+		$phone = $I->grabValueFrom(\GeneralXpathLibrary::$phone);
+
+		if ($phone != $data['PHONE'])
+		{
+			$I->fillField(\GeneralXpathLibrary::$phone, $data['PHONE']);
+			$I->wait(2);
+		}
+
 		// Fill hometown
-		
 		if (!empty($data['HOMETOWN']))
 		{
 			$I->fillField(\GeneralXpathLibrary::$hometown, 'Hồ Chí Minh');
@@ -316,6 +335,15 @@ class GeneralSteps extends \AcceptanceTester
 		//Customer Tab
 		$I->click(\GeneralXpathLibrary::getTabId('4'));
 		$I->wait(2);
+
+		if ($data['GENDER'] == 'M')
+		{
+			$I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mr.'));
+		}
+		else
+		{
+			$I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mrs.'));
+		}
 
 		// Check/Uncheck FB Owner
 		if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'Y')
@@ -497,11 +525,11 @@ class GeneralSteps extends \AcceptanceTester
 	}
 
 	/**
-	 * Function to log off Pega
+	 * Function to switch Application to LOS2
 	 *
 	 * @return void
 	 */
-	public function switchApplication()
+	public function switchApplicationToLOS2()
 	{
 		$I = $this;
 		$I->switchToPreviousTab();
@@ -556,6 +584,13 @@ class GeneralSteps extends \AcceptanceTester
 		$responseData['case_id']        = $caseId;
 		$responseData['application_id'] = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
 		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
+		$applicationStatus              = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+		{
+			return false;
+		}
+
 		$I->wait(1);
 		$I->scrollTo(\GeneralXpathLibrary::$totalScore);
 		$responseData['total_score']        = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
@@ -579,5 +614,25 @@ class GeneralSteps extends \AcceptanceTester
 		$responseData['document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
 
 		print_r($responseData);
+
+		return true;
+	}
+
+	/**
+	 * Function to switch Application to Loan
+	 *
+	 * @return void
+	 */
+	public function switchApplicationToLoan()
+	{
+		$I = $this;
+		$I->switchToPreviousTab();
+		$I->wait(1);
+		$I->click(\GeneralXpathLibrary::$roleMenu);
+		$I->wait(2);
+		$I->moveMouseOver(\GeneralXpathLibrary::$switchApplication);
+		$I->wait(1);
+		$I->click(\GeneralXpathLibrary::$loan);
+		$I->wait(2);
 	}
 }
