@@ -115,6 +115,8 @@ class initCest
             $I->wantTo('Init data');
             $I->initData($case);
 
+            $case['NATIONAL_ID'] = date('YmdHi');
+
             $I->wantTo('Entry short data');
             $I->shortApplication($case);
             
@@ -132,6 +134,9 @@ class initCest
 
             $I->wantTo('Search Application');
             $status = $I->searchApplication($caseId);
+
+            $I->switchToIFrame();
+            $I->click(\GeneralXpathLibrary::$closeButton);
 
             $I->wantTo('Switch Application to Loan');
             $I->switchApplicationToLoan();

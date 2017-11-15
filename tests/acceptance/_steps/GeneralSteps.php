@@ -613,7 +613,9 @@ class GeneralSteps extends \AcceptanceTester
 		$responseData['effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$effectiveRateScore);
 		$responseData['document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
 
-		print_r($responseData);
+		file_put_contents(codecept_output_dir() . $caseId . '.txt', $responseData);
+
+		$I->wait(3);
 
 		return true;
 	}

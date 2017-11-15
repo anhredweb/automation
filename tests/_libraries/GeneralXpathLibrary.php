@@ -291,6 +291,8 @@ class GeneralXpathLibrary
 	
 	public static $decisionMaking      = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab7"]//a[@tabtitle="Decision Making"]';
 
+	public static $closeButton         = '//ul[@role="tablist"]//li[2]//span[@id="close"]';
+
     /**
      * Function to get tab
      *
