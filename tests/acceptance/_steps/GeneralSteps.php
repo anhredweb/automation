@@ -499,23 +499,23 @@ class GeneralSteps extends \AcceptanceTester
 
 		// Select verification result
 		$I->selectOption(\GeneralXpathLibrary::$verificationResult, array('value' => 'Positive'));
-		$I->wait(2);
+		$I->wait(1);
 
 		// Click documents tab and demo data
 		$I->click(\GeneralXpathLibrary::$documentsTab);
 		$I->click(\GeneralXpathLibrary::$demoDataDataCheck);
-		$I->wait(2);
+		$I->wait(1);
 
 		// Click CIC tab and select CIC result
 		$I->click(\GeneralXpathLibrary::$cicTab);
 		$I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Don't require"));
-		$I->wait(2);
+		$I->wait(1);
 
 		// Click submit data
 		$I->click(\GeneralXpathLibrary::$submitDataCheck);
-		$I->wait(2);
+		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$okDataCheck);
-		$I->wait(2);
+		$I->wait(1);
 
 		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
 		$caseId = str_replace('(', '', $caseId);
@@ -613,7 +613,14 @@ class GeneralSteps extends \AcceptanceTester
 		$responseData['effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$effectiveRateScore);
 		$responseData['document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
 
-		file_put_contents(codecept_output_dir() . $caseId . '.txt', $responseData);
+		$text = '';
+
+		foreach ($responseData as $scoreTitle => $score)
+		{
+			$text .= $scoreTitle . ': ' . $score;
+		}
+
+		file_put_contents(codecept_output_dir() . $caseId . '.txt', $text);
 
 		$I->wait(3);
 
