@@ -720,6 +720,62 @@ class GeneralSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_GENDER_AND_AGE'] = 'P';
         	}
+        	elseif ($column == 'SCORE_USER_MARITAL_STATUS' && $score == $data['score_robot_marital_status'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_MARITAL_STATUS'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_INSTALLMENT' && $score == $data['score_robot_installment'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_INSTALLMENT'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_POS_REGION' && $score == $data['score_robot_pos_region'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_POS_REGION'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_CC_PERFORMANCE' && $score == $data['score_robot_cc_performance'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_CC_PERFORMANCE'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_FB_OWNER' && $score == $data['score_robot_fb_owner')
+        	{
+        		$selectCheckQuery['SCORE_CHECK_FB_OWNER'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_DOWN_PAYMENT_RATIO' && $score == $data['score_robot_down_payment_ratio'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_DOWN_PAYMENT_RATIO'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_POS_PERFORMANCE' && $score == $data['score_robot_pos_performance'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_POS_PERFORMANCE'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_OWNER_DPD_EVER' && $score == $data['score_robot_owner_dpd_ever'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_OWNER_DPD_EVER'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_REF_DPD' && $score == $data['score_robot_ref_dpd'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_REF_DPD'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_OWNER_REJECTED' && $score == $data['score_robot_owner_rejected'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_OWNER_REJECTED'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_OWNER_DISBURSED' && $score == $data['score_robot_owner_disbursed'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_OWNER_DISBURSED'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_ASSET_BRAND' && $score == $data['score_robot_asset_brand'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_ASSET_BRAND'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_EFFECTIVE_RATE' && $score == $data['score_robot_effective_rate'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_EFFECTIVE_RATE'] = 'P';
+        	}
+        	elseif ($column == 'SCORE_USER_DOCUMENT_REQUIRED' && $score == $data['score_robot_document_required'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_DOCUMENT_REQUIRED'] = 'P';
+        	}
         }
 	}
 }
