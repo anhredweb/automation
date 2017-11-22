@@ -588,47 +588,39 @@ class GeneralSteps extends \AcceptanceTester
 
 		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
 		{
-			return false;
+			return array();
 		}
 
 		$I->wait(1);
 		$I->scrollTo(\GeneralXpathLibrary::$totalScore);
-		$responseData['total_score']        = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
-		$responseData['score_group']        = $I->grabTextFrom(\GeneralXpathLibrary::$scoreGroup);
-		$responseData['random_number']      = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
-		$responseData['gender_and_age']     = $I->grabTextFrom(\GeneralXpathLibrary::$genderAndAgeScore);
-		$responseData['marital_status']     = $I->grabTextFrom(\GeneralXpathLibrary::$maritalStatusScore);
-		$responseData['installment']        = $I->grabTextFrom(\GeneralXpathLibrary::$installmentScore);
-		$responseData['pos_region']         = $I->grabTextFrom(\GeneralXpathLibrary::$posRegionScore);
-		$responseData['cc_performance']     = $I->grabTextFrom(\GeneralXpathLibrary::$ccPerformanceScore);
-		$responseData['fb_owner']           = $I->grabTextFrom(\GeneralXpathLibrary::$fbOwnerScore);
-		$responseData['down_payment_ratio'] = $I->grabTextFrom(\GeneralXpathLibrary::$downpaymentRatioScore);
-		$responseData['pos_performance']    = $I->grabTextFrom(\GeneralXpathLibrary::$posPerformanceScore);
-		$responseData['owner_dpd_ever']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDpdEverScore);
-		$responseData['ref_dpd']            = $I->grabTextFrom(\GeneralXpathLibrary::$refDpdScore);
+		$responseData['total_score']                    = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
+		$responseData['score_group']                    = $I->grabTextFrom(\GeneralXpathLibrary::$scoreGroup);
+		$responseData['random_number']                  = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
+		$responseData['score_robot_gender_and_age']     = $I->grabTextFrom(\GeneralXpathLibrary::$genderAndAgeScore);
+		$responseData['score_robot_marital_status']     = $I->grabTextFrom(\GeneralXpathLibrary::$maritalStatusScore);
+		$responseData['score_robot_installment']        = $I->grabTextFrom(\GeneralXpathLibrary::$installmentScore);
+		$responseData['score_robot_pos_region']         = $I->grabTextFrom(\GeneralXpathLibrary::$posRegionScore);
+		$responseData['score_robot_cc_performance']     = $I->grabTextFrom(\GeneralXpathLibrary::$ccPerformanceScore);
+		$responseData['score_robot_fb_owner']           = $I->grabTextFrom(\GeneralXpathLibrary::$fbOwnerScore);
+		$responseData['score_robot_down_payment_ratio'] = $I->grabTextFrom(\GeneralXpathLibrary::$downpaymentRatioScore);
+		$responseData['score_robot_pos_performance']    = $I->grabTextFrom(\GeneralXpathLibrary::$posPerformanceScore);
+		$responseData['score_robot_owner_dpd_ever']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDpdEverScore);
+		$responseData['score_robot_ref_dpd']            = $I->grabTextFrom(\GeneralXpathLibrary::$refDpdScore);
 		$I->scrollTo(\GeneralXpathLibrary::$ownerRejectedScore);
-		$responseData['owner_rejected']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerRejectedScore);
-		$responseData['owner_disbursed']    = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDisbursedScore);
-		$responseData['asset_brand']        = $I->grabTextFrom(\GeneralXpathLibrary::$assetBrandScore);
-		$responseData['effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$effectiveRateScore);
-		$responseData['document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
-
-		$text = '';
-
-		foreach ($responseData as $scoreTitle => $score)
-		{
-			$text .= $scoreTitle . ': ' . $score;
-		}
-
-		file_put_contents(codecept_output_dir() . $caseId . '.txt', $text);
+		$responseData['score_robot_owner_rejected']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerRejectedScore);
+		$responseData['score_robot_owner_disbursed']    = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDisbursedScore);
+		$responseData['score_robot_asset_brand']        = $I->grabTextFrom(\GeneralXpathLibrary::$assetBrandScore);
+		$responseData['score_robot_effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$effectiveRateScore);
+		$responseData['score_robot_document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
 
 		$I->wait(3);
 
-		return true;
+		return $responseData;
 	}
 
 	/**
 	 * Function to switch Application to Loan
+	 *
 	 *
 	 * @return void
 	 */
@@ -643,5 +635,91 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$loan);
 		$I->wait(2);
+	}
+
+	/**
+	 * Function to update score to DB
+	 *
+	 * @param  array   $data        Data to update
+	 * @param  string  $connection  Oracle connection
+	 *
+	 * @return void
+	 */
+	public function updateScore($data, $connection)
+	{
+		$nationalId = $data['national_id'];
+		unset($data['national_id']);
+		$setQuery = array();
+
+		foreach ($data as $column => $value)
+		{
+			$setQuery[] = $column . " = " . "'" . $value . "'";
+		}
+
+		$query = "UPDATE AUTOMATION_TEST_CASE SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
+		$stid  = oci_parse($connection, $query);
+        oci_execute($stid);
+        oci_commit($connection);
+
+        $this->checkScore($data, $connection);
+	}
+
+	/**
+	 * Function to check score and update to DB
+	 *
+	 * @param  array   $data        Data to update
+	 * @param  string  $connection  Oracle connection
+	 *
+	 * @return void
+	 */
+	public function checkScore($data, $connection)
+	{
+		$connection = $this->connectOracle();
+		$selectScoreQuery = array(
+			'SCORE_USER_GENDER_AND_AGE',
+			'SCORE_USER_MARITAL_STATUS',
+			'SCORE_USER_INSTALLMENT',
+			'SCORE_USER_POS_REGION',
+			'SCORE_USER_CC_PERFORMANCE',
+			'SCORE_USER_FB_OWNER',
+			'SCORE_USER_DOWN_PAYMENT_RATIO',
+			'SCORE_USER_POS_PERFORMANCE',
+			'SCORE_USER_OWNER_DPD_EVER',
+			'SCORE_USER_REF_DPD',
+			'SCORE_USER_OWNER_REJECTED',
+			'SCORE_USER_OWNER_DISBURSED',
+			'SCORE_USER_ASSET_BRAND',
+			'SCORE_USER_EFFECTIVE_RATE',
+			'SCORE_USER_DOCUMENT_REQUIRED'
+		);
+		$selectCheckQuery = array(
+			'SCORE_CHECK_GENDER_AND_AGE'     => 'F',
+			'SCORE_CHECK_MARITAL_STATUS'     => 'F',
+			'SCORE_CHECK_INSTALLMENT'        => 'F',
+			'SCORE_CHECK_POS_REGION'         => 'F',
+			'SCORE_CHECK_CC_PERFORMANCE'     => 'F',
+			'SCORE_CHECK_FB_OWNER'           => 'F',
+			'SCORE_CHECK_DOWN_PAYMENT_RATIO' => 'F',
+			'SCORE_CHECK_POS_PERFORMANCE'    => 'F',
+			'SCORE_CHECK_OWNER_DPD_EVER'     => 'F',
+			'SCORE_CHECK_REF_DPD'            => 'F',
+			'SCORE_CHECK_OWNER_REJECTED'     => 'F',
+			'SCORE_CHECK_OWNER_DISBURSED'    => 'F',
+			'SCORE_CHECK_ASSET_BRAND'        => 'F',
+			'SCORE_CHECK_EFFECTIVE_RATE'     => 'F',
+			'SCORE_CHECK_DOCUMENT_REQUIRED'  => 'F'
+		);
+        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE WHERE NATIONAL_ID = " . $nationalId;
+        $stid       = oci_parse($connection, $query);
+        oci_execute($stid);
+        $rows = oci_fetch_assoc($stid);
+
+        foreach ($rows as $column => $score)
+        {
+        	if ($column == 'SCORE_USER_GENDER_AND_AGE' && $score == $data['score_robot_gender_and_age'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_GENDER_AND_AGE'] = 'P';
+        	}
+        }
 	}
 }

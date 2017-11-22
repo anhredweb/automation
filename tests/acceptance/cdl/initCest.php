@@ -133,7 +133,13 @@ class initCest
             $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $status = $I->searchApplication($caseId);
+            $reponseData = $I->searchApplication($caseId);
+
+            if (!empty($reponseData))
+            {
+                $I->wantTo('Update score');
+                $I->updateScore($reponseData, $this->connectOracle());                
+            }
 
             $I->switchToIFrame();
             $I->click(\GeneralXpathLibrary::$closeButton);

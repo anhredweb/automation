@@ -109,7 +109,10 @@ class collateralCest
                 continue;
             }
 
-            $query = "UPDATE MONITOR_PEGA_TEMP_CDL_COLLATERAL SET LAC_COLLATERAL_DESC_C = '" . $result['collateral_description'] . "' WHERE PEGA_APPID = '" . $application['PEGA_APPID'] . "'";
+            $collateralDescription = str_replace("'", '"', $result['collateral_description']);
+
+            $query = "UPDATE MONITOR_PEGA_TEMP_CDL_COLLATERAL SET LAC_COLLATERAL_DESC_C = '" . $collateralDescription . "' WHERE PEGA_APPID = '" . $application['PEGA_APPID'] . "'";
+            echo $query;
             $stid  = oci_parse($connection, $query);
             oci_execute($stid);
             oci_commit($connection);
