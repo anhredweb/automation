@@ -24,7 +24,7 @@ class GeneralXpathLibrary
 	
 	public static $nationalIdScoring  = '//div[@section_index="4"]//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-4")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span';
 	
-	public static $applicationId = '//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-3")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span';
+	public static $applicationId = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-3")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span)[1]';
 	
 	public static $totalScore    = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-2")]//label[contains(@for, "Score")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
 	
@@ -282,7 +282,7 @@ class GeneralXpathLibrary
 	public static $switchWorkPool      = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]/a';
 	
 	public static $defaultWorkPool     = '//ul[contains(@style, "display: block;")]//li[contains(@data-childnodesid, "$ppyElements$l1$ppyElements$l4")]//ul[contains(@id, "$ppyElements$l1$ppyElements$l4")]//li[1]';
-	
+															  
 	public static $searchBox           = '//input[@name="$PpyDisplayHarness$ppyTemplateInputBox"]';
 	
 	public static $searchButton        = '//button[@name="searchMenuButton"]';
