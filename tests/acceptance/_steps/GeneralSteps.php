@@ -736,7 +736,7 @@ class GeneralSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_CC_PERFORMANCE'] = 'P';
         	}
-        	elseif ($column == 'SCORE_USER_FB_OWNER' && $score == $data['score_robot_fb_owner')
+        	elseif ($column == 'SCORE_USER_FB_OWNER' && $score == $data['score_robot_fb_owner'])
         	{
         		$selectCheckQuery['SCORE_CHECK_FB_OWNER'] = 'P';
         	}
@@ -776,6 +776,32 @@ class GeneralSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_DOCUMENT_REQUIRED'] = 'P';
         	}
+        }
+	}
+
+	/**
+	 * Function to check error
+	 *
+	 * @param  string  $imageName  Image name
+	 *
+	 * @return boolean
+	 */
+	public function checkError($imageName)
+	{
+		try 
+        {
+            $I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
+
+            return true;
+        } 
+        catch (Exception $e) 
+        {
+            $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $case['NATIONAL_ID'] . '.png');
+            $I->closeTab();
+            $I->wait(2);
+            $I->reloadPage();
+            
+            return false;
         }
 	}
 }

@@ -116,15 +116,35 @@ class initCest
             $I->initData($case);
 
             $case['NATIONAL_ID'] = date('YmdHi');
+            $checkError = $I->checkError($case['NATIONAL_ID']);
+
+            if (!$checkError)
+            {
+                continue;
+            }
 
             $I->wantTo('Entry short data');
             $I->shortApplication($case);
+
+            $checkError = $I->checkError($case['NATIONAL_ID']);
+
+            if (!$checkError)
+            {
+                continue;
+            }
             
             $I->wantTo('Documents Stage');
             $I->shortApplicationDocument();
 
             $I->wantTo('Entry full data');
             $I->fullDataEntry($case);
+
+            $checkError = $I->checkError($case['NATIONAL_ID']);
+
+            if (!$checkError)
+            {
+                continue;
+            }
 
             $I->wantTo('Data Check');
             $caseId = $I->dataCheck();
