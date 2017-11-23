@@ -42,7 +42,7 @@ class GeneralSteps extends \AcceptanceTester
 	public function launchPortal()
 	{
 		$I = $this;
-		$I->wait(1);
+		$I->wait(5);
 		$I->click(\GeneralXpathLibrary::$launchButton);
 		$I->waitForElement(\GeneralXpathLibrary::$FECaseManager, 2);
         $I->click(\GeneralXpathLibrary::$FECaseManager);
@@ -135,28 +135,20 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(3);
 
 		// Fill firstname
-		$I->fillField(\GeneralXpathLibrary::$firstname, 'Firstname');
-		$I->wait(2);
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('Firstname')");
+		$I->wait(1);
 
 		// Fill lastname
-		$I->fillField(\GeneralXpathLibrary::$lastname, 'Lastname');
-		$I->wait(2);
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$lastname . "').val('Lastname')");
+		$I->wait(1);
 
 		// Select gender
 		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['GENDER']));
 		$I->wait(2);
 
 		// Fill national Id
-		$I->fillField(\GeneralXpathLibrary::$nationalId, $data['NATIONAL_ID']);
-		$I->wait(2);
-
-		$nationalId = $I->grabValueFrom(\GeneralXpathLibrary::$nationalId);
-
-		if ($nationalId != $data['NATIONAL_ID'])
-		{
-			$I->fillField(\GeneralXpathLibrary::$nationalId, $data['NATIONAL_ID']);
-			$I->wait(2);
-		}
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$nationalId . "').val('" . $data['NATIONAL_ID'] . "')");
+		$I->wait(1);
 
 		// Fill date of issue
 		$I->click(\GeneralXpathLibrary::$dateOfIssue);
@@ -169,28 +161,12 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 
 		// Fill family book number
-		$I->fillField(\GeneralXpathLibrary::$fbNumber, $data['FB_NUMBER']);
-		$I->wait(2);
-
-		$fbNumber = $I->grabValueFrom(\GeneralXpathLibrary::$fbNumber);
-
-		if ($fbNumber != $data['FB_NUMBER'])
-		{
-			$I->fillField(\GeneralXpathLibrary::$fbNumber, $data['FB_NUMBER']);
-			$I->wait(2);
-		}
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$fbNumber . "').val('" . $data['FB_NUMBER'] . "')");
+		$I->wait(1);
 
 		// Fill phone
-		$I->fillField(\GeneralXpathLibrary::$phone, $data['PHONE']);
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$phone . "').val('" . $data['PHONE'] . "')");
 		$I->wait(2);
-
-		$phone = $I->grabValueFrom(\GeneralXpathLibrary::$phone);
-
-		if ($phone != $data['PHONE'])
-		{
-			$I->fillField(\GeneralXpathLibrary::$phone, $data['PHONE']);
-			$I->wait(2);
-		}
 
 		// Fill hometown
 		if (!empty($data['HOMETOWN']))
@@ -314,27 +290,19 @@ class GeneralSteps extends \AcceptanceTester
 
 		if (!empty($data['DOWNPAYMENT']))
 		{
-			$I->click(\GeneralXpathLibrary::$downPayment);
-			$I->wait(2);
-			$I->fillField(\GeneralXpathLibrary::$downPayment, '');
-			$I->wait(2);
-			$I->fillField(\GeneralXpathLibrary::$downPayment, (float) $data['DOWNPAYMENT']);
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$downPayment . "').val('" . $data["DOWNPAYMENT"] . "')");
 		}
 
 		if (!empty($data['TENOR']))
 		{
-				$I->click(\GeneralXpathLibrary::$tenor);
-				$I->wait(2);
-				$I->fillField(\GeneralXpathLibrary::$tenor, '');
-				$I->wait(2);
-				$I->fillField(\GeneralXpathLibrary::$tenor, (int) $data['TENOR']);
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$tenor . "').val('" . $data["TENOR"] . "')");
 		}
 		
 		$I->wait(2);
 
 		//Customer Tab
 		$I->click(\GeneralXpathLibrary::getTabId('4'));
-		$I->wait(2);
+		$I->wait(1);
 
 		if ($data['GENDER'] == 'M')
 		{
@@ -348,37 +316,37 @@ class GeneralSteps extends \AcceptanceTester
 		// Check/Uncheck FB Owner
 		if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'Y')
 		{
-			$I->wait(2);
+			$I->wait(1);
 			$I->checkOption(\GeneralXpathLibrary::$isFbOwner);	
 		}
 		else
 		{
-			$I->wait(2);
+			$I->wait(1);
 			$I->uncheckOption(\GeneralXpathLibrary::$isFbOwner);	
 		}
 
 		// Select education
 		if (isset($data['EDUCATION']))
 		{
-			$I->wait(2);
+			$I->wait(1);
 			$I->selectOption(\GeneralXpathLibrary::$education, array('value' => $data['EDUCATION']));
 		}
 
 		// Select marital status
 		if (isset($data['MARITAL_STATUS']))
 		{
-			$I->wait(2);
+			$I->wait(1);
 			$I->selectOption(\GeneralXpathLibrary::$maritalStatus, array('value' => $data['MARITAL_STATUS']));
 		}
 
 		// Select social status
 		if (isset($data['SOCIAL_STATUS']))
 		{
-			$I->wait(2);
+			$I->wait(1);
 			$I->selectOption(\GeneralXpathLibrary::$socialStatus, array('value' => $data['SOCIAL_STATUS']));
 		}
 		
-		$I->wait(2);
+		$I->wait(1);
 
 		// Family Tab
 		$I->click(\GeneralXpathLibrary::getTabId('5'));
@@ -388,6 +356,8 @@ class GeneralSteps extends \AcceptanceTester
 		if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
 		{
 			$I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, 'FBFirstname');
+			$I->wait(2);
+			$I->click(\GeneralXpathLibrary::$fbOwnerLastname);
 			$I->wait(2);
 			$I->fillField(\GeneralXpathLibrary::$fbOwnerLastname, 'FBLastname');
 			$I->wait(2);
@@ -400,6 +370,8 @@ class GeneralSteps extends \AcceptanceTester
 		if ($data['MARITAL_STATUS'] == 'M' || $data['MARITAL_STATUS'] == 'C')
 		{
 			$I->fillField(\GeneralXpathLibrary::$spouseLastname, 'SpFirstname');
+			$I->wait(2);
+			$I->click(\GeneralXpathLibrary::$spouseFirstname);
 			$I->wait(2);
 			$I->fillField(\GeneralXpathLibrary::$spouseFirstname, 'SpLastname');
 			$I->wait(2);
@@ -656,12 +628,14 @@ class GeneralSteps extends \AcceptanceTester
 			$setQuery[] = $column . " = " . "'" . $value . "'";
 		}
 
+		$setQuery[] = "STATUS = '1'";
+
 		$query = "UPDATE AUTOMATION_TEST_CASE SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
 		$stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);
 
-        $this->checkScore($data, $connection);
+        return true;
 	}
 
 	/**
@@ -674,7 +648,6 @@ class GeneralSteps extends \AcceptanceTester
 	 */
 	public function checkScore($data, $connection)
 	{
-		$connection = $this->connectOracle();
 		$selectScoreQuery = array(
 			'SCORE_USER_GENDER_AND_AGE',
 			'SCORE_USER_MARITAL_STATUS',
@@ -693,90 +666,109 @@ class GeneralSteps extends \AcceptanceTester
 			'SCORE_USER_DOCUMENT_REQUIRED'
 		);
 		$selectCheckQuery = array(
-			'SCORE_CHECK_GENDER_AND_AGE'     => 'F',
-			'SCORE_CHECK_MARITAL_STATUS'     => 'F',
-			'SCORE_CHECK_INSTALLMENT'        => 'F',
-			'SCORE_CHECK_POS_REGION'         => 'F',
-			'SCORE_CHECK_CC_PERFORMANCE'     => 'F',
-			'SCORE_CHECK_FB_OWNER'           => 'F',
-			'SCORE_CHECK_DOWN_PAYMENT_RATIO' => 'F',
-			'SCORE_CHECK_POS_PERFORMANCE'    => 'F',
-			'SCORE_CHECK_OWNER_DPD_EVER'     => 'F',
-			'SCORE_CHECK_REF_DPD'            => 'F',
-			'SCORE_CHECK_OWNER_REJECTED'     => 'F',
-			'SCORE_CHECK_OWNER_DISBURSED'    => 'F',
-			'SCORE_CHECK_ASSET_BRAND'        => 'F',
-			'SCORE_CHECK_EFFECTIVE_RATE'     => 'F',
-			'SCORE_CHECK_DOCUMENT_REQUIRED'  => 'F'
+			'SCORE_CHECK_GENDER_AND_AGE'     => "'F'",
+			'SCORE_CHECK_MARITAL_STATUS'     => "'F'",
+			'SCORE_CHECK_INSTALLMENT'        => "'F'",
+			'SCORE_CHECK_POS_REGION'         => "'F'",
+			'SCORE_CHECK_CC_PERFORMANCE'     => "'F'",
+			'SCORE_CHECK_FB_OWNER'           => "'F'",
+			'SCORE_CHECK_DOWN_PAYMENT_RATIO' => "'F'",
+			'SCORE_CHECK_POS_PERFORMANCE'    => "'F'",
+			'SCORE_CHECK_OWNER_DPD_EVER'     => "'F'",
+			'SCORE_CHECK_REF_DPD'            => "'F'",
+			'SCORE_CHECK_OWNER_REJECTED'     => "'F'",
+			'SCORE_CHECK_OWNER_DISBURSED'    => "'F'",
+			'SCORE_CHECK_ASSET_BRAND'        => "'F'",
+			'SCORE_CHECK_EFFECTIVE_RATE'     => "'F'",
+			'SCORE_CHECK_DOCUMENT_REQUIRED'  => "'F'"
 		);
-        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE WHERE NATIONAL_ID = " . $nationalId;
+        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_assoc($stid);
+
+        if (empty($rows))
+        {
+        	return false;
+        }
 
         foreach ($rows as $column => $score)
         {
         	if ($column == 'SCORE_USER_GENDER_AND_AGE' && $score == $data['score_robot_gender_and_age'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_GENDER_AND_AGE'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_GENDER_AND_AGE'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_MARITAL_STATUS' && $score == $data['score_robot_marital_status'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_MARITAL_STATUS'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_MARITAL_STATUS'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_INSTALLMENT' && $score == $data['score_robot_installment'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_INSTALLMENT'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_INSTALLMENT'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_POS_REGION' && $score == $data['score_robot_pos_region'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_POS_REGION'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_POS_REGION'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_CC_PERFORMANCE' && $score == $data['score_robot_cc_performance'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_CC_PERFORMANCE'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_CC_PERFORMANCE'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_FB_OWNER' && $score == $data['score_robot_fb_owner'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_FB_OWNER'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_FB_OWNER'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_DOWN_PAYMENT_RATIO' && $score == $data['score_robot_down_payment_ratio'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_DOWN_PAYMENT_RATIO'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_DOWN_PAYMENT_RATIO'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_POS_PERFORMANCE' && $score == $data['score_robot_pos_performance'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_POS_PERFORMANCE'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_POS_PERFORMANCE'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_OWNER_DPD_EVER' && $score == $data['score_robot_owner_dpd_ever'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_OWNER_DPD_EVER'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_OWNER_DPD_EVER'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_REF_DPD' && $score == $data['score_robot_ref_dpd'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_REF_DPD'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_REF_DPD'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_OWNER_REJECTED' && $score == $data['score_robot_owner_rejected'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_OWNER_REJECTED'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_OWNER_REJECTED'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_OWNER_DISBURSED' && $score == $data['score_robot_owner_disbursed'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_OWNER_DISBURSED'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_OWNER_DISBURSED'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_ASSET_BRAND' && $score == $data['score_robot_asset_brand'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_ASSET_BRAND'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_ASSET_BRAND'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_EFFECTIVE_RATE' && $score == $data['score_robot_effective_rate'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_EFFECTIVE_RATE'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_EFFECTIVE_RATE'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_DOCUMENT_REQUIRED' && $score == $data['score_robot_document_required'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_DOCUMENT_REQUIRED'] = 'P';
+        		$selectCheckQuery['SCORE_CHECK_DOCUMENT_REQUIRED'] = "'P'";
         	}
         }
+
+        $selectedCheckQuery = array();
+
+        foreach ($selectCheckQuery as $column => $value)
+        {
+        	$selectedCheckQuery[] = $column . ' = ' . $value;
+        }
+
+        $query = "UPDATE AUTOMATION_TEST_CASE SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
+		$stid  = oci_parse($connection, $query);
+        oci_execute($stid);
+        oci_commit($connection);
+
+       	return true;
 	}
 
 	/**
@@ -788,6 +780,8 @@ class GeneralSteps extends \AcceptanceTester
 	 */
 	public function checkError($imageName)
 	{
+		$I = $this;
+
 		try 
         {
             $I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
@@ -796,12 +790,40 @@ class GeneralSteps extends \AcceptanceTester
         } 
         catch (Exception $e) 
         {
-            $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $case['NATIONAL_ID'] . '.png');
+            $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
+            $I->wait(2);
             $I->closeTab();
             $I->wait(2);
             $I->reloadPage();
             
             return false;
+        }
+	}
+
+	/**
+	 * Function to check popup
+	 *	 *
+	 * @return boolean
+	 */
+	public function checkPopup()
+	{
+		$I = $this;
+
+		try 
+        {
+            $I->seeInPopup('Error');
+            $I->wait(2);
+            $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
+            $I->wait(2);
+            $I->closeTab();
+            $I->wait(2);
+            $I->reloadPage();
+
+            return false;
+        } 
+        catch (Exception $e) 
+        {
+            return true;
         }
 	}
 }

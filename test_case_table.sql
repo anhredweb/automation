@@ -81,7 +81,9 @@ CREATE TABLE AUTOMATION_TEST_CASE
        score_check_owner_disbursed    VARCHAR2(2),
        score_check_asset_brand        VARCHAR2(2),
        score_check_effective_rate     VARCHAR2(2),
-       score_check_document_required  VARCHAR2(2)
+       score_check_document_required  VARCHAR2(2),
+       /* Checking status */
+       status                         NUMBER(1)     DEFAULT 0
 );
 
 INSERT ALL 
@@ -136,9 +138,9 @@ VALUES
        255,
        1019,
        'M',
-       201711140300,
+       201711230908,
        TO_DATE('11/11/1995', 'DD/MM/YYYY'),
-       'FB#201711140300',
+       'FB#201711230908',
        '201711140301',
        'Hồ Chí Minh',
        'DESKTOP',
@@ -155,8 +157,8 @@ VALUES
        8,
        35000000,
        45000000,
-       201711140302,
-       201711140303,
+       201711230909,
+       201711140310,
        0,
        0,
        0,
@@ -224,9 +226,9 @@ VALUES
        255,
        1019,
        'F',
-       201711140320,
+       201711230911,
        TO_DATE('11/11/1994', 'DD/MM/YYYY'),
-       'FB#201711140320',
+       'FB#201711230911',
        '201711140321',
        'Hồ Chí Minh',
        'MOBILE',
@@ -243,8 +245,8 @@ VALUES
        8,
        35000000,
        45000000,
-       201711140322,
-       201711140323,
+       201711230912,
+       201711230913,
        0,
        0,
        0,

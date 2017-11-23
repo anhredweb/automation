@@ -62,7 +62,7 @@ class initCest
         $db = "(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.11.14)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = finnuat4.fecredit.com.vn)))" ;
 
         // Create connection to Oracle
-        $conn = oci_connect("MULCASTRANS", "ANSF1UAT04itdbaBca", $db);
+        $conn = oci_connect("MULCASTRANS", "ANSF1UAT04itdbaBca", $db, 'AL32UTF8');
 
         if (!$conn) 
         {
@@ -81,7 +81,7 @@ class initCest
     protected function executeQuery()
     {
         $connection = $this->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE a";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE a WHERE a.STATUS = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
@@ -101,21 +101,48 @@ class initCest
     {
         $data = $this->executeQuery();
 
+        if (empty($data))
+        {
+            return true;
+        }
+
         $I->amOnUrl(\GeneralXpathLibrary::$url);
         $I = new AcceptanceTester\GeneralSteps($scenario);
 
         $I->wantTo('Login to PEGA UAT');
         $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
 
+/*        $I->wantTo('Switch Application to LOS2');
+        $I->switchApplicationToLOS2();
+
+        $I->wantTo('Search Application');
+        $responseData = $I->searchApplication('CDL-18146');
+
+        if (!empty($responseData))
+        {
+            $I->wantTo('Update score');
+            $I->updateScore($responseData, $this->connectOracle());   
+
+            $I->wantTo('Check score');
+            $I->checkScore($responseData, $this->connectOracle());              
+        }
+
+        $I->switchToIFrame();
+        $I->click(\GeneralXpathLibrary::$closeButton);
+
+        $I->wantTo('Switch Application to Loan');
+        $I->switchApplicationToLoan();*/
+
         foreach ($data as $key => $case)
         {
+            $case['NATIONAL_ID'] = date('YmdHi');
+
             $I->wantTo('Launch to FE Manager 7');
             $I->launchPortal();
 
             $I->wantTo('Init data');
             $I->initData($case);
 
-            $case['NATIONAL_ID'] = date('YmdHi');
             $checkError = $I->checkError($case['NATIONAL_ID']);
 
             if (!$checkError)
@@ -141,6 +168,8 @@ class initCest
 
             $checkError = $I->checkError($case['NATIONAL_ID']);
 
+            $checkError = $I->checkError($case['NATIONAL_ID']);
+
             if (!$checkError)
             {
                 continue;
@@ -153,12 +182,15 @@ class initCest
             $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $reponseData = $I->searchApplication($caseId);
+            $responseData = $I->searchApplication($caseId);
 
-            if (!empty($reponseData))
+            if (!empty($responseData))
             {
                 $I->wantTo('Update score');
-                $I->updateScore($reponseData, $this->connectOracle());                
+                $I->updateScore($responseData, $this->connectOracle());   
+
+                $I->wantTo('Check score');
+                $I->checkScore($responseData, $this->connectOracle());              
             }
 
             $I->switchToIFrame();

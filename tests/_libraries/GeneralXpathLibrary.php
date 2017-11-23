@@ -100,13 +100,13 @@ class GeneralXpathLibrary
 	public static $createDataInitApp = '//button[@name="NewProcessButtons_pyWorkPage_1"]';
 
 	// Short application Stage - Step 1
-	public static $lastname           = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pLastName"]';
+	public static $lastname           = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pLastName"]';
 	
-	public static $firstname          = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pFirstName"]';
+	public static $firstname          = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pFirstName"]';
 	
 	public static $gender             = '//select[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pGender"]';
 	
-	public static $nationalId         = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalId"]';
+	public static $nationalId         = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalId"]';
 	
 	public static $dateOfIssue        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalIdDateIssue"]//following-sibling::img';
 
@@ -114,9 +114,9 @@ class GeneralXpathLibrary
 	
 	public static $dateOfBirth        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pDateOfBirth"]';
 	
-	public static $fbNumber           = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pFBNumber"]';
+	public static $fbNumber           = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pFBNumber"]';
 	
-	public static $phone              = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pPhoneNumber"]';
+	public static $phone              = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pPhoneNumber"]';
 	
 	public static $hometown           = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pHometown"]';
 
@@ -167,10 +167,10 @@ class GeneralXpathLibrary
 	public static $saveGoodButton        = '//button[@id="RowDetailsButtonSubmit"]';
 
 	// Loan Fields
+
+	public static $downPayment           = 'input#DownPayment';
 	
-	public static $downPayment           = '//input[@id="DownPayment"]';
-	
-	public static $tenor                 = '//input[@id="RequestedTenure"]';
+	public static $tenor                 = 'input#RequestedTenure';
 
 	// Customer Fields	
 	
