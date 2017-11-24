@@ -160,6 +160,11 @@ class GeneralSteps extends \AcceptanceTester
 		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['DATE_OF_BIRTH']);
 		$I->wait(2);
 
+		if (empty($data['FB_NUMBER']))
+		{
+			$data['FB_NUMBER'] = 'FB#' . $$data['NATIONAL_ID'];
+		}
+
 		// Fill family book number
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$fbNumber . "').val('" . $data['FB_NUMBER'] . "')");
 		$I->wait(1);
@@ -349,9 +354,12 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(1);
 
 		// Family Tab
-		$I->click(\GeneralXpathLibrary::getTabId('5'));
-		$I->wait(2);
-		$nationalId = (int) date('YmdHi');
+		if ((!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N') || ($data['MARITAL_STATUS'] == 'M' || $data['MARITAL_STATUS'] == 'C'))
+		{
+			$I->click(\GeneralXpathLibrary::getTabId('5'));
+			$I->wait(2);
+			$nationalId = (int) date('YmdHi');
+		}
 
 		if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
 		{
@@ -385,11 +393,12 @@ class GeneralSteps extends \AcceptanceTester
 		}
 
 		// Income Tab
-		$I->click(\GeneralXpathLibrary::getTabId('8'));
-		$I->wait(2);
 
 		if (!empty($data['PERSONAL_INCOME']))
 		{
+			$I->click(\GeneralXpathLibrary::getTabId('8'));
+			$I->wait(2);
+
 			// Fill personal income
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$rowMainIncome);
@@ -399,6 +408,11 @@ class GeneralSteps extends \AcceptanceTester
 			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["PERSONAL_INCOME"] . '")');
 			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["PERSONAL_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
+
+			if (empty($data["FAMILY_INCOME"]))
+			{
+				$data['FAMILY_INCOME'] += (float) $data['PERSONAL_INCOME'] + 1000000;
+			}
 
 			// Fill family income
 			$I->wait(2);
@@ -414,8 +428,11 @@ class GeneralSteps extends \AcceptanceTester
 		$I->wait(2);
 
 		// Reference Tab
-		$I->click(\GeneralXpathLibrary::getTabId('9'));
-		$I->wait(2);
+		if (!empty($data['PHONE_REFERENCE1']) || !empty($data['PHONE_REFERENCE2']))
+		{
+			$I->click(\GeneralXpathLibrary::getTabId('9'));
+			$I->wait(2);
+		}
 
 		if (!empty($data['PHONE_REFERENCE1']))
 		{
@@ -505,7 +522,7 @@ class GeneralSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->switchToPreviousTab();
-		$I->wait(1);
+		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$roleMenu);
 		$I->wait(2);
 		$I->moveMouseOver(\GeneralXpathLibrary::$switchApplication);

@@ -135,7 +135,7 @@ class initCest
 
         foreach ($data as $key => $case)
         {
-            $case['NATIONAL_ID'] = date('YmdHi');
+            // $case['NATIONAL_ID'] = date('YmdHi');
 
             $I->wantTo('Launch to FE Manager 7');
             $I->launchPortal();
