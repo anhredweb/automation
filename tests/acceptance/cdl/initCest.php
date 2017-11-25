@@ -168,8 +168,6 @@ class initCest
 
             $checkError = $I->checkError($case['NATIONAL_ID']);
 
-            $checkError = $I->checkError($case['NATIONAL_ID']);
-
             if (!$checkError)
             {
                 continue;

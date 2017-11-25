@@ -798,23 +798,20 @@ class GeneralSteps extends \AcceptanceTester
 	public function checkError($imageName)
 	{
 		$I = $this;
+		$errors = $I->grabMultiple(\GeneralXpathLibrary::$errorMessageTable);
 
-		try 
-        {
-            $I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
-
-            return true;
-        } 
-        catch (Exception $e) 
-        {
-            $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
-            $I->wait(2);
-            $I->closeTab();
-            $I->wait(2);
-            $I->reloadPage();
-            
-            return false;
-        }
+		if (count($errors) == 0)
+		{
+			return true;
+		}
+        
+       	$this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
+        $I->wait(2);
+        $I->closeTab();
+        $I->wait(2);
+        $I->reloadPage();
+        
+        return false;
 	}
 
 	/**
