@@ -39,7 +39,7 @@ class initCest
             'ASSET_MODEL'            => 'DELL',
             'GOOD_PRICE'             => '20000000',
             'COLLATERAL_DESCRIPTION' => 'DESKTOP DELL',
-            'DOWNPAYMENT'           => 5000000,
+            'DOWNPAYMENT'            => 5000000,
             'TENOR'                  => 8,
             'IS_FB_OWNER'            => 'N',
             'EDUCATION'              => 76,

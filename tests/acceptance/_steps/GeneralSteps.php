@@ -131,15 +131,18 @@ class GeneralSteps extends \AcceptanceTester
 	 */
 	public function shortApplication($data)
 	{
-		$I = $this;
+		$faker     = \Faker\Factory::create();
+		$firstname = $faker->firstname;
+		$lastname  = $faker->lastname;
+		$I         = $this;
 		$I->wait(3);
 
 		// Fill firstname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('Firstname')");
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('" . $firstname . "')");
 		$I->wait(1);
 
 		// Fill lastname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$lastname . "').val('Lastname')");
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$lastname . "').val('" . $lastname . "')");
 		$I->wait(1);
 
 		// Select gender
@@ -217,7 +220,10 @@ class GeneralSteps extends \AcceptanceTester
 	 */
 	public function fullDataEntry($data)
 	{
-		$I = $this;
+		$faker     = \Faker\Factory::create();
+		$firstname = $faker->firstname;
+		$lastname  = $faker->lastname;
+		$I         = $this;
 
 		// Goods Tab
 		$I->wait(2);
@@ -363,11 +369,11 @@ class GeneralSteps extends \AcceptanceTester
 
 		if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
 		{
-			$I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, 'FBFirstname');
+			$I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, $firstname);
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$fbOwnerLastname);
 			$I->wait(2);
-			$I->fillField(\GeneralXpathLibrary::$fbOwnerLastname, 'FBLastname');
+			$I->fillField(\GeneralXpathLibrary::$fbOwnerLastname, $lastname);
 			$I->wait(2);
 			$I->selectOption(\GeneralXpathLibrary::$fbOwnerRelationType, array('value' => "O"));
 			$I->wait(2);
@@ -377,18 +383,18 @@ class GeneralSteps extends \AcceptanceTester
 
 		if ($data['MARITAL_STATUS'] == 'M' || $data['MARITAL_STATUS'] == 'C')
 		{
-			$I->fillField(\GeneralXpathLibrary::$spouseLastname, 'SpFirstname');
+			$I->fillField(\GeneralXpathLibrary::$spouseLastname, $firstname);
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$spouseFirstname);
 			$I->wait(2);
-			$I->fillField(\GeneralXpathLibrary::$spouseFirstname, 'SpLastname');
+			$I->fillField(\GeneralXpathLibrary::$spouseFirstname, $lastname);
 			$I->wait(2);
 			$spouseGender = $data['GENDER'] == 'M' ? 'F' : 'M';
 			$I->selectOption(\GeneralXpathLibrary::$spouseGender, array('value' => $spouseGender));
 			$I->wait(2);
 			$I->fillField(\GeneralXpathLibrary::$spouseNationalId, $nationalId + 2);
 			$I->wait(2);
-			$I->fillField(\GeneralXpathLibrary::$spouseRelationPeriod, 2);
+			$I->fillField(\GeneralXpathLibrary::$spouseRelationPeriod, $faker->numberBetween(1, 9));
 			$I->wait(2);
 		}
 
@@ -411,7 +417,7 @@ class GeneralSteps extends \AcceptanceTester
 
 			if (empty($data["FAMILY_INCOME"]))
 			{
-				$data['FAMILY_INCOME'] += (float) $data['PERSONAL_INCOME'] + 1000000;
+				$data['FAMILY_INCOME'] += (float) $data['PERSONAL_INCOME'] + (float) $faker->numberBetween(1000000, 9000000);
 			}
 
 			// Fill family income
