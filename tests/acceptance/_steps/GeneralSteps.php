@@ -145,6 +145,13 @@ class GeneralSteps extends \AcceptanceTester
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$lastname . "').val('" . $lastname . "')");
 		$I->wait(1);
 
+		$genders = array('M', 'F');
+
+		if (!in_array($data['GENDER'], $genders))
+		{
+			$data['GENDER'] = 'M';
+		}
+
 		// Select gender
 		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['GENDER']));
 		$I->wait(2);
@@ -315,6 +322,7 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::getTabId('4'));
 		$I->wait(1);
 
+		// Select title
 		if ($data['GENDER'] == 'M')
 		{
 			$I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mr.'));
@@ -414,11 +422,6 @@ class GeneralSteps extends \AcceptanceTester
 			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["PERSONAL_INCOME"] . '")');
 			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["PERSONAL_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
-
-			if (empty($data["FAMILY_INCOME"]))
-			{
-				$data['FAMILY_INCOME'] += (float) $data['PERSONAL_INCOME'] + (float) $faker->numberBetween(1000000, 9000000);
-			}
 
 			// Fill family income
 			$I->wait(2);
@@ -822,7 +825,7 @@ class GeneralSteps extends \AcceptanceTester
 
 	/**
 	 * Function to check popup
-	 *	 *
+	 *
 	 * @return boolean
 	 */
 	public function checkPopup()
@@ -845,5 +848,52 @@ class GeneralSteps extends \AcceptanceTester
         {
             return true;
         }
+	}
+
+	/**
+	 * Function to check popup
+	 *
+	 * @param  array  $data  Data
+	 * 
+	 * @return void
+	 */
+	public function validationData(&$data)
+	{
+		$faker           = \Faker\Factory::create();
+		$genders         = array('M', 'F');
+		$educations      = array('76', '84', '73', '81', '75', '80', '91', '85');
+		$maritalStatuses = array('W', 'O', 'C', 'M', 'D', 'S');
+		$socialStatuses  = array('8', '10', '3', '9', '1', '5');
+		$fbOwners        = array('Y', 'N');
+
+		if (!in_array($data['GENDER'], $genders))
+		{
+			$data['GENDER'] = 'M';
+		}
+
+		if (!in_array($data['EDUCATION'], $educations))
+		{
+			$data['EDUCATION'] = '76';
+		}
+
+		if (!in_array($data['IS_FB_OWNER'], $fbOwners))
+		{
+			$data['IS_FB_OWNER'] = 'Y';
+		}
+
+		if (!in_array($data['MARITAL_STATUS'], $maritalStatuses))
+		{
+			$data['MARITAL_STATUS'] = 'O';
+		}
+
+		if (!in_array($data['SOCIAL_STATUS'], $socialStatuses))
+		{
+			$data['SOCIAL_STATUS'] = '8';
+		}
+
+		if (empty($data["FAMILY_INCOME"]) || $data['PERSONAL_INCOME'] > $data['FAMILY_INCOME'])
+		{
+			$data['FAMILY_INCOME'] += (float) $data['PERSONAL_INCOME'] + (float) $faker->numberBetween(1000000, 9000000);
+		}
 	}
 }
