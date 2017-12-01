@@ -833,21 +833,21 @@ class GeneralSteps extends \AcceptanceTester
 		$I = $this;
 
 		try 
-        {
-            $I->seeInPopup('Error');
-            $I->wait(2);
-            $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
-            $I->wait(2);
-            $I->closeTab();
-            $I->wait(2);
-            $I->reloadPage();
+		{
+		    $I->seeInPopup('Error');
+		    $I->wait(2);
+		    $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
+		    $I->wait(2);
+		    $I->closeTab();
+		    $I->wait(2);
+		    $I->reloadPage();
 
-            return false;
-        } 
-        catch (Exception $e) 
-        {
-            return true;
-        }
+		    return false;
+		} 
+		catch (Exception $e) 
+		{
+		    return true;
+		}
 	}
 
 	/**
