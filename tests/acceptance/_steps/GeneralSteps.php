@@ -37,13 +37,24 @@ class GeneralSteps extends \AcceptanceTester
 	/**
      * Function to launch to FECase Manager to Create Application
      *
-     * @return  void
+     * @param  array  $data  Data
+     *
+     * @return  boolean
      */
-	public function launchPortal()
+	public function launchPortal($data)
 	{
 		$I = $this;
 		$I->wait(5);
+		
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$launchButton))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->click(\GeneralXpathLibrary::$launchButton);
+
 		$I->waitForElement(\GeneralXpathLibrary::$FECaseManager, 2);
         $I->click(\GeneralXpathLibrary::$FECaseManager);
         $I->wait(2);
@@ -53,9 +64,19 @@ class GeneralSteps extends \AcceptanceTester
 
         $I->executeJS('window.scrollTo(0,0)');
 
-        $I->click(\GeneralXpathLibrary::$createButton);
-        $I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
-        $I->click(\GeneralXpathLibrary::$CDLApplication);
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$createButton))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
+		$I->click(\GeneralXpathLibrary::$createButton);
+
+		$I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
+	    $I->click(\GeneralXpathLibrary::$CDLApplication);
+
+	    return true;
 	}
 
 	/**
@@ -63,7 +84,7 @@ class GeneralSteps extends \AcceptanceTester
 	 *
 	 * @param  array  $data  Data
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function initData($data)
 	{
@@ -120,6 +141,8 @@ class GeneralSteps extends \AcceptanceTester
         // Check error messages
         $I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
         $I->wait(2);
+
+        return $I->checkError($data['NATIONAL_ID']);
 	}
 
 	/**
@@ -127,7 +150,7 @@ class GeneralSteps extends \AcceptanceTester
 	 *
 	 * @param  array  $data  Data
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function shortApplication($data)
 	{
@@ -197,6 +220,8 @@ class GeneralSteps extends \AcceptanceTester
 		// Click submit data
 		$I->click(\GeneralXpathLibrary::$submitShortApp);
 		$I->wait(2);
+
+		return $I->checkError($data['NATIONAL_ID']);
 	}
 
 	/**
@@ -480,6 +505,8 @@ class GeneralSteps extends \AcceptanceTester
 		// Check error messages
 		$I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
         $I->wait(2);
+
+        return $I->checkError($data['NATIONAL_ID']);
 	}
 
 	/**
@@ -807,18 +834,36 @@ class GeneralSteps extends \AcceptanceTester
 	public function checkError($imageName)
 	{
 		$I = $this;
-		$errors = $I->grabMultiple(\GeneralXpathLibrary::$errorMessageTable);
+		$errors = array_filter($I->grabMultiple(\GeneralXpathLibrary::$errorMessageTable));
 
-		if (count($errors) == 0)
+		if (empty($errors))
 		{
 			return true;
 		}
         
-       	$this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
-        $I->wait(2);
-        $I->closeTab();
-        $I->wait(2);
-        $I->reloadPage();
+       	$I->skipTestCase($imageName);
+        
+        return false;
+	}
+
+	/**
+	 * Function to check element is not existed
+	 *
+	 * @param  string  $element  Element
+	 *
+	 * @return boolean
+	 */
+	public function checkElementNotExist($element)
+	{
+		$I       = $this;
+		$element = array_filter($I->grabMultiple($element));
+
+		print_r($element);
+
+		if (empty($element))
+		{
+			return true;
+		}
         
         return false;
 	}
@@ -826,28 +871,18 @@ class GeneralSteps extends \AcceptanceTester
 	/**
 	 * Function to check popup
 	 *
-	 * @return boolean
+	 * @param  array  $imageName  Image name
+	 * 
+	 * @return void
 	 */
-	public function checkPopup()
+	public function skipTestCase($imageName)
 	{
 		$I = $this;
-
-		try 
-		{
-		    $I->seeInPopup('Error');
-		    $I->wait(2);
-		    $this->getModule('WebDriver')->_saveScreenshot(codecept_output_dir() . $imageName . '.png');
-		    $I->wait(2);
-		    $I->closeTab();
-		    $I->wait(2);
-		    $I->reloadPage();
-
-		    return false;
-		} 
-		catch (Exception $e) 
-		{
-		    return true;
-		}
+		$I->makeScreenshot($imageName . '_' . time() . '.png');
+        $I->wait(2);
+        $I->closeTab();
+        $I->wait(2);
+        $I->reloadPage();
 	}
 
 	/**

@@ -135,28 +135,26 @@ class initCest
 
         foreach ($data as $key => $case)
         {
-            // $case['NATIONAL_ID'] = date('YmdHi');
+            $case['NATIONAL_ID'] = date('YmdHi');
             $I->validationData($case);
 
             $I->wantTo('Launch to FE Manager 7');
-            $I->launchPortal();
+
+            if (!$I->launchPortal($case))
+            {
+                continue;
+            }
 
             $I->wantTo('Init data');
-            $I->initData($case);
 
-            $checkError = $I->checkError($case['NATIONAL_ID']);
-
-            if (!$checkError)
+            if (!$I->initData($case))
             {
                 continue;
             }
 
             $I->wantTo('Entry short data');
-            $I->shortApplication($case);
 
-            $checkError = $I->checkError($case['NATIONAL_ID']);
-
-            if (!$checkError)
+            if (!$I->shortApplication($case))
             {
                 continue;
             }
@@ -165,11 +163,8 @@ class initCest
             $I->shortApplicationDocument();
 
             $I->wantTo('Entry full data');
-            $I->fullDataEntry($case);
 
-            $checkError = $I->checkError($case['NATIONAL_ID']);
-
-            if (!$checkError)
+            if (!$I->fullDataEntry($case))
             {
                 continue;
             }
