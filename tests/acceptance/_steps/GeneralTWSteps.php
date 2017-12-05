@@ -16,24 +16,8 @@ use Codeception\Module\WebDriver;
  *
  * @since    1.4
  */
-class GeneralSteps extends \AcceptanceTester
+class GeneralTWSteps extends \AcceptanceTester
 {
-	/**
-	 * Function to login to PEGA UAT Page
-	 *
-	 * @param  string  $username  Username
-	 * @param  string  $password  Password
-	 *
-	 * @return void
-	 */
-	public function loginPega($username, $password)
-	{
-		$I = $this;
-		$I->fillField(\GeneralXpathLibrary::$username, $username);
-        $I->fillField(\GeneralXpathLibrary::$password, $password);
-        $I->click(\GeneralXpathLibrary::$loginButton);
-	}
-
 	/**
      * Function to launch to FECase Manager to Create Application
      *
@@ -46,15 +30,7 @@ class GeneralSteps extends \AcceptanceTester
 		$I = $this;
 		$I->wait(5);
 		
-		if ($I->checkElementNotExist(\GeneralXpathLibrary::$launchButton))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
 		$I->click(\GeneralXpathLibrary::$launchButton);
-
 		$I->waitForElement(\GeneralXpathLibrary::$FECaseManager, 2);
         $I->click(\GeneralXpathLibrary::$FECaseManager);
         $I->wait(2);
@@ -73,174 +49,10 @@ class GeneralSteps extends \AcceptanceTester
 
 		$I->click(\GeneralXpathLibrary::$createButton);
 
-		$I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
-	    $I->click(\GeneralXpathLibrary::$CDLApplication);
+		$I->waitForElement(\GeneralXpathLibrary::$TWApplication, 2);
+	    $I->click(\GeneralXpathLibrary::$TWApplication);
 
 	    return true;
-	}
-
-	/**
-	 * Function to init data for Application
-	 *
-	 * @param  array  $data  Data
-	 *
-	 * @return boolean
-	 */
-	public function initData($data)
-	{
-		$I = $this;
-		$I->wait(2);
-
-		// PEGA System use iframe so need to switch to iframe to access input
-		$iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$iframeEnviroment, 'name');
-		$I->switchToIFrame($iframeName);
-		$I->wait(1);
-
-		// Click demo data
-		$I->click(\GeneralXpathLibrary::$demoDataInitApp);
-		$I->wait(1);
-
-		// Fill dealer code
-		$I->fillField(\GeneralXpathLibrary::$dealerCode, '');
-		$I->wait(1);
-		$I->fillField(\GeneralXpathLibrary::$dealerCode, $data['DEALER_CODE']);
-		$I->pressKey(\GeneralXpathLibrary::$dealerCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$rowDealerCode);
-		$I->wait(1);
-
-		// Fill POS code
-		$I->fillField(\GeneralXpathLibrary::$posCode, '');
-		$I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$posCode, $data['POS_CODE']);
-        $I->wait(1);
-        $I->pressKey(\GeneralXpathLibrary::$posCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
-        $I->wait(1);
-        $I->click(\GeneralXpathLibrary::$rowPosCode);
-        $I->wait(1);
-
-        // Select product group
-        $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => ''));
-        $I->wait(1);
-        $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => $data['PRODUCT_GROUP']));
-        $I->wait(1);
-
-        // Fill product scheme
-        $I->fillField(\GeneralXpathLibrary::$productScheme, '');
-        $I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
-        $I->wait(1);
-        $I->pressKey(\GeneralXpathLibrary::$productScheme, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
-        $I->wait(1);
-        $I->click(\GeneralXpathLibrary::$rowProductScheme);
-        $I->wait(1);
-
-        // Click create data
-        $I->click(\GeneralXpathLibrary::$createDataInitApp);
-
-        // Check error messages
-        $I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
-        $I->wait(2);
-
-        return $I->checkError($data['NATIONAL_ID']);
-	}
-
-	/**
-	 * Function to entry short data for Application
-	 *
-	 * @param  array  $data  Data
-	 *
-	 * @return boolean
-	 */
-	public function shortApplication($data)
-	{
-		$faker     = \Faker\Factory::create();
-		$firstname = $faker->firstname;
-		$lastname  = $faker->lastname;
-		$I         = $this;
-		$I->wait(3);
-
-		// Fill firstname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('" . $firstname . "')");
-		$I->wait(1);
-
-		// Fill lastname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$lastname . "').val('" . $lastname . "')");
-		$I->wait(1);
-
-		$genders = array('M', 'F');
-
-		if (!in_array($data['GENDER'], $genders))
-		{
-			$data['GENDER'] = 'M';
-		}
-
-		// Select gender
-		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['GENDER']));
-		$I->wait(2);
-
-		// Fill national Id
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$nationalId . "').val('" . $data['NATIONAL_ID'] . "')");
-		$I->wait(1);
-
-		// Fill date of issue
-		$I->click(\GeneralXpathLibrary::$dateOfIssue);
-		$I->wait(2);
-		$I->click(\GeneralXpathLibrary::$todayLink);
-		$I->wait(2);
-
-		// Fill date of birth
-		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['DATE_OF_BIRTH']);
-		$I->wait(2);
-
-		if (empty($data['FB_NUMBER']))
-		{
-			$data['FB_NUMBER'] = 'FB#' . $$data['NATIONAL_ID'];
-		}
-
-		// Fill family book number
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$fbNumber . "').val('" . $data['FB_NUMBER'] . "')");
-		$I->wait(1);
-
-		// Fill phone
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$phone . "').val('" . $data['PHONE'] . "')");
-		$I->wait(2);
-
-		// Fill hometown
-		if (!empty($data['HOMETOWN']))
-		{
-			$I->fillField(\GeneralXpathLibrary::$hometown, 'Hồ Chí Minh');
-			$I->wait(2);
-			$I->pressKey(\GeneralXpathLibrary::$hometown, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
-			$I->wait(1);
-			$I->click(\GeneralXpathLibrary::$rowHometown);
-			$I->wait(2);
-		}
-
-		// Click submit data
-		$I->click(\GeneralXpathLibrary::$submitShortApp);
-		$I->wait(2);
-
-		return $I->checkError($data['NATIONAL_ID']);
-	}
-
-	/**
-	 * Function to check documents for Application
-	 *
-	 * @return void
-	 */
-	public function shortApplicationDocument()
-	{
-		$I = $this;
-
-		// Click demo data
-		$I->wait(2);
-		$I->click(\GeneralXpathLibrary::$demoDataDocument);
-		$I->wait(1);
-
-		// Click submit data
-		$I->click(\GeneralXpathLibrary::$submitDocument);
-		$I->wait(2);
 	}
 
 	/**
@@ -270,18 +82,8 @@ class GeneralSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::$rowGoodData);
 		$I->wait(2);
 
-		if (!empty($data['GOOD_TYPE']))
+		if (!empty($data['BRAND']))
 		{
-			// Fill good type
-			$I->fillField(\GeneralXpathLibrary::$goodType, '');
-			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$goodType, $data['GOOD_TYPE']);
-			$I->wait(2);
-			$I->pressKey(\GeneralXpathLibrary::$goodType, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
-			$I->wait(2);
-			$I->click(\GeneralXpathLibrary::$rowGoodType);
-			$I->wait(2);
-
 			// Fill good brand
 			$I->fillField(\GeneralXpathLibrary::$brand, '');
 			$I->wait(1);
@@ -443,9 +245,9 @@ class GeneralSteps extends \AcceptanceTester
 			$I->click(\GeneralXpathLibrary::$rowMainIncome);
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$personalIncome);
-			$I->wait(2);
-			$I->executeJS('return jQuery("input#NetAmount1").attr("data-value", "' . $data["PERSONAL_INCOME"] . '")');
-			$I->executeJS('return jQuery("input#NetAmount1").val("' . $data["PERSONAL_INCOME"] . '")');
+			$I->waitForElement(\GeneralXpathLibrary::$personalIncome, 2);
+			$I->fillField(\GeneralXpathLibrary::$personalIncome, $data["PERSONAL_INCOME"]);
+			$I->executeJS('return jQuery(document).find("input#NetAmount1").attr("data-value", "0").val("0").attr("data-value", "' . $data["PERSONAL_INCOME"] . '").val("' . $data["PERSONAL_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 
 			// Fill family income
@@ -453,9 +255,9 @@ class GeneralSteps extends \AcceptanceTester
 			$I->click(\GeneralXpathLibrary::$rowFamilyIncome);
 			$I->wait(2);
 			$I->click(\GeneralXpathLibrary::$familyIncome);
-			$I->wait(2);
-			$I->executeJS('return jQuery("input#NetAmount2").attr("data-value", "' . $data["FAMILY_INCOME"] . '")');
-			$I->executeJS('return jQuery("input#NetAmount2").val("' . $data["FAMILY_INCOME"] . '")');
+			$I->waitForElement(\GeneralXpathLibrary::$familyIncome, 2);
+			$I->fillField(\GeneralXpathLibrary::$familyIncome, $data["FAMILY_INCOME"]);
+			$I->executeJS('return jQuery(document).find("input#NetAmount2").attr("data-value", "0").val("0").attr("data-value", "' . $data["FAMILY_INCOME"] . '").val("' . $data["FAMILY_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 		}
 
@@ -507,159 +309,6 @@ class GeneralSteps extends \AcceptanceTester
         $I->wait(2);
 
         return $I->checkError($data['NATIONAL_ID']);
-	}
-
-	/**
-	 * Function to data check for Application
-	 *
-	 * @return string
-	 */
-	public function dataCheck()
-	{
-		$I = $this;
-
-		// Click Data check
-		$I->click(\GeneralXpathLibrary::$dataCheck);
-		$I->wait(2);
-
-		// Select verification result
-		$I->selectOption(\GeneralXpathLibrary::$verificationResult, array('value' => 'Positive'));
-		$I->wait(1);
-
-		// Click documents tab and demo data
-		$I->click(\GeneralXpathLibrary::$documentsTab);
-		$I->click(\GeneralXpathLibrary::$demoDataDataCheck);
-		$I->wait(1);
-
-		// Click CIC tab and select CIC result
-		$I->click(\GeneralXpathLibrary::$cicTab);
-		$I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Don't require"));
-		$I->wait(1);
-
-		// Click submit data
-		$I->click(\GeneralXpathLibrary::$submitDataCheck);
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$okDataCheck);
-		$I->wait(1);
-
-		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
-		$caseId = str_replace('(', '', $caseId);
-		$caseId = str_replace(')', '', $caseId);
-
-		return $caseId;
-	}
-
-	/**
-	 * Function to switch Application to LOS2
-	 *
-	 * @return void
-	 */
-	public function switchApplicationToLOS2()
-	{
-		$I = $this;
-		$I->switchToPreviousTab();
-		$I->wait(2);
-		$I->click(\GeneralXpathLibrary::$roleMenu);
-		$I->wait(2);
-		$I->moveMouseOver(\GeneralXpathLibrary::$switchApplication);
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$riskAdmin);
-		$I->wait(2);
-		$I->click(\GeneralXpathLibrary::$launchButton);
-		$I->wait(2);
-        $I->click(\GeneralXpathLibrary::$FECaseManager);
-        $I->wait(1);
-		$I->switchToNextTab();
-		$I->wait(2);
-	}
-
-	/**
-	 * Function to search application
-	 *
-	 * @param  string  $caseId  Case ID
-	 *
-	 * @return void
-	 */
-	public function searchApplication($caseId)
-	{
-		$I = $this;
-		$I->wait(5);
-		$I->click(\GeneralXpathLibrary::$emailOnTop2);
-		$I->wait(1);
-		$I->moveMouseOver(\GeneralXpathLibrary::$switchWorkPool);
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$defaultWorkPool);
-		$I->wait(2);
-		$I->fillField(\GeneralXpathLibrary::$searchBox, $caseId);
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$searchButton);
-		$I->wait(2);
-
-		// PEGA System use iframe so need to switch to iframe to access input
-		$iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$decisionMakingFrame, 'name');
-		$I->switchToIFrame($iframeName);
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$decisionMaking);
-		$I->wait(1);
-
-		$responseData = array();
-		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
-		$caseId = str_replace("(", "", $caseId);
-		$caseId = str_replace(")", "", $caseId);
-		$responseData['case_id']        = $caseId;
-		$responseData['application_id'] = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
-		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
-		$applicationStatus              = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
-
-		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
-		{
-			return array();
-		}
-
-		$I->wait(1);
-		$I->scrollTo(\GeneralXpathLibrary::$totalScore);
-		$responseData['total_score']                    = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
-		$responseData['score_group']                    = $I->grabTextFrom(\GeneralXpathLibrary::$scoreGroup);
-		$responseData['random_number']                  = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
-		$responseData['score_robot_gender_and_age']     = $I->grabTextFrom(\GeneralXpathLibrary::$genderAndAgeScore);
-		$responseData['score_robot_marital_status']     = $I->grabTextFrom(\GeneralXpathLibrary::$maritalStatusScore);
-		$responseData['score_robot_installment']        = $I->grabTextFrom(\GeneralXpathLibrary::$installmentScore);
-		$responseData['score_robot_pos_region']         = $I->grabTextFrom(\GeneralXpathLibrary::$posRegionScore);
-		$responseData['score_robot_cc_performance']     = $I->grabTextFrom(\GeneralXpathLibrary::$ccPerformanceScore);
-		$responseData['score_robot_fb_owner']           = $I->grabTextFrom(\GeneralXpathLibrary::$fbOwnerScore);
-		$responseData['score_robot_down_payment_ratio'] = $I->grabTextFrom(\GeneralXpathLibrary::$downpaymentRatioScore);
-		$responseData['score_robot_pos_performance']    = $I->grabTextFrom(\GeneralXpathLibrary::$posPerformanceScore);
-		$responseData['score_robot_owner_dpd_ever']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDpdEverScore);
-		$responseData['score_robot_ref_dpd']            = $I->grabTextFrom(\GeneralXpathLibrary::$refDpdScore);
-		$I->scrollTo(\GeneralXpathLibrary::$ownerRejectedScore);
-		$responseData['score_robot_owner_rejected']     = $I->grabTextFrom(\GeneralXpathLibrary::$ownerRejectedScore);
-		$responseData['score_robot_owner_disbursed']    = $I->grabTextFrom(\GeneralXpathLibrary::$ownerDisbursedScore);
-		$responseData['score_robot_asset_brand']        = $I->grabTextFrom(\GeneralXpathLibrary::$assetBrandScore);
-		$responseData['score_robot_effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$effectiveRateScore);
-		$responseData['score_robot_document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$documentRequiredScore);
-
-		$I->wait(3);
-
-		return $responseData;
-	}
-
-	/**
-	 * Function to switch Application to Loan
-	 *
-	 *
-	 * @return void
-	 */
-	public function switchApplicationToLoan()
-	{
-		$I = $this;
-		$I->switchToPreviousTab();
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$roleMenu);
-		$I->wait(2);
-		$I->moveMouseOver(\GeneralXpathLibrary::$switchApplication);
-		$I->wait(1);
-		$I->click(\GeneralXpathLibrary::$loan);
-		$I->wait(2);
 	}
 
 	/**
@@ -822,113 +471,5 @@ class GeneralSteps extends \AcceptanceTester
         oci_commit($connection);
 
        	return true;
-	}
-
-	/**
-	 * Function to check error
-	 *
-	 * @param  string  $imageName  Image name
-	 *
-	 * @return boolean
-	 */
-	public function checkError($imageName)
-	{
-		$I = $this;
-		$errors = array_filter($I->grabMultiple(\GeneralXpathLibrary::$errorMessageTable));
-
-		if (empty($errors))
-		{
-			return true;
-		}
-        
-       	$I->skipTestCase($imageName);
-        
-        return false;
-	}
-
-	/**
-	 * Function to check element is not existed
-	 *
-	 * @param  string  $element  Element
-	 *
-	 * @return boolean
-	 */
-	public function checkElementNotExist($element)
-	{
-		$I       = $this;
-		$element = array_filter($I->grabMultiple($element));
-
-		print_r($element);
-
-		if (empty($element))
-		{
-			return true;
-		}
-        
-        return false;
-	}
-
-	/**
-	 * Function to check popup
-	 *
-	 * @param  array  $imageName  Image name
-	 * 
-	 * @return void
-	 */
-	public function skipTestCase($imageName)
-	{
-		$I = $this;
-		$I->makeScreenshot($imageName . '_' . time() . '.png');
-        $I->wait(2);
-        $I->closeTab();
-        $I->wait(2);
-        $I->reloadPage();
-	}
-
-	/**
-	 * Function to check popup
-	 *
-	 * @param  array  $data  Data
-	 * 
-	 * @return void
-	 */
-	public function validationData(&$data)
-	{
-		$faker           = \Faker\Factory::create();
-		$genders         = array('M', 'F');
-		$educations      = array('76', '84', '73', '81', '75', '80', '91', '85');
-		$maritalStatuses = array('W', 'O', 'C', 'M', 'D', 'S');
-		$socialStatuses  = array('8', '10', '3', '9', '1', '5');
-		$fbOwners        = array('Y', 'N');
-
-		if (!in_array($data['GENDER'], $genders))
-		{
-			$data['GENDER'] = 'M';
-		}
-
-		if (!in_array($data['EDUCATION'], $educations))
-		{
-			$data['EDUCATION'] = '76';
-		}
-
-		if (!in_array($data['IS_FB_OWNER'], $fbOwners))
-		{
-			$data['IS_FB_OWNER'] = 'Y';
-		}
-
-		if (!in_array($data['MARITAL_STATUS'], $maritalStatuses))
-		{
-			$data['MARITAL_STATUS'] = 'O';
-		}
-
-		if (!in_array($data['SOCIAL_STATUS'], $socialStatuses))
-		{
-			$data['SOCIAL_STATUS'] = '8';
-		}
-
-		if (empty($data["FAMILY_INCOME"]) || $data['PERSONAL_INCOME'] > $data['FAMILY_INCOME'])
-		{
-			$data['FAMILY_INCOME'] += (float) $data['PERSONAL_INCOME'] + (float) $faker->numberBetween(1000000, 9000000);
-		}
 	}
 }

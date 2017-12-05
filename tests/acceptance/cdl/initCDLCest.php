@@ -10,7 +10,7 @@
  *
  * @since  1.0
  */
-class initCest
+class initCDLCest
 {
     /**
      * @var  string
@@ -107,7 +107,7 @@ class initCest
         }
 
         $I->amOnUrl(\GeneralXpathLibrary::$url);
-        $I = new AcceptanceTester\GeneralSteps($scenario);
+        $I = new AcceptanceTester\GeneralCDLSteps($scenario);
 
         $I->wantTo('Login to PEGA UAT');
         $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
@@ -147,7 +147,7 @@ class initCest
 
             $I->wantTo('Init data');
 
-            if (!$I->initData($case))
+            if (!$I->initData($case, 'CDL'))
             {
                 continue;
             }
