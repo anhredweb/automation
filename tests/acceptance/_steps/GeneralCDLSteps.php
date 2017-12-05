@@ -314,10 +314,6 @@ class GeneralCDLSteps extends \AcceptanceTester
 		$I->click(\GeneralXpathLibrary::$submitFullDataEntry);
 		$I->wait(2);
 
-		// Check error messages
-		$I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
-        $I->wait(2);
-
         return $I->checkError($data['NATIONAL_ID']);
 	}
 

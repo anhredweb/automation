@@ -99,10 +99,6 @@ class AcceptanceTester extends \Codeception\Actor
         // Click create data
         $I->click(\GeneralXpathLibrary::$createDataInitApp);
 
-        // Check error messages
-        $I->dontSeeElement(\GeneralXpathLibrary::$errorMessageTable);
-        $I->wait(2);
-
         return $I->checkError($data['NATIONAL_ID']);
 	}
 
