@@ -176,7 +176,7 @@ class initTWCest
             $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $responseData = $I->searchApplication($caseId);
+            $responseData = $I->searchApplication($caseId, 'TW');
 
             if (!empty($responseData))
             {

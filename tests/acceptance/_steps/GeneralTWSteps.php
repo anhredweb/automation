@@ -352,37 +352,31 @@ class GeneralTWSteps extends \AcceptanceTester
 	{
 		$selectScoreQuery = array(
 			'SCORE_USER_GENDER_AND_AGE',
+			'SCORE_USER_NO_OF_REJECTED_APPLICATIONS',
 			'SCORE_USER_MARITAL_STATUS',
-			'SCORE_USER_INSTALLMENT',
-			'SCORE_USER_POS_REGION',
-			'SCORE_USER_CC_PERFORMANCE',
-			'SCORE_USER_FB_OWNER',
-			'SCORE_USER_DOWN_PAYMENT_RATIO',
+			'SCORE_USER_DPD_EVER',
+			'SCORE_USER_TENOR',
 			'SCORE_USER_POS_PERFORMANCE',
-			'SCORE_USER_OWNER_DPD_EVER',
-			'SCORE_USER_REF_DPD',
-			'SCORE_USER_OWNER_REJECTED',
-			'SCORE_USER_OWNER_DISBURSED',
-			'SCORE_USER_ASSET_BRAND',
-			'SCORE_USER_EFFECTIVE_RATE',
-			'SCORE_USER_DOCUMENT_REQUIRED'
+			'SCORE_USER_POS_ADDRESS',
+			'SCORE_USER_PERMANENT_ADDRESS',
+			'SCORE_USER_EDUCATION_AND_WORK_EXPERIENCE',
+			'SCORE_USER_DOWN_PAYMENT_RATE',
+			'SCORE_USER_FB_OWNER_GENDER',
+			'SCORE_USER_CUSTOMERAGE'
 		);
 		$selectCheckQuery = array(
-			'SCORE_CHECK_GENDER_AND_AGE'     => "'F'",
-			'SCORE_CHECK_MARITAL_STATUS'     => "'F'",
-			'SCORE_CHECK_INSTALLMENT'        => "'F'",
-			'SCORE_CHECK_POS_REGION'         => "'F'",
-			'SCORE_CHECK_CC_PERFORMANCE'     => "'F'",
-			'SCORE_CHECK_FB_OWNER'           => "'F'",
-			'SCORE_CHECK_DOWN_PAYMENT_RATIO' => "'F'",
-			'SCORE_CHECK_POS_PERFORMANCE'    => "'F'",
-			'SCORE_CHECK_OWNER_DPD_EVER'     => "'F'",
-			'SCORE_CHECK_REF_DPD'            => "'F'",
-			'SCORE_CHECK_OWNER_REJECTED'     => "'F'",
-			'SCORE_CHECK_OWNER_DISBURSED'    => "'F'",
-			'SCORE_CHECK_ASSET_BRAND'        => "'F'",
-			'SCORE_CHECK_EFFECTIVE_RATE'     => "'F'",
-			'SCORE_CHECK_DOCUMENT_REQUIRED'  => "'F'"
+			'SCORE_CHECK_GENDER_AND_AGE'                => "'F'",
+			'SCORE_CHECK_NO_OF_REJECTED_APPLICATIONS'   => "'F'",
+			'SCORE_CHECK_MARITAL_STATUS'                => "'F'",
+			'SCORE_CHECK_DPD_EVER'                      => "'F'",
+			'SCORE_CHECK_TENOR'                         => "'F'",
+			'SCORE_CHECK_POS_PERFORMANCE'               => "'F'",
+			'SCORE_CHECK_POS_ADDRESS'                   => "'F'",
+			'SCORE_CHECK_PERMANENT_ADDRESS'             => "'F'",
+			'SCORE_CHECK_EDUCATION_AND_WORK_EXPERIENCE' => "'F'",
+			'SCORE_CHECK_DOWN_PAYMENT_RATE'             => "'F'",
+			'SCORE_CHECK_FB_OWNER_GENDER'               => "'F'",
+			'SCORE_CHECK_CUSTOMERAGE'                   => "'F'"
 		);
         $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
@@ -400,61 +394,49 @@ class GeneralTWSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_GENDER_AND_AGE'] = "'P'";
         	}
+        	elseif ($column == 'SCORE_USER_NO_OF_REJECTED_APPLICATIONS' && $score == $data['score_robot_no_of_reject_applications'])
+        	{
+        		$selectCheckQuery['SCORE_CHECK_NO_OF_REJECTED_APPLICATIONS'] = "'P'";
+        	}
         	elseif ($column == 'SCORE_USER_MARITAL_STATUS' && $score == $data['score_robot_marital_status'])
         	{
         		$selectCheckQuery['SCORE_CHECK_MARITAL_STATUS'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_INSTALLMENT' && $score == $data['score_robot_installment'])
+        	elseif ($column == 'SCORE_USER_DPD_EVER' && $score == $data['score_robot_dpd_ever'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_INSTALLMENT'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_DPD_EVER'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_POS_REGION' && $score == $data['score_robot_pos_region'])
+        	elseif ($column == 'SCORE_USER_TENOR' && $score == $data['score_robot_tenor'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_POS_REGION'] = "'P'";
-        	}
-        	elseif ($column == 'SCORE_USER_CC_PERFORMANCE' && $score == $data['score_robot_cc_performance'])
-        	{
-        		$selectCheckQuery['SCORE_CHECK_CC_PERFORMANCE'] = "'P'";
-        	}
-        	elseif ($column == 'SCORE_USER_FB_OWNER' && $score == $data['score_robot_fb_owner'])
-        	{
-        		$selectCheckQuery['SCORE_CHECK_FB_OWNER'] = "'P'";
-        	}
-        	elseif ($column == 'SCORE_USER_DOWN_PAYMENT_RATIO' && $score == $data['score_robot_down_payment_ratio'])
-        	{
-        		$selectCheckQuery['SCORE_CHECK_DOWN_PAYMENT_RATIO'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_TENOR'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_POS_PERFORMANCE' && $score == $data['score_robot_pos_performance'])
         	{
         		$selectCheckQuery['SCORE_CHECK_POS_PERFORMANCE'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_OWNER_DPD_EVER' && $score == $data['score_robot_owner_dpd_ever'])
+        	elseif ($column == 'SCORE_USER_POS_ADDRESS' && $score == $data['score_robot_pos_address'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_OWNER_DPD_EVER'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_POS_ADDRESS'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_REF_DPD' && $score == $data['score_robot_ref_dpd'])
+        	elseif ($column == 'SCORE_USER_PERMANENT_ADDRESS' && $score == $data['score_robot_permanent_address'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_REF_DPD'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_PERMANENT_ADDRESS'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_OWNER_REJECTED' && $score == $data['score_robot_owner_rejected'])
+        	elseif ($column == 'SCORE_USER_EDUCATION_AND_WORK_EXPERIENCE' && $score == $data['score_robot_education_and_work_experience'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_OWNER_REJECTED'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_EDUCATION_AND_WORK_EXPERIENCE'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_OWNER_DISBURSED' && $score == $data['score_robot_owner_disbursed'])
+        	elseif ($column == 'SCORE_USER_DOWN_PAYMENT_RATE' && $score == $data['score_robot_down_payment_rate'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_OWNER_DISBURSED'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_DOWN_PAYMENT_RATE'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_ASSET_BRAND' && $score == $data['score_robot_asset_brand'])
+        	elseif ($column == 'SCORE_USER_FB_OWNER_GENDER' && $score == $data['score_robot_fb_owner_gender'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_ASSET_BRAND'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_FB_OWNER_GENDER'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_EFFECTIVE_RATE' && $score == $data['score_robot_effective_rate'])
+        	elseif ($column == 'SCORE_USER_CUSTOMERAGE' && $score == $data['score_robot_customerage'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_EFFECTIVE_RATE'] = "'P'";
-        	}
-        	elseif ($column == 'SCORE_USER_DOCUMENT_REQUIRED' && $score == $data['score_robot_document_required'])
-        	{
-        		$selectCheckQuery['SCORE_CHECK_DOCUMENT_REQUIRED'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_CUSTOMERAGE'] = "'P'";
         	}
         }
 
