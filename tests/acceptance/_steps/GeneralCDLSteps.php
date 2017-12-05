@@ -342,7 +342,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 
 		$setQuery[] = "STATUS = '1'";
 
-		$query = "UPDATE AUTOMATION_TEST_CASE SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
+		$query = "UPDATE AUTOMATION_TEST_CASE_CDL SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
 		$stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);

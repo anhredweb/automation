@@ -339,18 +339,18 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$CDLdocumentRequiredScore);
 				break;
 			case 'TW':
-				$responseData['score_robot_gender_and_age']                = $I->grabTextFrom(\GeneralXpathLibrary::$TWgenderAndAgeScore);
-				$responseData['score_robot_no_of_reject_applications']     = $I->grabTextFrom(\GeneralXpathLibrary::$TWnoOfRejectedApplicationsScore);
-				$responseData['score_robot_marital_status']                = $I->grabTextFrom(\GeneralXpathLibrary::$TWmaritalStatusScore);
-				$responseData['score_robot_dpd_ever']                      = $I->grabTextFrom(\GeneralXpathLibrary::$TWdpdEverScore);
-				$responseData['score_robot_tenor']                         = $I->grabTextFrom(\GeneralXpathLibrary::$TWtenorScore);
-				$responseData['score_robot_pos_performance']               = $I->grabTextFrom(\GeneralXpathLibrary::$TWposPerformanceScore);
-				$responseData['score_robot_pos_address']                   = $I->grabTextFrom(\GeneralXpathLibrary::$TWposAddressScore);
-				$responseData['score_robot_permanent_address']             = $I->grabTextFrom(\GeneralXpathLibrary::$TWpermanentAddressScore);
-				$responseData['score_robot_education_and_work_experience'] = $I->grabTextFrom(\GeneralXpathLibrary::$TWeducationAndWorkExperienceScore);
-				$responseData['score_robot_down_payment_rate']             = $I->grabTextFrom(\GeneralXpathLibrary::$TWdownpaymentRateScore);
-				$responseData['score_robot_fb_owner_gender']               = $I->grabTextFrom(\GeneralXpathLibrary::$TWfbOwnerGenderScore);
-				$responseData['score_robot_customerage']                   = $I->grabTextFrom(\GeneralXpathLibrary::$TWcustomerageScore);
+				$responseData['score_robot_gender_and_age']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWgenderAndAgeScore);
+				$responseData['score_robot_reject_apps']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWnoOfRejectedApplicationsScore);
+				$responseData['score_robot_marital_status']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWmaritalStatusScore);
+				$responseData['score_robot_dpd_ever']          = $I->grabTextFrom(\GeneralXpathLibrary::$TWdpdEverScore);
+				$responseData['score_robot_tenor']             = $I->grabTextFrom(\GeneralXpathLibrary::$TWtenorScore);
+				$responseData['score_robot_pos_performance']   = $I->grabTextFrom(\GeneralXpathLibrary::$TWposPerformanceScore);
+				$responseData['score_robot_pos_address']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWposAddressScore);
+				$responseData['score_robot_permanent_address'] = $I->grabTextFrom(\GeneralXpathLibrary::$TWpermanentAddressScore);
+				$responseData['score_robot_education_work']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWeducationAndWorkExperienceScore);
+				$responseData['score_robot_down_payment_rate'] = $I->grabTextFrom(\GeneralXpathLibrary::$TWdownpaymentRateScore);
+				$responseData['score_robot_fb_owner_gender']   = $I->grabTextFrom(\GeneralXpathLibrary::$TWfbOwnerGenderScore);
+				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWcustomerageScore);
 				break;
 			default:
 				# code...

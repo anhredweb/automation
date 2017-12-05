@@ -178,14 +178,20 @@ class GeneralXpathLibrary
 	public static $goodType              = '//input[@id="GoodsTypeDesc"]';
 
 	public static $rowGoodType           = '//tr[contains(@id, "$PD_ClSubSchemeLevel1")]';
+
+	public static $brandJS               = 'input#BrandDesc';
 	
 	public static $brand                 = '//input[@id="BrandDesc"]';
 
 	public static $rowBrand              = '//tr[contains(@id, "$PD_ClSubSchemeLevel1")]';
+
+	public static $assetMakeJS           = 'input#AssetMakeDesc';
 	
 	public static $assetMake             = '//input[@id="AssetMakeDesc"]';
 
 	public static $rowAssetMake          = '//tr[contains(@id, "$PD_ClSubSchemeLevel2")]';
+
+	public static $assetModelJS          = 'input#AssetModelDesc';
 	
 	public static $assetModel            = '//input[@id="AssetModelDesc"]';
 

@@ -85,9 +85,9 @@ class GeneralTWSteps extends \AcceptanceTester
 		if (!empty($data['BRAND']))
 		{
 			// Fill good brand
-			$I->fillField(\GeneralXpathLibrary::$brand, '');
-			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$brand, $data['BRAND']);
+			$I->click(\GeneralXpathLibrary::$brand);
+			$I->wait(2);
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$brandJS . "').val('').val('" . $data["BRAND"] . "')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$brand, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(2);
@@ -95,9 +95,9 @@ class GeneralTWSteps extends \AcceptanceTester
 			$I->wait(1);
 
 			// Fill asset make
-			$I->fillField(\GeneralXpathLibrary::$assetMake, '');
-			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$assetMake, $data['ASSET_MAKE']);
+			$I->click(\GeneralXpathLibrary::$assetMake);
+			$I->wait(2);
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$assetMakeJS . "').val('').val('" . $data["ASSET_MAKE"] . "')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$assetMake, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(2);
@@ -105,9 +105,9 @@ class GeneralTWSteps extends \AcceptanceTester
 			$I->wait(1);
 
 			// Fill asset model
-			$I->fillField(\GeneralXpathLibrary::$assetModel, '');
-			$I->wait(1);
-			$I->fillField(\GeneralXpathLibrary::$assetModel, $data['ASSET_MODEL']);
+			$I->click(\GeneralXpathLibrary::$assetModel);
+			$I->wait(2);
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$assetModelJS . "').val('').val('" . $data["ASSET_MODEL"] . "')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$assetModel, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(2);
@@ -332,7 +332,7 @@ class GeneralTWSteps extends \AcceptanceTester
 
 		$setQuery[] = "STATUS = '1'";
 
-		$query = "UPDATE AUTOMATION_TEST_CASE SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
+		$query = "UPDATE AUTOMATION_TEST_CASE_TW SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
 		$stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);
@@ -352,14 +352,14 @@ class GeneralTWSteps extends \AcceptanceTester
 	{
 		$selectScoreQuery = array(
 			'SCORE_USER_GENDER_AND_AGE',
-			'SCORE_USER_NO_OF_REJECTED_APPLICATIONS',
+			'SCORE_USER_REJECT_APPS',
 			'SCORE_USER_MARITAL_STATUS',
 			'SCORE_USER_DPD_EVER',
 			'SCORE_USER_TENOR',
 			'SCORE_USER_POS_PERFORMANCE',
 			'SCORE_USER_POS_ADDRESS',
 			'SCORE_USER_PERMANENT_ADDRESS',
-			'SCORE_USER_EDUCATION_AND_WORK_EXPERIENCE',
+			'SCORE_USER_EDUCATION_WORK',
 			'SCORE_USER_DOWN_PAYMENT_RATE',
 			'SCORE_USER_FB_OWNER_GENDER',
 			'SCORE_USER_CUSTOMERAGE',
@@ -368,21 +368,21 @@ class GeneralTWSteps extends \AcceptanceTester
 			'RANDOM_NUMBER'
 		);
 		$selectCheckQuery = array(
-			'SCORE_CHECK_GENDER_AND_AGE'                => "'F'",
-			'SCORE_CHECK_NO_OF_REJECTED_APPLICATIONS'   => "'F'",
-			'SCORE_CHECK_MARITAL_STATUS'                => "'F'",
-			'SCORE_CHECK_DPD_EVER'                      => "'F'",
-			'SCORE_CHECK_TENOR'                         => "'F'",
-			'SCORE_CHECK_POS_PERFORMANCE'               => "'F'",
-			'SCORE_CHECK_POS_ADDRESS'                   => "'F'",
-			'SCORE_CHECK_PERMANENT_ADDRESS'             => "'F'",
-			'SCORE_CHECK_EDUCATION_AND_WORK_EXPERIENCE' => "'F'",
-			'SCORE_CHECK_DOWN_PAYMENT_RATE'             => "'F'",
-			'SCORE_CHECK_FB_OWNER_GENDER'               => "'F'",
-			'SCORE_CHECK_CUSTOMERAGE'                   => "'F'",
-			'CHECK_TOTAL_SCORE'                         => "'F'",
-			'CHECK_SCORE_GROUP'                         => "'F'",
-			'CHECK_RANDOM_NUMBER'                       => "'F'"
+			'SCORE_CHECK_GENDER_AND_AGE'    => "'F'",
+			'SCORE_CHECK_REJECT_APPS'       => "'F'",
+			'SCORE_CHECK_MARITAL_STATUS'    => "'F'",
+			'SCORE_CHECK_DPD_EVER'          => "'F'",
+			'SCORE_CHECK_TENOR'             => "'F'",
+			'SCORE_CHECK_POS_PERFORMANCE'   => "'F'",
+			'SCORE_CHECK_POS_ADDRESS'       => "'F'",
+			'SCORE_CHECK_PERMANENT_ADDRESS' => "'F'",
+			'SCORE_CHECK_EDUCATION_WORK'    => "'F'",
+			'SCORE_CHECK_DOWN_PAYMENT_RATE' => "'F'",
+			'SCORE_CHECK_FB_OWNER_GENDER'   => "'F'",
+			'SCORE_CHECK_CUSTOMERAGE'       => "'F'",
+			'CHECK_TOTAL_SCORE'             => "'F'",
+			'CHECK_SCORE_GROUP'             => "'F'",
+			'CHECK_RANDOM_NUMBER'           => "'F'"
 		);
         $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_TW WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
@@ -400,9 +400,9 @@ class GeneralTWSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_GENDER_AND_AGE'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_NO_OF_REJECTED_APPLICATIONS' && $score == $data['score_robot_no_of_reject_applications'])
+        	elseif ($column == 'SCORE_USER_REJECT_APPS' && $score == $data['score_robot_reject_apps'])
         	{
-        		$selectCheckQuery['SCORE_CHECK_NO_OF_REJECTED_APPLICATIONS'] = "'P'";
+        		$selectCheckQuery['SCORE_CHECK_REJECT_APPS'] = "'P'";
         	}
         	elseif ($column == 'SCORE_USER_MARITAL_STATUS' && $score == $data['score_robot_marital_status'])
         	{
@@ -428,7 +428,7 @@ class GeneralTWSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_PERMANENT_ADDRESS'] = "'P'";
         	}
-        	elseif ($column == 'SCORE_USER_EDUCATION_AND_WORK_EXPERIENCE' && $score == $data['score_robot_education_and_work_experience'])
+        	elseif ($column == 'SCORE_USER_EDUCATION_WORK' && $score == $data['score_robot_education_work'])
         	{
         		$selectCheckQuery['SCORE_CHECK_EDUCATION_AND_WORK_EXPERIENCE'] = "'P'";
         	}
