@@ -148,6 +148,8 @@ class GeneralXpathLibrary
 	public static $fbNumber           = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pFBNumber"]';
 	
 	public static $phone              = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pPhoneNumber"]';
+
+	public static $hometownJS         = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pHometown"]';
 	
 	public static $hometown           = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pHometown"]';
 

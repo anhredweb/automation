@@ -170,7 +170,8 @@ class AcceptanceTester extends \Codeception\Actor
 		// Fill hometown
 		if (!empty($data['HOMETOWN']))
 		{
-			$I->fillField(\GeneralXpathLibrary::$hometown, 'Hồ Chí Minh');
+			$I->click(\GeneralXpathLibrary::$hometown);
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$hometownJS . "').val('Hồ Chí Minh')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$hometown, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(1);
@@ -307,7 +308,7 @@ class AcceptanceTester extends \Codeception\Actor
 		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
 		$applicationStatus              = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
 
-		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft' || trim($applicationStatus) == 'Peding-DC')
 		{
 			return array();
 		}

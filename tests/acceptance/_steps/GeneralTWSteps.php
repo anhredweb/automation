@@ -86,7 +86,6 @@ class GeneralTWSteps extends \AcceptanceTester
 		{
 			// Fill good brand
 			$I->click(\GeneralXpathLibrary::$brand);
-			$I->wait(2);
 			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$brandJS . "').val('').val('" . $data["BRAND"] . "')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$brand, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
@@ -96,7 +95,6 @@ class GeneralTWSteps extends \AcceptanceTester
 
 			// Fill asset make
 			$I->click(\GeneralXpathLibrary::$assetMake);
-			$I->wait(2);
 			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$assetMakeJS . "').val('').val('" . $data["ASSET_MAKE"] . "')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$assetMake, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
@@ -106,7 +104,6 @@ class GeneralTWSteps extends \AcceptanceTester
 
 			// Fill asset model
 			$I->click(\GeneralXpathLibrary::$assetModel);
-			$I->wait(2);
 			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$assetModelJS . "').val('').val('" . $data["ASSET_MODEL"] . "')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$assetModel, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
@@ -247,6 +244,7 @@ class GeneralTWSteps extends \AcceptanceTester
 			$I->click(\GeneralXpathLibrary::$personalIncome);
 			$I->waitForElement(\GeneralXpathLibrary::$personalIncome, 2);
 			$I->fillField(\GeneralXpathLibrary::$personalIncome, $data["PERSONAL_INCOME"]);
+			$I->wait(1);
 			$I->executeJS('return jQuery(document).find("input#NetAmount1").attr("data-value", "0").val("0").attr("data-value", "' . $data["PERSONAL_INCOME"] . '").val("' . $data["PERSONAL_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 
@@ -257,6 +255,7 @@ class GeneralTWSteps extends \AcceptanceTester
 			$I->click(\GeneralXpathLibrary::$familyIncome);
 			$I->waitForElement(\GeneralXpathLibrary::$familyIncome, 2);
 			$I->fillField(\GeneralXpathLibrary::$familyIncome, $data["FAMILY_INCOME"]);
+			$I->wait(1);
 			$I->executeJS('return jQuery(document).find("input#NetAmount2").attr("data-value", "0").val("0").attr("data-value", "' . $data["FAMILY_INCOME"] . '").val("' . $data["FAMILY_INCOME"] . '")');
 			$I->click(\GeneralXpathLibrary::getTabId('8'));
 		}
