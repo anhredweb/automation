@@ -362,7 +362,10 @@ class GeneralTWSteps extends \AcceptanceTester
 			'SCORE_USER_EDUCATION_AND_WORK_EXPERIENCE',
 			'SCORE_USER_DOWN_PAYMENT_RATE',
 			'SCORE_USER_FB_OWNER_GENDER',
-			'SCORE_USER_CUSTOMERAGE'
+			'SCORE_USER_CUSTOMERAGE',
+			'TOTAL_SCORE',
+			'SCORE_GROUP',
+			'RANDOM_NUMBER'
 		);
 		$selectCheckQuery = array(
 			'SCORE_CHECK_GENDER_AND_AGE'                => "'F'",
@@ -376,9 +379,12 @@ class GeneralTWSteps extends \AcceptanceTester
 			'SCORE_CHECK_EDUCATION_AND_WORK_EXPERIENCE' => "'F'",
 			'SCORE_CHECK_DOWN_PAYMENT_RATE'             => "'F'",
 			'SCORE_CHECK_FB_OWNER_GENDER'               => "'F'",
-			'SCORE_CHECK_CUSTOMERAGE'                   => "'F'"
+			'SCORE_CHECK_CUSTOMERAGE'                   => "'F'",
+			'CHECK_TOTAL_SCORE'                         => "'F'",
+			'CHECK_SCORE_GROUP'                         => "'F'",
+			'CHECK_RANDOM_NUMBER'                       => "'F'"
 		);
-        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE WHERE NATIONAL_ID = " . $data['national_id'];
+        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_TW WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_assoc($stid);
@@ -438,6 +444,18 @@ class GeneralTWSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_CUSTOMERAGE'] = "'P'";
         	}
+        	elseif ($column == 'TOTAL_SCORE' && $score == $data['robot_total_score'])
+        	{
+        		$selectCheckQuery['CHECK_TOTAL_SCORE'] = "'P'";
+        	}
+        	elseif ($column == 'SCORE_GROUP' && $score == $data['robot_score_group'])
+        	{
+        		$selectCheckQuery['CHECK_SCORE_GROUP'] = "'P'";
+        	}
+        	elseif ($column == 'RANDOM_NUMBER' && $score == $data['robot_random_number'])
+        	{
+        		$selectCheckQuery['CHECK_RANDOM_NUMBER'] = "'P'";
+        	}
         }
 
         $selectedCheckQuery = array();
@@ -447,7 +465,7 @@ class GeneralTWSteps extends \AcceptanceTester
         	$selectedCheckQuery[] = $column . ' = ' . $value;
         }
 
-        $query = "UPDATE AUTOMATION_TEST_CASE SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
+        $query = "UPDATE AUTOMATION_TEST_CASE_TW SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
 		$stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);

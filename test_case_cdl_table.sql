@@ -1,5 +1,5 @@
-﻿DROP TABLE automation_test_case;
-CREATE TABLE AUTOMATION_TEST_CASE
+﻿DROP TABLE AUTOMATION_TEST_CASE_CDL;
+CREATE TABLE AUTOMATION_TEST_CASE_CDL
 (
        /* Data need defined to run automation testing */
        dealer_code                    NUMBER(20)    NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE AUTOMATION_TEST_CASE
        date_of_birth                  DATE          NOT NULL,
        fb_number                      VARCHAR2(30),
        phone                          VARCHAR2(12)  NOT NULL,
-       hometown                       VARCHAR2(100) NOT NULL,
+       hometown                       VARCHAR2(100),
        good_type                      VARCHAR2(50),
        brand                          VARCHAR2(50),
        asset_make                     VARCHAR2(50),
@@ -24,16 +24,16 @@ CREATE TABLE AUTOMATION_TEST_CASE
        education                      NUMBER(3),
        marital_status                 VARCHAR2(1)   NOT NULL,
        social_status                  NUMBER(3),
-       personal_income                NUMBER(18,4)  NOT NULL,
+       personal_income                NUMBER(18,4),
        family_income                  NUMBER(18,4),
        phone_reference1               VARCHAR2(12),
        phone_reference2               VARCHAR2(12),
        /* Data will fill after automation run */
        application_id                 VARCHAR2(20),
        case_id                        VARCHAR2(10),
-       total_score                    NUMBER(10),
-       score_group                    VARCHAR2(3),
-       random_number                  NUMBER(3),
+       total_score                    NUMBER(10)    NOT NULL,
+       score_group                    VARCHAR2(3)   NOT NULL,
+       random_number                  NUMBER(3)     NOT NULL,
        /* Scores are defined by user */
        score_user_gender_and_age      NUMBER(3)     NOT NULL,
        score_user_marital_status      NUMBER(3)     NOT NULL,
@@ -66,6 +66,9 @@ CREATE TABLE AUTOMATION_TEST_CASE
        score_robot_asset_brand        NUMBER(3),
        score_robot_effective_rate     NUMBER(3),
        score_robot_document_required  NUMBER(3),
+       robot_total_score              NUMBER(10),
+       robot_score_group              VARCHAR2(3),
+       robot_random_number            NUMBER(3),
        /* Checking score */
        score_check_gender_and_age     VARCHAR2(2),
        score_check_marital_status     VARCHAR2(2),
@@ -82,12 +85,15 @@ CREATE TABLE AUTOMATION_TEST_CASE
        score_check_asset_brand        VARCHAR2(2),
        score_check_effective_rate     VARCHAR2(2),
        score_check_document_required  VARCHAR2(2),
+       check_total_score              VARCHAR2(2),
+       check_score_group              VARCHAR2(2),
+       check_random_number            VARCHAR2(2),
        /* Checking status */
        status                         NUMBER(1)     DEFAULT 0
 );
 
 INSERT ALL 
-INTO AUTOMATION_TEST_CASE
+INTO AUTOMATION_TEST_CASE_CDL
 (
        dealer_code,
        pos_code,
@@ -175,7 +181,7 @@ VALUES
        0,
        0
 )
-INTO AUTOMATION_TEST_CASE
+INTO AUTOMATION_TEST_CASE_CDL
 (
        dealer_code,
        pos_code,
@@ -267,6 +273,6 @@ SELECT 1
 FROM DUAL;
 
 SELECT * 
-FROM AUTOMATION_TEST_CASE
+FROM AUTOMATION_TEST_CASE_CDL
 FOR UPDATE;
 

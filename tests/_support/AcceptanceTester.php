@@ -54,10 +54,8 @@ class AcceptanceTester extends \Codeception\Actor
 			case 'CDL':
 				$I->click(\GeneralXpathLibrary::$demoDataCDLInitApp);
 				break;
-			case 'PL':
-				$I->click(\GeneralXpathLibrary::$demoDataTWInitApp);
-			default:
-				$I->click(\GeneralXpathLibrary::$demoDataPLInitApp);
+			case 'TW':
+				$I->click(\GeneralXpathLibrary::$demoDataTWInitApp);			
 				break;
 		}
 
@@ -316,9 +314,9 @@ class AcceptanceTester extends \Codeception\Actor
 
 		$I->wait(1);
 		$I->scrollTo(\GeneralXpathLibrary::$totalScore);
-		$responseData['total_score']                    = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
-		$responseData['score_group']                    = $I->grabTextFrom(\GeneralXpathLibrary::$scoreGroup);
-		$responseData['random_number']                  = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
+		$responseData['robot_total_score']   = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
+		$responseData['robot_score_group']   = $I->grabTextFrom(\GeneralXpathLibrary::$scoreGroup);
+		$responseData['robot_random_number'] = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
 
 		switch ($product) 
 		{

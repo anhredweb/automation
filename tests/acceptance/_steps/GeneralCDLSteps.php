@@ -375,7 +375,10 @@ class GeneralCDLSteps extends \AcceptanceTester
 			'SCORE_USER_OWNER_DISBURSED',
 			'SCORE_USER_ASSET_BRAND',
 			'SCORE_USER_EFFECTIVE_RATE',
-			'SCORE_USER_DOCUMENT_REQUIRED'
+			'SCORE_USER_DOCUMENT_REQUIRED',
+			'TOTAL_SCORE',
+			'SCORE_GROUP',
+			'RANDOM_NUMBER'
 		);
 		$selectCheckQuery = array(
 			'SCORE_CHECK_GENDER_AND_AGE'     => "'F'",
@@ -392,9 +395,12 @@ class GeneralCDLSteps extends \AcceptanceTester
 			'SCORE_CHECK_OWNER_DISBURSED'    => "'F'",
 			'SCORE_CHECK_ASSET_BRAND'        => "'F'",
 			'SCORE_CHECK_EFFECTIVE_RATE'     => "'F'",
-			'SCORE_CHECK_DOCUMENT_REQUIRED'  => "'F'"
+			'SCORE_CHECK_DOCUMENT_REQUIRED'  => "'F'",
+			'CHECK_TOTAL_SCORE'              => "'F'",
+			'CHECK_SCORE_GROUP'              => "'F'",
+			'CHECK_RANDOM_NUMBER'            => "'F'"
 		);
-        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE WHERE NATIONAL_ID = " . $data['national_id'];
+        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_CDL WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_assoc($stid);
@@ -466,6 +472,18 @@ class GeneralCDLSteps extends \AcceptanceTester
         	{
         		$selectCheckQuery['SCORE_CHECK_DOCUMENT_REQUIRED'] = "'P'";
         	}
+        	elseif ($column == 'TOTAL_SCORE' && $score == $data['robot_total_score'])
+        	{
+        		$selectCheckQuery['CHECK_TOTAL_SCORE'] = "'P'";
+        	}
+        	elseif ($column == 'SCORE_GROUP' && $score == $data['robot_score_group'])
+        	{
+        		$selectCheckQuery['CHECK_SCORE_GROUP'] = "'P'";
+        	}
+        	elseif ($column == 'RANDOM_NUMBER' && $score == $data['robot_random_number'])
+        	{
+        		$selectCheckQuery['CHECK_RANDOM_NUMBER'] = "'P'";
+        	}
         }
 
         $selectedCheckQuery = array();
@@ -475,7 +493,7 @@ class GeneralCDLSteps extends \AcceptanceTester
         	$selectedCheckQuery[] = $column . ' = ' . $value;
         }
 
-        $query = "UPDATE AUTOMATION_TEST_CASE SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
+        $query = "UPDATE AUTOMATION_TEST_CASE_CDL SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
 		$stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);
