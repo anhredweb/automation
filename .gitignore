@@ -23,7 +23,6 @@ bower_components/
 # Test related files
 tests/acceptance.suite.yml
 codecept.phar
-tests/*/*Tester.php
 selenium.log
 tests/_output
 tests/RoboFile.ini
