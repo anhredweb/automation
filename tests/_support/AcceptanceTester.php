@@ -105,11 +105,12 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to entry short data for Application
 	 *
-	 * @param  array  $data  Data
+	 * @param  array  $data     Data
+	 * @param  array  $product  Product
 	 *
 	 * @return boolean
 	 */
-	public function shortApplication($data)
+	public function shortApplication($data, $product = NULL)
 	{
 		$faker     = \Faker\Factory::create();
 		$firstname = $faker->firstname;
@@ -175,6 +176,13 @@ class AcceptanceTester extends \Codeception\Actor
 			$I->wait(2);
 		}
 
+		// Select Disbursement Channel
+		if ($product == 'PL')
+		{
+			$I->selectOption(\GeneralXpathLibrary::$disbursementChannel, array('value' => $data['DISBURSEMENT_CHANNEL']));
+			$I->wait(2);
+		}
+
 		// Click submit data
 		$I->click(\GeneralXpathLibrary::$submitShortApp);
 		$I->wait(2);
@@ -204,9 +212,11 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to data check for Application
 	 *
+	 * @param string  $product  Product
+	 *
 	 * @return string
 	 */
-	public function dataCheck()
+	public function dataCheck($product = NULL)
 	{
 		$I = $this;
 
@@ -227,6 +237,14 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->click(\GeneralXpathLibrary::$cicTab);
 		$I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Don't require"));
 		$I->wait(1);
+
+		if ($product == 'PL')
+		{
+			// Click PCB tab and select PCB result
+			$I->click(\GeneralXpathLibrary::$pcbTab);
+			$I->selectOption(\GeneralXpathLibrary::$pcbResult, array("value" => "PCB OK"));
+			$I->wait(1);
+		}
 
 		// Click submit data
 		$I->click(\GeneralXpathLibrary::$submitDataCheck);

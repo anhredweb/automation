@@ -96,6 +96,9 @@ class GeneralXpathLibrary
 	public static $loginButton = '//button[@name="pyActivity=Code-Security.Login"]';
 
     // Init app Stage
+    
+    public static $closeSession      = '//button[@name="pxHAMessage_pyDisplayHarness_37"]';
+
 	public static $launchButton      = '//a[@data-test-id="20140927131516034349915"]';
 
 	public static $FECaseManager     = '//div[contains(@class, "menu-panel-wrapper")]//li[1]//a';
@@ -106,7 +109,7 @@ class GeneralXpathLibrary
 
 	public static $TWApplication     = '//ul/li//a[contains(@data-click, "FECredit-Base-Loan-Work-Loan-TW")]';
 
-	public static $PLApplication     = '//ul/li//a[contains(@data-click, "FECredit-Base-Loan-Work-Loan-PLT")]';
+	public static $PLApplication     = '(//ul/li//a[contains(@data-click, "FECredit-Base-Loan-Work-Loan")])[1]';
 
 	public static $iframeEnviroment  = '//div[@id="moduleGroupDiv"]//div[contains(@style, "display: block")]//div[contains(@id, "PegaWebGadget")]//iframe';
 	
@@ -117,6 +120,14 @@ class GeneralXpathLibrary
 	public static $posCode           = '//input[@name="$PpyWorkPage$pPOS$pPOSCode"]';
 
 	public static $rowPosCode        = '//tr[contains(@id, "$PpyWorkPage$pFilteredPOS")]';
+
+	public static $productPLGroup    = '//input[@name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeGroupIDDescription"]';
+
+	public static $rowProductPLGroup = '//tr[contains(@id, "$PpyWorkPage$pFilteredProductGroups")]';
+
+	public static $DSACode           = '//input[@name="$PpyWorkPage$pDSA$pDSAId"]';
+
+	public static $rowDSACode        = '//tr[contains(@id, "$PD_DSAListActiveById")]';
 	
 	public static $productGroup      = '//select[@name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeGroupID"]';
 	
@@ -124,11 +135,13 @@ class GeneralXpathLibrary
 
 	public static $rowProductScheme  = '//tr[contains(@id, "$PpyWorkPage$pFilteredSchemes")]';
 	
-	public static $demoDataCDLInitApp = '//button[@name="NewProcess_pyWorkPage_13"]';
+	public static $demoDataCDLInitApp  = '//button[@name="NewProcess_pyWorkPage_13"]';
 
-	public static $demoDataTWInitApp  = '//button[@name="NewProcess_pyWorkPage_17"]';
+	public static $demoDataTWInitApp   = '//button[@name="NewProcess_pyWorkPage_17"]';
 	
-	public static $createDataInitApp = '//button[@name="NewProcessButtons_pyWorkPage_1"]';
+	public static $createDataInitApp   = '//button[@name="NewProcessButtons_pyWorkPage_1"]';
+
+	public static $createPLDataInitApp = '//button[@name="NewProcess_pyWorkPage_19"]';
 
 	// Short application Stage - Step 1
 	public static $lastname           = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pLastName"]';
@@ -154,6 +167,8 @@ class GeneralXpathLibrary
 	public static $hometown           = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pHometown"]';
 
 	public static $rowHometown  = '//tr[contains(@id, "$PD_ClassificationSchemeList$pSchemes$gHometownProv$ppxResults")]';
+
+	public static $disbursementChannel = '//select[@name="$PpyWorkPage$pLoanApp$pLoanDetail$pDisbursementChannel"]';
 	
 	public static $demoDataShortApp   = '//button[@data-click-id="[["showMenu",[{"dataSource":"DemoDataShortApp", "isNavTypeCustom":"false", "className":"FECredit-Base-Loan-Work-Loan-CD","menuAlign":"left","format":"menu-format-standard" , "loadBehavior":"ondisplay", "ellipsisAfter":"999","usingPage":"pyWorkPage", "useNewMenu":"true", "isMobile":"false", "navPageName":"pyNavigation1508927626414"},":event"]]]"]';
 	
@@ -162,9 +177,13 @@ class GeneralXpathLibrary
 	public static $submitShortApp     = '//button[@data-test-id="20151224215849068133296"]';
 
 	// Step 2 
-	public static $demoDataDocument = '//button[@name="ScanApp_pyWorkPage_75"]';
+	public static $demoPLDataDocument = '//button[@name="ScanApp_pyWorkPage_38"]';
 	
-	public static $submitDocument   = '//button[@name="ScanApp_pyWorkPage_85"]';
+	public static $submitPLDocument   = '//button[@data-test-id="20170203134515013545390"]';
+	
+	public static $demoDataDocument   = '//button[@name="ScanApp_pyWorkPage_75"]';
+	
+	public static $submitDocument     = '//button[@name="ScanApp_pyWorkPage_85"]';
 
 	// Full data entry Stage
 	public static $addItemButton         = '//div[@data-node-id="AddDelete"]//a[@data-test-id="2016121614080304138535"]';
@@ -206,6 +225,14 @@ class GeneralXpathLibrary
 	public static $saveGoodButton        = '//button[@id="RowDetailsButtonSubmit"]';
 
 	// Loan Fields
+	
+	public static $requestedAmount       = '//input[@id="RequestedAmount"]';
+
+	public static $requestedAmountJS     = 'input#RequestedAmount';
+
+	public static $loanPurpose           = 'input#LoanPurposeIdDesc';
+
+	public static $rowLoanPurpose        = '//tr[contains(@id, "$PD_ClassificationSchemeList$pSchemes$gLoanPurpose$ppxResults$")]';
 
 	public static $downPayment           = 'input#DownPayment';
 	
@@ -281,6 +308,8 @@ class GeneralXpathLibrary
 	public static $demoDataDataCheck  = '//button[@name="DataCheck_pyWorkPage_"]';
 	
 	public static $cicResult          = '//select[@id="CICCheckResult"]';
+
+	public static $pcbResult          = '//select[@id="PCBCheckResult"]';
 	
 	public static $submitDataCheck    = '//button[@name="DataCheck_pyWorkPage_44"]';
 	
@@ -289,6 +318,8 @@ class GeneralXpathLibrary
 	public static $documentsTab       = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab2"]//a[@tabtitle="2. Documents"]';
 	
 	public static $cicTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab3"]//a[@tabtitle="3. CIC"]';
+
+	public static $pcbTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab4"]//a[@tabtitle="PCB"]';
 	
 	// Log off
 	public static $emailOnTop = '//a[@data-test-id="20140927131516034856137"]';

@@ -6,11 +6,11 @@
  */
 
 /**
- * Class init to create TW Application
+ * Class init to create PL Application
  *
  * @since  1.0
  */
-class initTWCest
+class initPLCest
 {
     /**
      * @var  string
@@ -23,23 +23,20 @@ class initTWCest
     public function __construct()
     {
         $this->defaultData = array(
-            'DEALER_CODE'            => '95100000008',
-            'POS_CODE'               => '151012',
-            'PRODUCT_GROUP'          => '250',
-            'PRODUCT_SCHEME'         => '910',
+            'PRODUCT_GROUP'          => 'NEW TO BANK',
+            'PRODUCT_SCHEME'         => 'UP CAT C - 306',
+            'DSA_CODE'               => 'BAD00002',
             'GENDER'                 => 'M',
             'NATIONAL_ID'            => date('YmdHi'),
             'DATE_OF_BIRTH'          => date('m/d/Y', strtotime('11/10/1994')),
             'FB_NUMBER'              => '#FB' . date('YmdHi'),
             'PHONE'                  => '01652679144',
             'HOMETOWN'               => 'Hồ Chí Minh',
-            'BRAND'                  => 'HONDA',
-            'ASSET_MAKE'             => 'HONDA',
-            'ASSET_MODEL'            => 'HONDA',
+            'DISBURSEMENT_CHANNEL'   => 'VNPOST',
             'GOOD_PRICE'             => '36000000',
-            'COLLATERAL_DESCRIPTION' => 'DESKTOP DELL',
-            'DOWNPAYMENT'            => 10800000,
-            'TENOR'                  => 12,
+            'REQUESTED_AMOUNT'       => '19000000',
+            'TENOR'                  => 7,
+            'LOAN_PURPOSE'           => 'Other',
             'IS_FB_OWNER'            => 'N',
             'EDUCATION'              => 76,
             'MARITAL_STATUS'         => 'M',
@@ -80,7 +77,7 @@ class initTWCest
     protected function executeQuery()
     {
         $connection = $this->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE_TW a WHERE a.STATUS = 0";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE_PL a WHERE a.STATUS = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
@@ -96,9 +93,10 @@ class initTWCest
      *
      * @return  void
      */
-    public function createTWApplication(AcceptanceTester $I, $scenario)
+    public function createPLApplication(AcceptanceTester $I, $scenario)
     {
-        $data = $this->executeQuery();
+        // $data = $this->executeQuery();
+        $data = array($this->defaultData);
 
         if (empty($data))
         {
@@ -106,7 +104,7 @@ class initTWCest
         }
 
         $I->amOnUrl(\GeneralXpathLibrary::$url);
-        $I = new AcceptanceTester\GeneralTWSteps($scenario);
+        $I = new AcceptanceTester\GeneralPLSteps($scenario);
 
         $I->wantTo('Login to PEGA UAT');
         $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
@@ -146,30 +144,30 @@ class initTWCest
 
             $I->wantTo('Init data');
 
-            if (!$I->initData($case, 'TW'))
+            if (!$I->initPLData($case, 'TW'))
             {
                 continue;
             }
 
             $I->wantTo('Entry short data');
 
-            if (!$I->shortApplication($case))
+            if (!$I->shortApplication($case, 'PL'))
             {
                 continue;
             }
             
             $I->wantTo('Documents Stage');
-            $I->shortApplicationDocument();
+            $I->shortApplicationDocumentPL();
 
             $I->wantTo('Entry full data');
 
-            if (!$I->fullDataEntry($case))
+            if (!$I->fullDataEntryPL($case))
             {
                 continue;
             }
 
             $I->wantTo('Data Check');
-            $caseId = $I->dataCheck();
+            $caseId = $I->dataCheck('PL');
 
             $I->wantTo('Switch Application to LOS2');
             $I->switchApplicationToLOS2();
@@ -177,14 +175,14 @@ class initTWCest
             $I->wantTo('Search Application');
             $responseData = $I->searchApplication($caseId, 'TW');
 
-            // if (!empty($responseData))
-            // {
-            //     $I->wantTo('Update score');
-            //     $I->updateScore($responseData, $this->connectOracle());   
+            if (!empty($responseData))
+            {
+                $I->wantTo('Update score');
+                $I->updateScore($responseData, $this->connectOracle());   
 
-            //     $I->wantTo('Check score');
-            //     $I->checkScore($responseData, $this->connectOracle());              
-            // }
+                $I->wantTo('Check score');
+                $I->checkScore($responseData, $this->connectOracle());              
+            }
 
             $I->switchToIFrame();
             $I->click(\GeneralXpathLibrary::$closeButton);
