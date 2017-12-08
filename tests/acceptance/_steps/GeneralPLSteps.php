@@ -371,7 +371,7 @@ class GeneralPLSteps extends \AcceptanceTester
 
         $setQuery[] = "STATUS = '1'";
 
-        $query = "UPDATE AUTOMATION_TEST_CASE_TW SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
+        $query = "UPDATE AUTOMATION_TEST_CASE_PL SET " . implode(',', $setQuery) . " WHERE NATIONAL_ID = " . $nationalId;
         $stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);
@@ -390,40 +390,36 @@ class GeneralPLSteps extends \AcceptanceTester
     public function checkScore($data, $connection)
     {
         $selectScoreQuery = array(
-            'SCORE_USER_GENDER_AND_AGE',
-            'SCORE_USER_REJECT_APPS',
-            'SCORE_USER_MARITAL_STATUS',
-            'SCORE_USER_DPD_EVER',
-            'SCORE_USER_TENOR',
-            'SCORE_USER_POS_PERFORMANCE',
-            'SCORE_USER_POS_ADDRESS',
-            'SCORE_USER_PERMANENT_ADDRESS',
-            'SCORE_USER_EDUCATION_WORK',
-            'SCORE_USER_DOWN_PAYMENT_RATE',
-            'SCORE_USER_FB_OWNER_GENDER',
-            'SCORE_USER_CUSTOMERAGE',
+            'SCORE_USER_GENDER',
+            'SCORE_USER_WORK_EXPERIENCE',
+            'SCORE_USER_AGE',
+            'SCORE_USER_INTEREST_RATE',
+            'SCORE_USER_DISTRICT_OFFICE_ADD',
+            'SCORE_USER_PROVINCE',
+            'SCORE_USER_DISBURSE_DATE',
+            'SCORE_USER_DPD_NO_DISB_APPS',
+            'SCORE_USER_REJECTION',
             'TOTAL_SCORE',
             'SCORE_GROUP',
+            'PRODUCT_SCORE_GROUP',
             'RANDOM_NUMBER'
         );
         $selectCheckQuery = array(
-            'SCORE_CHECK_GENDER_AND_AGE'    => "'F'",
-            'SCORE_CHECK_REJECT_APPS'       => "'F'",
-            'SCORE_CHECK_MARITAL_STATUS'    => "'F'",
-            'SCORE_CHECK_DPD_EVER'          => "'F'",
-            'SCORE_CHECK_TENOR'             => "'F'",
-            'SCORE_CHECK_POS_PERFORMANCE'   => "'F'",
-            'SCORE_CHECK_POS_ADDRESS'       => "'F'",
-            'SCORE_CHECK_PERMANENT_ADDRESS' => "'F'",
-            'SCORE_CHECK_EDUCATION_WORK'    => "'F'",
-            'SCORE_CHECK_DOWN_PAYMENT_RATE' => "'F'",
-            'SCORE_CHECK_FB_OWNER_GENDER'   => "'F'",
-            'SCORE_CHECK_CUSTOMERAGE'       => "'F'",
-            'CHECK_TOTAL_SCORE'             => "'F'",
-            'CHECK_SCORE_GROUP'             => "'F'",
-            'CHECK_RANDOM_NUMBER'           => "'F'"
+            'SCORE_CHECK_GENDER'              => "'F'",
+            'SCORE_CHECK_WORK_EXPERIENCE'     => "'F'",
+            'SCORE_CHECK_AGE'                 => "'F'",
+            'SCORE_CHECK_INTEREST_RATE'       => "'F'",
+            'SCORE_CHECK_DISTRICT_OFFICE_ADD' => "'F'",
+            'SCORE_CHECK_PROVINCE'            => "'F'",
+            'SCORE_CHECK_DISBURSE_DATE'       => "'F'",
+            'SCORE_CHECK_DPD_NO_DISB_APPS'    => "'F'",
+            'SCORE_CHECK_REJECTION'           => "'F'",
+            'CHECK_TOTAL_SCORE'               => "'F'",
+            'CHECK_SCORE_GROUP'               => "'F'",
+            'CHECK_PRODUCT_SCORE_GROUP'       => "'F'",
+            'CHECK_RANDOM_NUMBER'             => "'F'"
         );
-        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_TW WHERE NATIONAL_ID = " . $data['national_id'];
+        $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_PL WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_assoc($stid);
@@ -435,53 +431,41 @@ class GeneralPLSteps extends \AcceptanceTester
 
         foreach ($rows as $column => $score)
         {
-            if ($column == 'SCORE_USER_GENDER_AND_AGE' && $score == $data['score_robot_gender_and_age'])
+            if ($column == 'SCORE_USER_GENDER' && $score == $data['score_robot_gender'])
             {
-                $selectCheckQuery['SCORE_CHECK_GENDER_AND_AGE'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_GENDER'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_REJECT_APPS' && $score == $data['score_robot_reject_apps'])
+            elseif ($column == 'SCORE_USER_WORK_EXPERIENCE' && $score == $data['score_robot_work_experience'])
             {
-                $selectCheckQuery['SCORE_CHECK_REJECT_APPS'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_WORK_EXPERIENCE'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_MARITAL_STATUS' && $score == $data['score_robot_marital_status'])
+            elseif ($column == 'SCORE_USER_AGE' && $score == $data['score_robot_age'])
             {
-                $selectCheckQuery['SCORE_CHECK_MARITAL_STATUS'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_AGE'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_DPD_EVER' && $score == $data['score_robot_dpd_ever'])
+            elseif ($column == 'SCORE_USER_INTEREST_RATE' && $score == $data['score_robot_interest_rate'])
             {
-                $selectCheckQuery['SCORE_CHECK_DPD_EVER'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_INTEREST_RATE'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_TENOR' && $score == $data['score_robot_tenor'])
+            elseif ($column == 'SCORE_USER_DISTRICT_OFFICE_ADD' && $score == $data['score_robot_district_office_add'])
             {
-                $selectCheckQuery['SCORE_CHECK_TENOR'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_DISTRICT_OFFICE_ADD'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_POS_PERFORMANCE' && $score == $data['score_robot_pos_performance'])
+            elseif ($column == 'SCORE_USER_PROVINCE' && $score == $data['score_robot_province'])
             {
-                $selectCheckQuery['SCORE_CHECK_POS_PERFORMANCE'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_PROVINCE'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_POS_ADDRESS' && $score == $data['score_robot_pos_address'])
+            elseif ($column == 'SCORE_USER_DISBURSE_DATE' && $score == $data['score_robot_disburse_date'])
             {
-                $selectCheckQuery['SCORE_CHECK_POS_ADDRESS'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_DISBURSE_DATE'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_PERMANENT_ADDRESS' && $score == $data['score_robot_permanent_address'])
+            elseif ($column == 'SCORE_USER_DPD_NO_DISB_APPS' && $score == $data['score_robot_dpd_no_disb_apps'])
             {
-                $selectCheckQuery['SCORE_CHECK_PERMANENT_ADDRESS'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_DPD_NO_DISB_APPS'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_EDUCATION_WORK' && $score == $data['score_robot_education_work'])
+            elseif ($column == 'SCORE_USER_REJECTION' && $score == $data['score_robot_rejection'])
             {
-                $selectCheckQuery['SCORE_CHECK_EDUCATION_AND_WORK_EXPERIENCE'] = "'P'";
-            }
-            elseif ($column == 'SCORE_USER_DOWN_PAYMENT_RATE' && $score == $data['score_robot_down_payment_rate'])
-            {
-                $selectCheckQuery['SCORE_CHECK_DOWN_PAYMENT_RATE'] = "'P'";
-            }
-            elseif ($column == 'SCORE_USER_FB_OWNER_GENDER' && $score == $data['score_robot_fb_owner_gender'])
-            {
-                $selectCheckQuery['SCORE_CHECK_FB_OWNER_GENDER'] = "'P'";
-            }
-            elseif ($column == 'SCORE_USER_CUSTOMERAGE' && $score == $data['score_robot_customerage'])
-            {
-                $selectCheckQuery['SCORE_CHECK_CUSTOMERAGE'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_REJECTION'] = "'P'";
             }
             elseif ($column == 'TOTAL_SCORE' && $score == $data['robot_total_score'])
             {
@@ -491,6 +475,11 @@ class GeneralPLSteps extends \AcceptanceTester
             {
                 $selectCheckQuery['CHECK_SCORE_GROUP'] = "'P'";
             }
+            elseif ($column == 'PRODUCT_SCORE_GROUP' && $score == $data['robot_product_score_group'])
+            {
+                $selectCheckQuery['CHECK_PRODUCT_SCORE_GROUP'] = "'P'";
+            }
+
             elseif ($column == 'RANDOM_NUMBER' && $score == $data['robot_random_number'])
             {
                 $selectCheckQuery['CHECK_RANDOM_NUMBER'] = "'P'";
@@ -504,7 +493,7 @@ class GeneralPLSteps extends \AcceptanceTester
             $selectedCheckQuery[] = $column . ' = ' . $value;
         }
 
-        $query = "UPDATE AUTOMATION_TEST_CASE_TW SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
+        $query = "UPDATE AUTOMATION_TEST_CASE_PL SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
         $stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);

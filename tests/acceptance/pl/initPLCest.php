@@ -33,7 +33,6 @@ class initPLCest
             'PHONE'                  => '01652679144',
             'HOMETOWN'               => 'Hồ Chí Minh',
             'DISBURSEMENT_CHANNEL'   => 'VNPOST',
-            'GOOD_PRICE'             => '36000000',
             'REQUESTED_AMOUNT'       => '19000000',
             'TENOR'                  => 7,
             'LOAN_PURPOSE'           => 'Other',
@@ -173,7 +172,7 @@ class initPLCest
             $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $responseData = $I->searchApplication($caseId, 'TW');
+            $responseData = $I->searchApplication($caseId, 'PL');
 
             if (!empty($responseData))
             {

@@ -322,7 +322,7 @@ class AcceptanceTester extends \Codeception\Actor
 		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
 		$applicationStatus              = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
 
-		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft' || trim($applicationStatus) == 'Peding-DC')
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft' || trim($applicationStatus) == 'Pending-DC')
 		{
 			return array();
 		}
@@ -331,11 +331,11 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->scrollTo(\GeneralXpathLibrary::$totalScore);
 		$responseData['robot_total_score']   = $I->grabTextFrom(\GeneralXpathLibrary::$totalScore);
 		$responseData['robot_score_group']   = $I->grabTextFrom(\GeneralXpathLibrary::$scoreGroup);
-		$responseData['robot_random_number'] = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
 
 		switch ($product) 
 		{
 			case 'CDL':
+				$responseData['robot_random_number']            = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
 				$responseData['score_robot_gender_and_age']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLgenderAndAgeScore);
 				$responseData['score_robot_marital_status']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLmaritalStatusScore);
 				$responseData['score_robot_installment']        = $I->grabTextFrom(\GeneralXpathLibrary::$CDLinstallmentScore);
@@ -354,6 +354,7 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$CDLdocumentRequiredScore);
 				break;
 			case 'TW':
+				$responseData['robot_random_number']           = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
 				$responseData['score_robot_gender_and_age']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWgenderAndAgeScore);
 				$responseData['score_robot_reject_apps']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWnoOfRejectedApplicationsScore);
 				$responseData['score_robot_marital_status']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWmaritalStatusScore);
@@ -367,8 +368,18 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_fb_owner_gender']   = $I->grabTextFrom(\GeneralXpathLibrary::$TWfbOwnerGenderScore);
 				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWcustomerageScore);
 				break;
-			default:
-				# code...
+			case 'PL':
+				$responseData['robot_random_number']             = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumberPL);
+				$responseData['robot_product_score_group']       = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
+				$responseData['score_robot_gender']              = $I->grabTextFrom(\GeneralXpathLibrary::$PLgenderScore);
+				$responseData['score_robot_work_experience']     = $I->grabTextFrom(\GeneralXpathLibrary::$PLworkExperienceScore);
+				$responseData['score_robot_age']                 = $I->grabTextFrom(\GeneralXpathLibrary::$PLageScore);
+				$responseData['score_robot_interest_rate']       = $I->grabTextFrom(\GeneralXpathLibrary::$PLinterestRateScore);
+				$responseData['score_robot_district_office_add'] = $I->grabTextFrom(\GeneralXpathLibrary::$PLdistrictOfficeAddressScore);
+				$responseData['score_robot_province']            = $I->grabTextFrom(\GeneralXpathLibrary::$PLprovinceScore);
+				$responseData['score_robot_disburse_date']       = $I->grabTextFrom(\GeneralXpathLibrary::$PLdisburseDateScore);
+				$responseData['score_robot_dpd_no_disb_apps']    = $I->grabTextFrom(\GeneralXpathLibrary::$PLdpdAndNumberDisburseApplicationsScore);
+				$responseData['score_robot_rejection']           = $I->grabTextFrom(\GeneralXpathLibrary::$PLrejectionScore);
 				break;
 		}
 
