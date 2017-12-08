@@ -5,6 +5,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Codeception\Lib\ModuleContainer;
+use Codeception\Module\WebDriver;
+use Codeception\Module\GeneralHelper;
 /**
  * Class Helper
  *
@@ -62,6 +65,13 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 
 		// Fill dealer code
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$dealerCode))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->fillField(\GeneralXpathLibrary::$dealerCode, '');
 		$I->wait(1);
 		$I->fillField(\GeneralXpathLibrary::$dealerCode, $data['DEALER_CODE']);
@@ -70,7 +80,16 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->click(\GeneralXpathLibrary::$rowDealerCode);
 		$I->wait(1);
 
+
+
 		// Fill POS code
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$posCode))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->fillField(\GeneralXpathLibrary::$posCode, '');
 		$I->wait(1);
         $I->fillField(\GeneralXpathLibrary::$posCode, $data['POS_CODE']);
@@ -81,12 +100,26 @@ class AcceptanceTester extends \Codeception\Actor
         $I->wait(1);
 
         // Select product group
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$productGroup))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
         $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => ''));
         $I->wait(1);
         $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => $data['PRODUCT_GROUP']));
         $I->wait(1);
 
         // Fill product scheme
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$productScheme))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
         $I->fillField(\GeneralXpathLibrary::$productScheme, '');
         $I->wait(1);
         $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
@@ -95,6 +128,13 @@ class AcceptanceTester extends \Codeception\Actor
         $I->wait(1);
         $I->click(\GeneralXpathLibrary::$rowProductScheme);
         $I->wait(1);
+
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$createDataInitApp))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
 
         // Click create data
         $I->click(\GeneralXpathLibrary::$createDataInitApp);
@@ -209,6 +249,187 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(2);
 	}
 
+	 /**
+     * Function to entry full data for Application
+     *
+     * @param  array  $data  Data
+     *
+     * @return void
+     */
+	public function generalFullDataEntry($data)
+	{
+		$faker = \Faker\Factory::create();
+		$I     = $this;
+
+		//Customer Tab
+        $I->click(\GeneralXpathLibrary::getTabId('4'));
+        $I->wait(1);
+
+        // Select title
+        if ($data['GENDER'] == 'M')
+        {
+            $I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mr.'));
+        }
+        else
+        {
+            $I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mrs.'));
+        }
+
+        // Check/Uncheck FB Owner
+        if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'Y')
+        {
+            $I->wait(1);
+            $I->checkOption(\GeneralXpathLibrary::$isFbOwner);  
+        }
+        else
+        {
+            $I->wait(1);
+            $I->uncheckOption(\GeneralXpathLibrary::$isFbOwner);    
+        }
+
+        // Select education
+        if (isset($data['EDUCATION']))
+        {
+            $I->wait(1);
+            $I->selectOption(\GeneralXpathLibrary::$education, array('value' => $data['EDUCATION']));
+        }
+
+        // Select marital status
+        if (isset($data['MARITAL_STATUS']))
+        {
+            $I->wait(1);
+            $I->selectOption(\GeneralXpathLibrary::$maritalStatus, array('value' => $data['MARITAL_STATUS']));
+        }
+
+        // Select social status
+        if (isset($data['SOCIAL_STATUS']))
+        {
+            $I->wait(1);
+            $I->selectOption(\GeneralXpathLibrary::$socialStatus, array('value' => $data['SOCIAL_STATUS']));
+        }
+        
+        $I->wait(1);
+
+        // Family Tab
+        if ((!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N') || ($data['MARITAL_STATUS'] == 'M' || $data['MARITAL_STATUS'] == 'C'))
+        {
+            $I->click(\GeneralXpathLibrary::getTabId('5'));
+            $I->wait(2);
+            $nationalId = (int) date('YmdHi');
+        }
+
+        if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
+        {
+            $I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, $faker->firstname);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$fbOwnerLastname);
+            $I->wait(2);
+            $I->fillField(\GeneralXpathLibrary::$fbOwnerLastname, $faker->lastname);
+            $I->wait(2);
+            $I->selectOption(\GeneralXpathLibrary::$fbOwnerRelationType, array('value' => "O"));
+            $I->wait(2);
+            $I->fillField(\GeneralXpathLibrary::$fbOwnerNationalId, $nationalId + 1);
+            $I->wait(2);
+        }
+
+        if ($data['MARITAL_STATUS'] == 'M' || $data['MARITAL_STATUS'] == 'C')
+        {
+            $I->fillField(\GeneralXpathLibrary::$spouseLastname, $faker->firstname);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$spouseFirstname);
+            $I->wait(2);
+            $I->fillField(\GeneralXpathLibrary::$spouseFirstname, $faker->lastname);
+            $I->wait(2);
+            $spouseGender = $data['GENDER'] == 'M' ? 'F' : 'M';
+            $I->selectOption(\GeneralXpathLibrary::$spouseGender, array('value' => $spouseGender));
+            $I->wait(2);
+            $I->fillField(\GeneralXpathLibrary::$spouseNationalId, $nationalId + 2);
+            $I->wait(2);
+            $I->fillField(\GeneralXpathLibrary::$spouseRelationPeriod, $faker->numberBetween(1, 9));
+            $I->wait(2);
+        }
+
+        // Income Tab
+
+        if (!empty($data['PERSONAL_INCOME']))
+        {
+            $I->click(\GeneralXpathLibrary::getTabId('8'));
+            $I->wait(2);
+
+            // Fill personal income
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$rowMainIncome);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$personalIncome);
+            $I->waitForElement(\GeneralXpathLibrary::$personalIncome, 2);
+            $I->fillField(\GeneralXpathLibrary::$personalIncome, $data["PERSONAL_INCOME"]);
+            $I->wait(1);
+            $I->executeJS('return jQuery(document).find("input#NetAmount1").attr("data-value", "0").val("0").attr("data-value", "' . $data["PERSONAL_INCOME"] . '").val("' . $data["PERSONAL_INCOME"] . '")');
+            $I->click(\GeneralXpathLibrary::getTabId('8'));
+
+            // Fill family income
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$rowFamilyIncome);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$familyIncome);
+            $I->waitForElement(\GeneralXpathLibrary::$familyIncome, 2);
+            $I->fillField(\GeneralXpathLibrary::$familyIncome, $data["FAMILY_INCOME"]);
+            $I->wait(1);
+            $I->executeJS('return jQuery(document).find("input#NetAmount2").attr("data-value", "0").val("0").attr("data-value", "' . $data["FAMILY_INCOME"] . '").val("' . $data["FAMILY_INCOME"] . '")');
+            $I->click(\GeneralXpathLibrary::getTabId('8'));
+        }
+
+        $I->wait(2);
+
+        // Reference Tab
+        if (!empty($data['PHONE_REFERENCE1']) || !empty($data['PHONE_REFERENCE2']))
+        {
+            $I->click(\GeneralXpathLibrary::getTabId('9'));
+            $I->wait(2);
+        }
+
+        if (!empty($data['PHONE_REFERENCE1']))
+        {
+            // Fill phone reference 1
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$rowPhoneReference1);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$rowMobile1);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$phoneReference1);
+            $I->wait(2);
+            $I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["PHONE_REFERENCE1"] . '")');
+            $I->click(\GeneralXpathLibrary::getTabId('9'));
+        }
+
+        if (!empty($data['PHONE_REFERENCE2']))
+        {
+            // Fill phone reference 2
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$rowPhoneReference2);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$rowMobile2);
+            $I->wait(2);
+            $I->click(\GeneralXpathLibrary::$phoneReference1);
+            $I->wait(2);
+            $I->executeJS('return jQuery("input#CommunicationString1").val("' . $data["PHONE_REFERENCE2"] . '")');
+            $I->click(\GeneralXpathLibrary::getTabId('9'));
+        }
+
+        $I->wait(2);
+
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$submitFullDataEntry))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
+        // Click submit data
+        $I->click(\GeneralXpathLibrary::$submitFullDataEntry);
+        $I->wait(2);
+	}
+
 	/**
 	 * Function to data check for Application
 	 *
@@ -247,6 +468,14 @@ class AcceptanceTester extends \Codeception\Actor
 		}
 
 		// Click submit data
+		
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$submitDataCheck))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->click(\GeneralXpathLibrary::$submitDataCheck);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$okDataCheck);
@@ -288,19 +517,36 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @param  string  $caseId   Case ID
 	 * @param  string  $product  Product name
+	 * @param  array   $data     Data
 	 *
 	 * @return void
 	 */
-	public function searchApplication($caseId, $product)
+	public function searchApplication($caseId, $product, $data)
 	{
 		$I = $this;
 		$I->wait(5);
+
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$emailOnTop2))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->click(\GeneralXpathLibrary::$emailOnTop2);
 		$I->wait(1);
 		$I->moveMouseOver(\GeneralXpathLibrary::$switchWorkPool);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$defaultWorkPool);
 		$I->wait(2);
+
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$searchBox))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->fillField(\GeneralXpathLibrary::$searchBox, $caseId);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$searchButton);
@@ -310,6 +556,14 @@ class AcceptanceTester extends \Codeception\Actor
 		$iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$decisionMakingFrame, 'name');
 		$I->switchToIFrame($iframeName);
 		$I->wait(1);
+
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$decisionMaking))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->click(\GeneralXpathLibrary::$decisionMaking);
 		$I->wait(1);
 
@@ -427,28 +681,6 @@ class AcceptanceTester extends \Codeception\Actor
 		}
         
        	$I->skipTestCase($imageName);
-        
-        return false;
-	}
-
-	/**
-	 * Function to check element is not existed
-	 *
-	 * @param  string  $element  Element
-	 *
-	 * @return boolean
-	 */
-	public function checkElementNotExist($element)
-	{
-		$I       = $this;
-		$element = array_filter($I->grabMultiple($element));
-
-		print_r($element);
-
-		if (empty($element))
-		{
-			return true;
-		}
         
         return false;
 	}

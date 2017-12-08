@@ -176,7 +176,7 @@ class initCDLCest
             $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $responseData = $I->searchApplication($caseId, 'CDL');
+            $responseData = $I->searchApplication($caseId, 'CDL', $case);
 
             if (!empty($responseData))
             {

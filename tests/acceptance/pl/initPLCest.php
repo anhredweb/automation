@@ -130,7 +130,7 @@ class initPLCest
 
         foreach ($data as $key => $case)
         {
-            // $case['NATIONAL_ID'] = date('YmdHi');
+            $case['NATIONAL_ID'] = date('YmdHi');
             $I->validationData($case);
 
             $I->wantTo('Launch to FE Manager 7');
@@ -159,7 +159,7 @@ class initPLCest
 
             $I->wantTo('Entry full data');
 
-            if (!$I->fullDataEntryPL($case))
+            if (!$I->fullDataEntry($case))
             {
                 continue;
             }
@@ -171,7 +171,7 @@ class initPLCest
             $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $responseData = $I->searchApplication($caseId, 'PL');
+            $responseData = $I->searchApplication($caseId, 'PL', $case);
 
             if (!empty($responseData))
             {

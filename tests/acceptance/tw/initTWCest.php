@@ -175,16 +175,16 @@ class initTWCest
             $I->switchApplicationToLOS2();
 
             $I->wantTo('Search Application');
-            $responseData = $I->searchApplication($caseId, 'TW');
+            $responseData = $I->searchApplication($caseId, 'TW', $case);
 
-            // if (!empty($responseData))
-            // {
-            //     $I->wantTo('Update score');
-            //     $I->updateScore($responseData, $this->connectOracle());   
+            if (!empty($responseData))
+            {
+                $I->wantTo('Update score');
+                $I->updateScore($responseData, $this->connectOracle());   
 
-            //     $I->wantTo('Check score');
-            //     $I->checkScore($responseData, $this->connectOracle());              
-            // }
+                $I->wantTo('Check score');
+                $I->checkScore($responseData, $this->connectOracle());              
+            }
 
             $I->switchToIFrame();
             $I->click(\GeneralXpathLibrary::$closeButton);

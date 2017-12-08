@@ -39,7 +39,7 @@ class GeneralXpathLibrary
     // CDL Scoring
 	public static $CDLgenderAndAgeScore  = '(//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(3).ScResult"]//div[@base_ref=".ScResult(1)"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]/span';
 	
-	public static $CDLmaritalStatusCDLScore = '(//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(3).ScResult"]//div[@base_ref=".ScResult(2)"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]/span';
+	public static $CDLmaritalStatusScore = '(//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(3).ScResult"]//div[@base_ref=".ScResult(2)"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]/span';
 	
 	public static $CDLinstallmentScore      = '(//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(3).ScResult"]//div[@base_ref=".ScResult(3)"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]/span';
 	
