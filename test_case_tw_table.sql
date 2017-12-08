@@ -1,4 +1,4 @@
-DROP TABLE AUTOMATION_TEST_CASE_TW;
+﻿DROP TABLE AUTOMATION_TEST_CASE_TW;
 CREATE TABLE AUTOMATION_TEST_CASE_TW
 (
        /* Data need defined to run automation testing */
@@ -182,7 +182,6 @@ INTO AUTOMATION_TEST_CASE_TW
        asset_make,
        asset_model,
        good_price,
-       collateral_description,
        downpayment,
        tenor,
        is_fb_owner,
@@ -225,7 +224,6 @@ VALUES
        'YAMAHA',
        'NOUVO',
        36000000,
-       'YAMAHA NOUVO',
        10800000,
        12,
        'Y',

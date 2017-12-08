@@ -394,7 +394,7 @@ class GeneralPLSteps extends \AcceptanceTester
             'SCORE_USER_WORK_EXPERIENCE',
             'SCORE_USER_AGE',
             'SCORE_USER_INTEREST_RATE',
-            'SCORE_USER_DISTRICT_OFFICE_ADD',
+            'SCORE_USER_DIST_OFFICE_ADD',
             'SCORE_USER_PROVINCE',
             'SCORE_USER_DISBURSE_DATE',
             'SCORE_USER_DPD_NO_DISB_APPS',
@@ -405,19 +405,19 @@ class GeneralPLSteps extends \AcceptanceTester
             'RANDOM_NUMBER'
         );
         $selectCheckQuery = array(
-            'SCORE_CHECK_GENDER'              => "'F'",
-            'SCORE_CHECK_WORK_EXPERIENCE'     => "'F'",
-            'SCORE_CHECK_AGE'                 => "'F'",
-            'SCORE_CHECK_INTEREST_RATE'       => "'F'",
-            'SCORE_CHECK_DISTRICT_OFFICE_ADD' => "'F'",
-            'SCORE_CHECK_PROVINCE'            => "'F'",
-            'SCORE_CHECK_DISBURSE_DATE'       => "'F'",
-            'SCORE_CHECK_DPD_NO_DISB_APPS'    => "'F'",
-            'SCORE_CHECK_REJECTION'           => "'F'",
-            'CHECK_TOTAL_SCORE'               => "'F'",
-            'CHECK_SCORE_GROUP'               => "'F'",
-            'CHECK_PRODUCT_SCORE_GROUP'       => "'F'",
-            'CHECK_RANDOM_NUMBER'             => "'F'"
+            'SCORE_CHECK_GENDER'           => "'F'",
+            'SCORE_CHECK_WORK_EXPERIENCE'  => "'F'",
+            'SCORE_CHECK_AGE'              => "'F'",
+            'SCORE_CHECK_INTEREST_RATE'    => "'F'",
+            'SCORE_CHECK_DIST_OFFICE_ADD'  => "'F'",
+            'SCORE_CHECK_PROVINCE'         => "'F'",
+            'SCORE_CHECK_DISBURSE_DATE'    => "'F'",
+            'SCORE_CHECK_DPD_NO_DISB_APPS' => "'F'",
+            'SCORE_CHECK_REJECTION'        => "'F'",
+            'CHECK_TOTAL_SCORE'            => "'F'",
+            'CHECK_SCORE_GROUP'            => "'F'",
+            'CHECK_PRODUCT_SCORE_GROUP'    => "'F'",
+            'CHECK_RANDOM_NUMBER'          => "'F'"
         );
         $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_PL WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
@@ -447,9 +447,9 @@ class GeneralPLSteps extends \AcceptanceTester
             {
                 $selectCheckQuery['SCORE_CHECK_INTEREST_RATE'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_DISTRICT_OFFICE_ADD' && $score == $data['score_robot_district_office_add'])
+            elseif ($column == 'SCORE_USER_DIST_OFFICE_ADD' && $score == $data['score_robot_dist_office_add'])
             {
-                $selectCheckQuery['SCORE_CHECK_DISTRICT_OFFICE_ADD'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_DIST_OFFICE_ADD'] = "'P'";
             }
             elseif ($column == 'SCORE_USER_PROVINCE' && $score == $data['score_robot_province'])
             {

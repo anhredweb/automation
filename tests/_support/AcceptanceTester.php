@@ -369,17 +369,17 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWcustomerageScore);
 				break;
 			case 'PL':
-				$responseData['robot_random_number']             = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumberPL);
-				$responseData['robot_product_score_group']       = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
-				$responseData['score_robot_gender']              = $I->grabTextFrom(\GeneralXpathLibrary::$PLgenderScore);
-				$responseData['score_robot_work_experience']     = $I->grabTextFrom(\GeneralXpathLibrary::$PLworkExperienceScore);
-				$responseData['score_robot_age']                 = $I->grabTextFrom(\GeneralXpathLibrary::$PLageScore);
-				$responseData['score_robot_interest_rate']       = $I->grabTextFrom(\GeneralXpathLibrary::$PLinterestRateScore);
-				$responseData['score_robot_district_office_add'] = $I->grabTextFrom(\GeneralXpathLibrary::$PLdistrictOfficeAddressScore);
-				$responseData['score_robot_province']            = $I->grabTextFrom(\GeneralXpathLibrary::$PLprovinceScore);
-				$responseData['score_robot_disburse_date']       = $I->grabTextFrom(\GeneralXpathLibrary::$PLdisburseDateScore);
-				$responseData['score_robot_dpd_no_disb_apps']    = $I->grabTextFrom(\GeneralXpathLibrary::$PLdpdAndNumberDisburseApplicationsScore);
-				$responseData['score_robot_rejection']           = $I->grabTextFrom(\GeneralXpathLibrary::$PLrejectionScore);
+				$responseData['robot_random_number']          = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumberPL);
+				$responseData['robot_product_score_group']    = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
+				$responseData['score_robot_gender']           = $I->grabTextFrom(\GeneralXpathLibrary::$PLgenderScore);
+				$responseData['score_robot_work_experience']  = $I->grabTextFrom(\GeneralXpathLibrary::$PLworkExperienceScore);
+				$responseData['score_robot_age']              = $I->grabTextFrom(\GeneralXpathLibrary::$PLageScore);
+				$responseData['score_robot_interest_rate']    = $I->grabTextFrom(\GeneralXpathLibrary::$PLinterestRateScore);
+				$responseData['score_robot_dist_office_add']  = $I->grabTextFrom(\GeneralXpathLibrary::$PLdistrictOfficeAddressScore);
+				$responseData['score_robot_province']         = $I->grabTextFrom(\GeneralXpathLibrary::$PLprovinceScore);
+				$responseData['score_robot_disburse_date']    = $I->grabTextFrom(\GeneralXpathLibrary::$PLdisburseDateScore);
+				$responseData['score_robot_dpd_no_disb_apps'] = $I->grabTextFrom(\GeneralXpathLibrary::$PLdpdAndNumberDisburseApplicationsScore);
+				$responseData['score_robot_rejection']        = $I->grabTextFrom(\GeneralXpathLibrary::$PLrejectionScore);
 				break;
 		}
 

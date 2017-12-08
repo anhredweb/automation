@@ -94,8 +94,7 @@ class initPLCest
      */
     public function createPLApplication(AcceptanceTester $I, $scenario)
     {
-        // $data = $this->executeQuery();
-        $data = array($this->defaultData);
+        $data = $this->executeQuery();
 
         if (empty($data))
         {
@@ -131,7 +130,7 @@ class initPLCest
 
         foreach ($data as $key => $case)
         {
-            $case['NATIONAL_ID'] = date('YmdHi');
+            // $case['NATIONAL_ID'] = date('YmdHi');
             $I->validationData($case);
 
             $I->wantTo('Launch to FE Manager 7');
