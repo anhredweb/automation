@@ -22,11 +22,13 @@ class GeneralHelper extends \Codeception\Module
 	 */
 	public function checkElementNotExist($element)
 	{
-		$element = $this->getModule('WebDriver')->_findElements($element);
+		$webDriver = $this->getModule('WebDriver');
+		// $elementExist = $webDriver->_findElements($element);
+		$elementExist = $webDriver->grabMultiple($element);
+		print_r($elementExist);
+		// print_r($element1);
 
-		print_r($element);
-
-		if (empty($element))
+		if (empty($elementExist))
 		{
 			return true;
 		}
