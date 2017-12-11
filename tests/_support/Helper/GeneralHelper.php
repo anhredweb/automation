@@ -24,7 +24,7 @@ class GeneralHelper extends \Codeception\Module
 	{
 		$webDriver = $this->getModule('WebDriver');
 		// $elementExist = $webDriver->_findElements($element);
-		$elementExist = $webDriver->grabMultiple($element);
+		$elementExist = array_filter($webDriver->grabMultiple($element));
 		print_r($elementExist);
 		// print_r($element1);
 

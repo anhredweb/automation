@@ -65,13 +65,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 
 		// Fill dealer code
-		if ($I->checkElementNotExist(\GeneralXpathLibrary::$dealerCode))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
 		$I->fillField(\GeneralXpathLibrary::$dealerCode, '');
 		$I->wait(1);
 		$I->fillField(\GeneralXpathLibrary::$dealerCode, $data['DEALER_CODE']);
@@ -83,13 +76,6 @@ class AcceptanceTester extends \Codeception\Actor
 
 
 		// Fill POS code
-		if ($I->checkElementNotExist(\GeneralXpathLibrary::$posCode))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
 		$I->fillField(\GeneralXpathLibrary::$posCode, '');
 		$I->wait(1);
         $I->fillField(\GeneralXpathLibrary::$posCode, $data['POS_CODE']);
@@ -100,26 +86,12 @@ class AcceptanceTester extends \Codeception\Actor
         $I->wait(1);
 
         // Select product group
-        if ($I->checkElementNotExist(\GeneralXpathLibrary::$productGroup))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
         $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => ''));
         $I->wait(1);
         $I->selectOption(\GeneralXpathLibrary::$productGroup, array('value' => $data['PRODUCT_GROUP']));
         $I->wait(1);
 
         // Fill product scheme
-        if ($I->checkElementNotExist(\GeneralXpathLibrary::$productScheme))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
         $I->fillField(\GeneralXpathLibrary::$productScheme, '');
         $I->wait(1);
         $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
@@ -128,13 +100,6 @@ class AcceptanceTester extends \Codeception\Actor
         $I->wait(1);
         $I->click(\GeneralXpathLibrary::$rowProductScheme);
         $I->wait(1);
-
-        if ($I->checkElementNotExist(\GeneralXpathLibrary::$createDataInitApp))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
 
         // Click create data
         $I->click(\GeneralXpathLibrary::$createDataInitApp);
@@ -418,13 +383,6 @@ class AcceptanceTester extends \Codeception\Actor
 
         $I->wait(2);
 
-        if ($I->checkElementNotExist(\GeneralXpathLibrary::$submitFullDataEntry))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
         // Click submit data
         $I->click(\GeneralXpathLibrary::$submitFullDataEntry);
         $I->wait(2);
@@ -468,14 +426,6 @@ class AcceptanceTester extends \Codeception\Actor
 		}
 
 		// Click submit data
-		
-		if ($I->checkElementNotExist(\GeneralXpathLibrary::$submitDataCheck))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
 		$I->click(\GeneralXpathLibrary::$submitDataCheck);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$okDataCheck);
@@ -525,28 +475,12 @@ class AcceptanceTester extends \Codeception\Actor
 	{
 		$I = $this;
 		$I->wait(5);
-
-		if ($I->checkElementNotExist(\GeneralXpathLibrary::$emailOnTop2))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
 		$I->click(\GeneralXpathLibrary::$emailOnTop2);
 		$I->wait(1);
 		$I->moveMouseOver(\GeneralXpathLibrary::$switchWorkPool);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$defaultWorkPool);
 		$I->wait(2);
-
-		if ($I->checkElementNotExist(\GeneralXpathLibrary::$searchBox))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
 		$I->fillField(\GeneralXpathLibrary::$searchBox, $caseId);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$searchButton);
@@ -556,14 +490,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$decisionMakingFrame, 'name');
 		$I->switchToIFrame($iframeName);
 		$I->wait(1);
-
-		if ($I->checkElementNotExist(\GeneralXpathLibrary::$decisionMaking))
-		{
-			$I->skipTestCase($data['NATIONAL_ID']);
-
-			return false;
-		}
-
 		$I->click(\GeneralXpathLibrary::$decisionMaking);
 		$I->wait(1);
 
