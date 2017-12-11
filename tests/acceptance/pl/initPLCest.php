@@ -131,7 +131,7 @@ class initPLCest
         foreach ($data as $key => $case)
         {
             $case['NATIONAL_ID'] = date('YmdHi');
-            $I->validationData($case);
+            $case = $I->validationData($case);
 
             $I->wantTo('Launch to FE Manager 7');
 

@@ -65,9 +65,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 
 		// Fill dealer code
-		// $I->fillField(\GeneralXpathLibrary::$dealerCode, '');
-		// $I->wait(1);
-		// $I->fillField(\GeneralXpathLibrary::$dealerCode, $data['DEALER_CODE']);
 		$I->click(\GeneralXpathLibrary::$dealerCode);
 		$I->wait(1);
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$dealerCode . "').val('" . $data["DEALER_CODE"] . "')");
@@ -80,10 +77,6 @@ class AcceptanceTester extends \Codeception\Actor
 
 
 		// Fill POS code
-		// $I->fillField(\GeneralXpathLibrary::$posCode, '');
-		// $I->wait(1);
-		// $I->fillField(\GeneralXpathLibrary::$posCode, $data['POS_CODE']);
-		// $I->wait(1);
 		$I->click(\GeneralXpathLibrary::$posCode);
 		$I->wait(1);
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$posCode . "').val('" . $data["POS_CODE"] . "')");
@@ -100,10 +93,6 @@ class AcceptanceTester extends \Codeception\Actor
         $I->wait(1);
 
         // Fill product scheme
-		// $I->fillField(\GeneralXpathLibrary::$productScheme, '');
-		// $I->wait(1);
-		// $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
-		// $I->wait(1);
 		$I->click(\GeneralXpathLibrary::$productScheme);
 		$I->wait(1);
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$productScheme . "').val('" . $data["PRODUCT_SCHEME"] . "')");
@@ -599,91 +588,5 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$loan);
 		$I->wait(2);
-	}
-
-	/**
-	 * Function to check error
-	 *
-	 * @param  string  $imageName  Image name
-	 *
-	 * @return boolean
-	 */
-	public function checkError($imageName)
-	{
-		$I = $this;
-		$errors = array_filter($I->grabMultiple(\GeneralXpathLibrary::$errorMessageTable));
-
-		if (empty($errors))
-		{
-			return true;
-		}
-        
-       	$I->skipTestCase($imageName);
-        
-        return false;
-	}
-
-	/**
-	 * Function to check popup
-	 *
-	 * @param  array  $imageName  Image name
-	 * 
-	 * @return void
-	 */
-	public function skipTestCase($imageName)
-	{
-		$I = $this;
-		$I->makeScreenshot($imageName . '_' . time() . '.png');
-        $I->wait(2);
-        $I->closeTab();
-		$I->wait(2);
-        $I->reloadPage();
-	}
-
-	/**
-	 * Function to check popup
-	 *
-	 * @param  array  $data  Data
-	 * 
-	 * @return void
-	 */
-	public function validationData(&$data)
-	{
-		$faker           = \Faker\Factory::create();
-		$genders         = array('M', 'F');
-		$educations      = array('76', '84', '73', '81', '75', '80', '91', '85');
-		$maritalStatuses = array('W', 'O', 'C', 'M', 'D', 'S');
-		$socialStatuses  = array('8', '10', '3', '9', '1', '5');
-		$fbOwners        = array('Y', 'N');
-
-		if (!in_array($data['GENDER'], $genders))
-		{
-			$data['GENDER'] = 'M';
-		}
-
-		if (!in_array($data['EDUCATION'], $educations))
-		{
-			$data['EDUCATION'] = '76';
-		}
-
-		if (!in_array($data['IS_FB_OWNER'], $fbOwners))
-		{
-			$data['IS_FB_OWNER'] = 'Y';
-		}
-
-		if (!in_array($data['MARITAL_STATUS'], $maritalStatuses))
-		{
-			$data['MARITAL_STATUS'] = 'O';
-		}
-
-		if (!in_array($data['SOCIAL_STATUS'], $socialStatuses))
-		{
-			$data['SOCIAL_STATUS'] = '8';
-		}
-
-		if (empty($data["FAMILY_INCOME"]) || $data['PERSONAL_INCOME'] > $data['FAMILY_INCOME'])
-		{
-			$data['FAMILY_INCOME'] += (float) $data['PERSONAL_INCOME'] + (float) $faker->numberBetween(1000000, 9000000);
-		}
 	}
 }
