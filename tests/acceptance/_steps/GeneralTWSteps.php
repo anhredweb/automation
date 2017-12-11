@@ -37,8 +37,7 @@ class GeneralTWSteps extends \AcceptanceTester
 
         $I->switchToNextTab();
         $I->wait(2);
-
-        $I->executeJS('window.scrollTo(0,0)');
+        $I->reloadPage();
 
         if ($I->checkElementNotExist(\GeneralXpathLibrary::$createButton))
 		{

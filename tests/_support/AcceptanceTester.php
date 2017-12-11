@@ -65,9 +65,13 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 
 		// Fill dealer code
-		$I->fillField(\GeneralXpathLibrary::$dealerCode, '');
+		// $I->fillField(\GeneralXpathLibrary::$dealerCode, '');
+		// $I->wait(1);
+		// $I->fillField(\GeneralXpathLibrary::$dealerCode, $data['DEALER_CODE']);
+		$I->click(\GeneralXpathLibrary::$dealerCode);
 		$I->wait(1);
-		$I->fillField(\GeneralXpathLibrary::$dealerCode, $data['DEALER_CODE']);
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$dealerCode . "').val('" . $data["DEALER_CODE"] . "')");
+		$I->wait(1);
 		$I->pressKey(\GeneralXpathLibrary::$dealerCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$rowDealerCode);
@@ -76,10 +80,14 @@ class AcceptanceTester extends \Codeception\Actor
 
 
 		// Fill POS code
-		$I->fillField(\GeneralXpathLibrary::$posCode, '');
+		// $I->fillField(\GeneralXpathLibrary::$posCode, '');
+		// $I->wait(1);
+		// $I->fillField(\GeneralXpathLibrary::$posCode, $data['POS_CODE']);
+		// $I->wait(1);
+		$I->click(\GeneralXpathLibrary::$posCode);
 		$I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$posCode, $data['POS_CODE']);
-        $I->wait(1);
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$posCode . "').val('" . $data["POS_CODE"] . "')");
+		$I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$posCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
         $I->click(\GeneralXpathLibrary::$rowPosCode);
@@ -92,10 +100,14 @@ class AcceptanceTester extends \Codeception\Actor
         $I->wait(1);
 
         // Fill product scheme
-        $I->fillField(\GeneralXpathLibrary::$productScheme, '');
-        $I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
-        $I->wait(1);
+		// $I->fillField(\GeneralXpathLibrary::$productScheme, '');
+		// $I->wait(1);
+		// $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
+		// $I->wait(1);
+		$I->click(\GeneralXpathLibrary::$productScheme);
+		$I->wait(1);
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$productScheme . "').val('" . $data["PRODUCT_SCHEME"] . "')");
+		$I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$productScheme, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
         $I->click(\GeneralXpathLibrary::$rowProductScheme);
@@ -516,50 +528,50 @@ class AcceptanceTester extends \Codeception\Actor
 		{
 			case 'CDL':
 				$responseData['robot_random_number']            = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
-				$responseData['score_robot_gender_and_age']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLgenderAndAgeScore);
-				$responseData['score_robot_marital_status']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLmaritalStatusScore);
-				$responseData['score_robot_installment']        = $I->grabTextFrom(\GeneralXpathLibrary::$CDLinstallmentScore);
-				$responseData['score_robot_pos_region']         = $I->grabTextFrom(\GeneralXpathLibrary::$CDLposRegionScore);
-				$responseData['score_robot_cc_performance']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLccPerformanceScore);
-				$responseData['score_robot_fb_owner']           = $I->grabTextFrom(\GeneralXpathLibrary::$CDLfbOwnerScore);
-				$responseData['score_robot_down_payment_ratio'] = $I->grabTextFrom(\GeneralXpathLibrary::$CDLdownpaymentRatioScore);
-				$responseData['score_robot_pos_performance']    = $I->grabTextFrom(\GeneralXpathLibrary::$CDLposPerformanceScore);
-				$responseData['score_robot_owner_dpd_ever']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLownerDpdEverScore);
-				$responseData['score_robot_ref_dpd']            = $I->grabTextFrom(\GeneralXpathLibrary::$CDLrefDpdScore);
-				$I->scrollTo(\GeneralXpathLibrary::$CDLownerRejectedScore);
-				$responseData['score_robot_owner_rejected']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLownerRejectedScore);
-				$responseData['score_robot_owner_disbursed']    = $I->grabTextFrom(\GeneralXpathLibrary::$CDLownerDisbursedScore);
-				$responseData['score_robot_asset_brand']        = $I->grabTextFrom(\GeneralXpathLibrary::$CDLassetBrandScore);
-				$responseData['score_robot_effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$CDLeffectiveRateScore);
-				$responseData['score_robot_document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$CDLdocumentRequiredScore);
+				$responseData['score_robot_gender_and_age']     = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('1'));
+				$responseData['score_robot_marital_status']     = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('2'));
+				$responseData['score_robot_installment']        = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('3'));
+				$responseData['score_robot_pos_region']         = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('4'));
+				$responseData['score_robot_cc_performance']     = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('5'));
+				$responseData['score_robot_fb_owner']           = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('6'));
+				$responseData['score_robot_down_payment_ratio'] = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('7'));
+				$responseData['score_robot_pos_performance']    = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('8'));
+				$responseData['score_robot_owner_dpd_ever']     = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('9'));
+				$responseData['score_robot_ref_dpd']            = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('10'));
+				$I->scrollTo(\GeneralXpathLibrary::$getScore('11'));
+				$responseData['score_robot_owner_rejected']     = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('11'));
+				$responseData['score_robot_owner_disbursed']    = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('12'));
+				$responseData['score_robot_asset_brand']        = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('13'));
+				$responseData['score_robot_effective_rate']     = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('14'));
+				$responseData['score_robot_document_required']  = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('15'));
 				break;
 			case 'TW':
 				$responseData['robot_random_number']           = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumber);
-				$responseData['score_robot_gender_and_age']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWgenderAndAgeScore);
-				$responseData['score_robot_reject_apps']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWnoOfRejectedApplicationsScore);
-				$responseData['score_robot_marital_status']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWmaritalStatusScore);
-				$responseData['score_robot_dpd_ever']          = $I->grabTextFrom(\GeneralXpathLibrary::$TWdpdEverScore);
-				$responseData['score_robot_tenor']             = $I->grabTextFrom(\GeneralXpathLibrary::$TWtenorScore);
-				$responseData['score_robot_pos_performance']   = $I->grabTextFrom(\GeneralXpathLibrary::$TWposPerformanceScore);
-				$responseData['score_robot_pos_address']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWposAddressScore);
-				$responseData['score_robot_permanent_address'] = $I->grabTextFrom(\GeneralXpathLibrary::$TWpermanentAddressScore);
-				$responseData['score_robot_education_work']    = $I->grabTextFrom(\GeneralXpathLibrary::$TWeducationAndWorkExperienceScore);
-				$responseData['score_robot_down_payment_rate'] = $I->grabTextFrom(\GeneralXpathLibrary::$TWdownpaymentRateScore);
-				$responseData['score_robot_fb_owner_gender']   = $I->grabTextFrom(\GeneralXpathLibrary::$TWfbOwnerGenderScore);
-				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::$TWcustomerageScore);
+				$responseData['score_robot_gender_and_age']    = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('1'));
+				$responseData['score_robot_reject_apps']       = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('2'));
+				$responseData['score_robot_marital_status']    = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('3'));
+				$responseData['score_robot_dpd_ever']          = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('4'));
+				$responseData['score_robot_tenor']             = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('5'));
+				$responseData['score_robot_pos_performance']   = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('6'));
+				$responseData['score_robot_pos_address']       = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('7'));
+				$responseData['score_robot_permanent_address'] = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('8'));
+				$responseData['score_robot_education_work']    = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('9'));
+				$responseData['score_robot_down_payment_rate'] = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('10'));
+				$responseData['score_robot_fb_owner_gender']   = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('11'));
+				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('12'));
 				break;
 			case 'PL':
 				$responseData['robot_random_number']          = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumberPL);
 				$responseData['robot_product_score_group']    = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
-				$responseData['score_robot_gender']           = $I->grabTextFrom(\GeneralXpathLibrary::$PLgenderScore);
-				$responseData['score_robot_work_experience']  = $I->grabTextFrom(\GeneralXpathLibrary::$PLworkExperienceScore);
-				$responseData['score_robot_age']              = $I->grabTextFrom(\GeneralXpathLibrary::$PLageScore);
-				$responseData['score_robot_interest_rate']    = $I->grabTextFrom(\GeneralXpathLibrary::$PLinterestRateScore);
-				$responseData['score_robot_dist_office_add']  = $I->grabTextFrom(\GeneralXpathLibrary::$PLdistrictOfficeAddressScore);
-				$responseData['score_robot_province']         = $I->grabTextFrom(\GeneralXpathLibrary::$PLprovinceScore);
-				$responseData['score_robot_disburse_date']    = $I->grabTextFrom(\GeneralXpathLibrary::$PLdisburseDateScore);
-				$responseData['score_robot_dpd_no_disb_apps'] = $I->grabTextFrom(\GeneralXpathLibrary::$PLdpdAndNumberDisburseApplicationsScore);
-				$responseData['score_robot_rejection']        = $I->grabTextFrom(\GeneralXpathLibrary::$PLrejectionScore);
+				$responseData['score_robot_gender']           = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('1'));
+				$responseData['score_robot_work_experience']  = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('2'));
+				$responseData['score_robot_age']              = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('3'));
+				$responseData['score_robot_interest_rate']    = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('4'));
+				$responseData['score_robot_dist_office_add']  = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('5'));
+				$responseData['score_robot_province']         = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('6'));
+				$responseData['score_robot_disburse_date']    = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('7'));
+				$responseData['score_robot_dpd_no_disb_apps'] = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('8'));
+				$responseData['score_robot_rejection']        = $I->grabTextFrom(\GeneralXpathLibrary::$getScore('9'));
 				break;
 		}
 
@@ -624,7 +636,7 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->makeScreenshot($imageName . '_' . time() . '.png');
         $I->wait(2);
         $I->closeTab();
-        $I->wait(2);
+		$I->wait(2);
         $I->reloadPage();
 	}
 
