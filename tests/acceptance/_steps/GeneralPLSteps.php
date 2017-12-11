@@ -28,7 +28,7 @@ class GeneralPLSteps extends \AcceptanceTester
     public function launchPortal($data)
     {
         $I = $this;
-        $I->wait(5);
+        $I->wait(2);
 
         if (!$I->checkElementNotExist(\GeneralXpathLibrary::$closeSession))
         {

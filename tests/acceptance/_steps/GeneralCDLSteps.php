@@ -29,7 +29,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 	public function launchPortal($data)
 	{
 		$I = $this;
-		$I->wait(5);
+		$I->wait(2);
 		
 		$I->click(\GeneralXpathLibrary::$launchButton);
 		$I->waitForElement(\GeneralXpathLibrary::$FECaseManager, 2);
