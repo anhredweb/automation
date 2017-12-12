@@ -71,6 +71,14 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 		$I->pressKey(\GeneralXpathLibrary::$dealerCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 		$I->wait(1);
+
+		if ($I->checkElementNotExist(\GeneralXpathLibrary::$rowDealerCode))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
 		$I->click(\GeneralXpathLibrary::$rowDealerCode);
 		$I->wait(1);
 
@@ -83,6 +91,14 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$posCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
+
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$rowPosCode))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
         $I->click(\GeneralXpathLibrary::$rowPosCode);
         $I->wait(1);
 
@@ -99,6 +115,14 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$productScheme, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
+        
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$rowProductScheme))
+		{
+			$I->skipTestCase($data['NATIONAL_ID']);
+
+			return false;
+		}
+
         $I->click(\GeneralXpathLibrary::$rowProductScheme);
         $I->wait(1);
 

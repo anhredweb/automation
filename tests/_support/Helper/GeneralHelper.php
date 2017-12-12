@@ -67,7 +67,7 @@ class GeneralHelper extends \Codeception\Module
 	public function skipTestCase($imageName)
 	{
 		$I = $this->getModule('WebDriver');
-		$I->makeScreenshot($imageName . '_' . time() . '.png');
+		$I->makeScreenshot($imageName . '_' . time());
         $I->wait(2);
         $I->closeTab();
 		$I->wait(2);
