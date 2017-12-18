@@ -1,0 +1,21 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+actor: AcceptanceTester
+modules:
+       enabled:
+          - WebDriver:
+             url: 'https://pega-uat.fecredit.com.vn'
+             browser: chrome # 'chrome' or 'firefox'
+             window_size: maximize # disabled in ChromeDriver
+             clear_cookies: true
+             wait: 5
+          - \Helper\GeneralHelper
+          # - Db:
+          #    dsn: 'oci:host=10.30.11.14:1521;dbname=FINNUAT4'
+          #    user: 'MULCASTRANS'
+          #    password: 'ANSF1UAT04itdbaBca'
+          #    reconnect: true

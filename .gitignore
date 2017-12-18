@@ -21,7 +21,6 @@ tests/vendor/*
 bower_components/
 
 # Test related files
-tests/acceptance.suite.yml
 codecept.phar
 selenium.log
 tests/_output
