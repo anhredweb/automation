@@ -167,6 +167,13 @@ class initPLCest
             $I->wantTo('Data Check');
             $caseId = $I->dataCheck('PL');
 
+            $I->wantTo('Phone Verification');
+
+            if (!$I->phoneVerification($case, 'PL'))
+            {
+                continue;
+            }
+
             $I->wantTo('Switch Application to LOS2');
             $I->switchApplicationToLOS2();
 

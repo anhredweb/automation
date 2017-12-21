@@ -464,6 +464,68 @@ class AcceptanceTester extends \Codeception\Actor
 	}
 
 	/**
+	 * Function to phone verification
+	 *
+	 * @param  array   $data     Data
+	 * @param  string  $product  Product type
+	 *
+	 * @return boolean
+	 */
+	public function phoneVerification($data, $product = NULL)
+	{
+		$I = $this;
+
+		$applicationStatus              = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft' || trim($applicationStatus) == 'Pending-DC')
+		{
+			return false;
+		}
+
+		// Click Phone verification
+		$I->click(\GeneralXpathLibrary::$phoneVerification);
+		$I->wait(2);
+
+		// Select call result
+		$I->selectOption(\GeneralXpathLibrary::$callResult, array("value" => "Not responding"));
+		$I->wait(2);
+
+		// Switch to Edit App tab
+		$I->click(\GeneralXpathLibrary::getPhoneTabId('3'));
+		$I->wait(2);
+
+		// Click to main income toggle
+		$I->click(\GeneralXpathLibrary::$phoneIncomeField);
+		$I->wait(2);
+
+		// Click to main income input
+		$I->click(\GeneralXpathLibrary::$phoneMainIncome);
+		$I->waitForElement(\GeneralXpathLibrary::$phoneMainIncomeInput, 2);
+        $I->fillField(\GeneralXpathLibrary::$phoneMainIncomeInput, $data["PERSONAL_INCOME"]);
+        $I->wait(1);
+        $I->executeJS('return jQuery(document).find("input#NetAmount3").attr("data-value", "0").val("0").attr("data-value", "' . $data["PERSONAL_INCOME"] . '").val("' . $data["PERSONAL_INCOME"] . '")');
+        $I->click(\GeneralXpathLibrary::getPhoneTabId('3'));
+        $I->wait(2);
+
+        // Select Phone result
+		$I->selectOption(\GeneralXpathLibrary::$phoneResult, array("value" => "Negative"));
+		$I->wait(2);
+
+		// Select Phone reason
+		$I->selectOption(\GeneralXpathLibrary::$phoneReason, array("value" => "Negative"));
+		$I->wait(2);
+
+		// Select Phone subreason
+		$I->selectOption(\GeneralXpathLibrary::$phoneSubReason, array("value" => "Negative"));
+		$I->wait(2);
+
+		// Submit
+		$I->click(\GeneralXpathLibrary::$phoneSubmit);
+
+		return true;
+	}
+
+	/**
 	 * Function to switch Application to LOS2
 	 *
 	 * @return void
@@ -525,12 +587,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$responseData['case_id']        = $caseId;
 		$responseData['application_id'] = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
 		$responseData['national_id']    = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
-		$applicationStatus              = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
-
-		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft' || trim($applicationStatus) == 'Pending-DC')
-		{
-			return array();
-		}
 
 		$I->wait(1);
 		$I->scrollTo(\GeneralXpathLibrary::$totalScore);

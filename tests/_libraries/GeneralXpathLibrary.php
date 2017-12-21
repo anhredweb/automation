@@ -268,6 +268,25 @@ class GeneralXpathLibrary
 	public static $cicTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab3"]//a[@tabtitle="3. CIC"]';
 
 	public static $pcbTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab4"]//a[@tabtitle="PCB"]';
+
+	//Phone verification Stage
+	public static $phoneVerification    = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//li[2]//a[1]';
+	
+	public static $callResult           = '//select[@id="CallResult1"]';
+	
+	public static $phoneIncomeField     = '//div[@id="INNERDIV-SubSectionPHVContactDetailsBBB"]//div[@data-node-id="EditLoanApp"]//div[contains(@data-ui-meta, "IncomeForPHV")]//h3/i';
+	
+	public static $phoneMainIncome      = '//div[contains(@style, "display: block")]//table[@grid_ref_page="pyWorkPage.LoanApp.PersonalInfo.Income"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pIncome$pIncome$l3"]//td[3]';
+	
+	public static $phoneMainIncomeInput = '//input[@id="NetAmount3"]';
+	
+	public static $phoneResult          = '//select[@id="Result"]';
+	
+	public static $phoneReason          = '//select[@id="PHVReason"]';
+	
+	public static $phoneSubReason       = '//select[@id="PHVSubreason"]';
+
+	public static $phoneSubmit          = '//button[@data-test-id="20151124234842093917839"]';
 	
 	// Log off
 	public static $emailOnTop = '//a[@data-test-id="20140927131516034856137"]';
@@ -312,7 +331,7 @@ class GeneralXpathLibrary
 	public static $closeButton         = '//ul[@role="tablist"]//li[2]//span[@id="close"]';
 
     /**
-     * Function to get tab
+     * Function to get tab in Full Data Entry Stage
      *
      * @param  int $tabId Tab ID
      *
@@ -321,6 +340,18 @@ class GeneralXpathLibrary
     public function getTabId($tabId)
     {
         return '//div[@data-node-id="FullAppContainer"]//div[contains(@id, "PEGA_TABBED")]//ul[@role="tablist"]//li[@id="Tab' . $tabId . '"]//a';
+    }
+
+    /**
+     * Function to get tab in Phone Verification Stage
+     *
+     * @param  int $tabId Tab ID
+     *
+     * @return xpath
+     */
+    public function getPhoneTabId($tabId)
+    {
+        return '//div[@tabgroupid="TGPHVContactDetailsA"]/ul//li[@id="Tab' . $tabId . '"]';
     }
 
     /**
