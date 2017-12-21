@@ -500,7 +500,9 @@ class AcceptanceTester extends \Codeception\Actor
 
 		// Click to main income input
 		$I->click(\GeneralXpathLibrary::$phoneMainIncome);
-		$I->waitForElement(\GeneralXpathLibrary::$phoneMainIncomeInput, 2);
+		$I->wait(2);
+		$I->click(\GeneralXpathLibrary::$phoneMainIncomeInput);
+		$I->wait(1);
         $I->fillField(\GeneralXpathLibrary::$phoneMainIncomeInput, $data["PERSONAL_INCOME"]);
         $I->wait(1);
         $I->executeJS('return jQuery(document).find("input#NetAmount3").attr("data-value", "0").val("0").attr("data-value", "' . $data["PERSONAL_INCOME"] . '").val("' . $data["PERSONAL_INCOME"] . '")');
@@ -512,15 +514,19 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(2);
 
 		// Select Phone reason
-		$I->selectOption(\GeneralXpathLibrary::$phoneReason, array("value" => "Negative"));
+		$I->selectOption(\GeneralXpathLibrary::$phoneReason, array("value" => "RJ01"));
 		$I->wait(2);
 
 		// Select Phone subreason
-		$I->selectOption(\GeneralXpathLibrary::$phoneSubReason, array("value" => "Negative"));
+		$I->selectOption(\GeneralXpathLibrary::$phoneSubReason, array("value" => "RJ01-01"));
 		$I->wait(2);
 
 		// Submit
 		$I->click(\GeneralXpathLibrary::$phoneSubmit);
+		$I->wait(5);
+
+		$I->click(\GeneralXpathLibrary::$loanCloseButton);
+		$I->wait(1);
 
 		return true;
 	}

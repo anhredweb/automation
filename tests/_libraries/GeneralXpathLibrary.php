@@ -330,6 +330,8 @@ class GeneralXpathLibrary
 
 	public static $closeButton         = '//ul[@role="tablist"]//li[2]//span[@id="close"]';
 
+	public static $loanCloseButton     = '//div[@node_name="ActionAreaRight"]//div[contains(@class, "item-7")]//a';
+
     /**
      * Function to get tab in Full Data Entry Stage
      *
