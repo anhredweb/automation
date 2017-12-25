@@ -67,7 +67,7 @@ class AcceptanceTester extends \Codeception\Actor
 		// Fill dealer code
 		$I->click(\GeneralXpathLibrary::$dealerCode);
 		$I->wait(1);
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$dealerCode . "').val('" . $data["DEALER_CODE"] . "')");
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$dealerCodeJS . "').val('" . $data["DEALER_CODE"] . "')");
 		$I->wait(1);
 		$I->pressKey(\GeneralXpathLibrary::$dealerCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 		$I->wait(1);
@@ -87,7 +87,7 @@ class AcceptanceTester extends \Codeception\Actor
 		// Fill POS code
 		$I->click(\GeneralXpathLibrary::$posCode);
 		$I->wait(1);
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$posCode . "').val('" . $data["POS_CODE"] . "')");
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$posCodeJS . "').val('" . $data["POS_CODE"] . "')");
 		$I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$posCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
@@ -111,7 +111,7 @@ class AcceptanceTester extends \Codeception\Actor
         // Fill product scheme
 		$I->click(\GeneralXpathLibrary::$productScheme);
 		$I->wait(1);
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$productScheme . "').val('" . $data["PRODUCT_SCHEME"] . "')");
+		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$productSchemeJS . "').val('" . $data["PRODUCT_SCHEME"] . "')");
 		$I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$productScheme, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
@@ -505,7 +505,7 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
         $I->fillField(\GeneralXpathLibrary::$phoneMainIncomeInput, $data["PERSONAL_INCOME"]);
         $I->wait(1);
-        $I->executeJS('return jQuery(document).find("input#NetAmount3").attr("data-value", "0").val("0").attr("data-value", "' . $data["PERSONAL_INCOME"] . '").val("' . $data["PERSONAL_INCOME"] . '")');
+        // $I->executeJS('return jQuery("input#NetAmount3").attr("data-value", "' . $data["PERSONAL_INCOME"] . '").val("' . $data["PERSONAL_INCOME"] . '")');
         $I->click(\GeneralXpathLibrary::getPhoneTabId('3'));
         $I->wait(2);
 

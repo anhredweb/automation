@@ -22,9 +22,9 @@ class GeneralXpathLibrary
 	
 	public static $applicationStatus = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-3")]//div[contains(@class, "dataValueRead")]//img//following-sibling::span';
 	
-	public static $nationalIdScoring = '//div[@section_index="4"]//div[@data-node-id="pyCaseSummary"]//div[contains(@class, "content-item content-layout item-3")]//div[contains(@class, "content-item content-field item-4")]//div[contains(@class, "content-inner ")]//div[contains(@class, "dataValueRead")]//span';
+	public static $nationalIdScoring = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.PersonalInfo.Person.Contact.NationalId")])[1]//span';
 	
-	public static $applicationId     = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, "LoanApp.ApplicationID")])[1]';
+	public static $applicationId     = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.ApplicationID")])[1]//span';
 	
 	public static $totalScore        = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-2")]//label[contains(@for, "Score")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
 	
@@ -61,25 +61,35 @@ class GeneralXpathLibrary
 
 	public static $iframeEnviroment  = '//div[@id="moduleGroupDiv"]//div[contains(@style, "display: block")]//div[contains(@id, "PegaWebGadget")]//iframe';
 	
-	public static $dealerCode        = 'input[name="$PpyWorkPage$pDealer$pDealerCode"]';
+	public static $dealerCode        = '//input[@name="$PpyWorkPage$pDealer$pDealerCode"]';
+
+	public static $dealerCodeJS      = 'input[name="$PpyWorkPage$pDealer$pDealerCode"]';
 
 	public static $rowDealerCode     = '//tr[contains(@id, "$PD_Dealer$ppxResults")]';
 	
-	public static $posCode           = 'input[name="$PpyWorkPage$pPOS$pPOSCode"]';
+	public static $posCode           = '//input[@name="$PpyWorkPage$pPOS$pPOSCode"]';
+
+	public static $posCodeJS         = 'input[name="$PpyWorkPage$pPOS$pPOSCode"]';
 
 	public static $rowPosCode        = '//tr[contains(@id, "$PpyWorkPage$pFilteredPOS")]';
 
 	public static $productPLGroup    = '//input[@name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeGroupIDDescription"]';
 
+	public static $productPLGroupJS  = 'input[name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeGroupIDDescription"]';
+
 	public static $rowProductPLGroup = '//tr[contains(@id, "$PpyWorkPage$pFilteredProductGroups")]';
 
 	public static $DSACode           = '//input[@name="$PpyWorkPage$pDSA$pDSAId"]';
+
+	public static $DSACodeJS         = 'input[name="$PpyWorkPage$pDSA$pDSAId"]';
 
 	public static $rowDSACode        = '//tr[contains(@id, "$PD_DSAListActiveById")]';
 	
 	public static $productGroup      = '//select[@name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeGroupID"]';
 	
-	public static $productScheme     = 'input[name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeDescription"]';
+	public static $productScheme     = '//input[@name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeDescription"]';
+
+	public static $productSchemeJS   = 'input[name="$PpyWorkPage$pLoanApp$pSelectedScheme$pSchemeDescription"]';
 
 	public static $rowProductScheme  = '//tr[contains(@id, "$PpyWorkPage$pFilteredSchemes")]';
 	

@@ -79,31 +79,56 @@ class GeneralPLSteps extends \AcceptanceTester
         $I->wait(1);
 
         // Fill product group
-        $I->fillField(\GeneralXpathLibrary::$productPLGroup, '');
+        $I->click(\GeneralXpathLibrary::$productPLGroup);
         $I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$productPLGroup, $data['PRODUCT_GROUP']);
+        $I->executeJS("return jQuery('" . \GeneralXpathLibrary::$productPLGroupJS . "').val('" . $data["PRODUCT_GROUP"] . "')");
+        $I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$productPLGroup, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
+
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$rowProductPLGroup))
+        {
+            $I->skipTestCase($data['NATIONAL_ID']);
+
+            return false;
+        }
+
         $I->click(\GeneralXpathLibrary::$rowProductPLGroup);
         $I->wait(1);
 
         // Fill product scheme
-        $I->fillField(\GeneralXpathLibrary::$productScheme, '');
+        $I->click(\GeneralXpathLibrary::$productScheme);
         $I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$productScheme, $data['PRODUCT_SCHEME']);
+        $I->executeJS("return jQuery('" . \GeneralXpathLibrary::$productSchemeJS . "').val('" . $data["PRODUCT_SCHEME"] . "')");
         $I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$productScheme, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
+
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$rowProductScheme))
+        {
+            $I->skipTestCase($data['NATIONAL_ID']);
+
+            return false;
+        }
+
         $I->click(\GeneralXpathLibrary::$rowProductScheme);
         $I->wait(1);
 
         // Fill DSA code
-        $I->fillField(\GeneralXpathLibrary::$DSACode, '');
+        $I->click(\GeneralXpathLibrary::$DSACode);
         $I->wait(1);
-        $I->fillField(\GeneralXpathLibrary::$DSACode, $data['DSA_CODE']);
+        $I->executeJS("return jQuery('" . \GeneralXpathLibrary::$DSACodeJS . "').val('" . $data["DSA_CODE"] . "')");
         $I->wait(1);
         $I->pressKey(\GeneralXpathLibrary::$DSACode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
         $I->wait(1);
+
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$rowDSACode))
+        {
+            $I->skipTestCase($data['NATIONAL_ID']);
+
+            return false;
+        }
+
         $I->click(\GeneralXpathLibrary::$rowDSACode);
         $I->wait(1);
 
