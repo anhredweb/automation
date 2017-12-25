@@ -143,8 +143,8 @@ class AcceptanceTester extends \Codeception\Actor
 	public function shortApplication($data, $product = NULL)
 	{
 		$faker     = \Faker\Factory::create();
-		$firstname = $faker->firstname;
-		$lastname  = $faker->lastname;
+		$firstname = str_replace("'", "`", $faker->firstname);
+		$lastname  = str_replace("'", "`", $faker->lastname);
 		$I         = $this;
 		$I->wait(3);
 
@@ -310,11 +310,11 @@ class AcceptanceTester extends \Codeception\Actor
 
         if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
         {
-            $I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, $faker->firstname);
+            $I->fillField(\GeneralXpathLibrary::$fbOwnerFirstname, str_replace("'", "`", $faker->firstname));
             $I->wait(2);
             $I->click(\GeneralXpathLibrary::$fbOwnerLastname);
             $I->wait(2);
-            $I->fillField(\GeneralXpathLibrary::$fbOwnerLastname, $faker->lastname);
+            $I->fillField(\GeneralXpathLibrary::$fbOwnerLastname, str_replace("'", "`", $faker->lastname));
             $I->wait(2);
             $I->selectOption(\GeneralXpathLibrary::$fbOwnerRelationType, array('value' => "O"));
             $I->wait(2);
@@ -324,11 +324,11 @@ class AcceptanceTester extends \Codeception\Actor
 
         if ($data['MARITAL_STATUS'] == 'M' || $data['MARITAL_STATUS'] == 'C')
         {
-            $I->fillField(\GeneralXpathLibrary::$spouseLastname, $faker->firstname);
+            $I->fillField(\GeneralXpathLibrary::$spouseLastname, str_replace("'", "`", $faker->firstname));
             $I->wait(2);
             $I->click(\GeneralXpathLibrary::$spouseFirstname);
             $I->wait(2);
-            $I->fillField(\GeneralXpathLibrary::$spouseFirstname, $faker->lastname);
+            $I->fillField(\GeneralXpathLibrary::$spouseFirstname, str_replace("'", "`", $faker->lastname));
             $I->wait(2);
             $spouseGender = $data['GENDER'] == 'M' ? 'F' : 'M';
             $I->selectOption(\GeneralXpathLibrary::$spouseGender, array('value' => $spouseGender));
