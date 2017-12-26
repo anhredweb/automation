@@ -474,6 +474,12 @@ class AcceptanceTester extends \Codeception\Actor
 	public function phoneVerification($data, $product = NULL)
 	{
 		$I = $this;
+		$checkError = $I->checkError($data['NATIONAL_ID']);
+
+		if (!$checkError)
+		{
+			return false;
+		}
 
 		$applicationStatus              = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
 
@@ -528,7 +534,7 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->click(\GeneralXpathLibrary::$loanCloseButton);
 		$I->wait(1);
 
-		return true;
+		return $I->checkError($data['NATIONAL_ID']);
 	}
 
 	/**
