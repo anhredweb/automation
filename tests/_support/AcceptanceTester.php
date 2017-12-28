@@ -183,7 +183,7 @@ class AcceptanceTester extends \Codeception\Actor
 
 		if (empty($data['FB_NUMBER']))
 		{
-			$data['FB_NUMBER'] = 'FB#' . $$data['NATIONAL_ID'];
+			$data['FB_NUMBER'] = 'FB#' . $data['NATIONAL_ID'];
 		}
 
 		// Fill family book number
