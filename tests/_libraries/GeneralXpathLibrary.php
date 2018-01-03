@@ -304,7 +304,7 @@ class GeneralXpathLibrary
 	public static $logOff     = '//ul[contains(@style, "display: block;")]//a[contains(@data-click, "logOff")]';
 
     // Message
-	public static $errorMessage      = '//div[@data-node-id="DisplayErrors"]';
+	public static $errorMessage      = '(//div[contains(@data-ui-meta, "Container")]//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-PLUSMINUS"])[1]';
 	
 	public static $errorMessageTable = '//table[@id="ERRORTABLE"]';
 	

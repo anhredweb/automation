@@ -45,7 +45,7 @@ class GeneralHelper extends \Codeception\Module
 	public function checkError($imageName)
 	{
 		$I = $this->getModule('WebDriver');
-		$errors = array_filter($I->grabMultiple(\GeneralXpathLibrary::$errorMessageTable));
+		$errors = array_filter($I->grabMultiple(\GeneralXpathLibrary::$errorMessage));
 
 		if (empty($errors))
 		{
