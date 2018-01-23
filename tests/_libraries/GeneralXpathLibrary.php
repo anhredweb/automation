@@ -17,6 +17,9 @@ class GeneralXpathLibrary
 	// Include url of current page
     public static $url = 'https://pega-uat.fecredit.com.vn';
 
+    // Session message
+    public static $sessionMessage = '//div[contains(@class, "pega-system-message")]//button[contains(@data-click, "refresh")]';
+
     // Original Scoring Stage
 	public static $caseId            = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]//span[contains(@class, "case_title")]';
 	

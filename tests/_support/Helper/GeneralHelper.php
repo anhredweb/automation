@@ -20,12 +20,32 @@ class GeneralHelper extends \Codeception\Module
 	 *
 	 * @return boolean
 	 */
+	public function checkSessionMessage()
+	{
+		$I = $this->getModule('WebDriver');
+		$elementExist = array_filter($I->grabMultiple(\GeneralXpathLibrary::$sessionMessage));
+
+		if (empty($elementExist))
+		{
+			return true;
+		}
+
+		$I->click(\GeneralXpathLibrary::$sessionMessage);
+        
+        return false;
+	}
+
+	/**
+	 * Function to check element is not existed
+	 *
+	 * @param  string  $element  Element
+	 *
+	 * @return boolean
+	 */
 	public function checkElementNotExist($element)
 	{
 		$I = $this->getModule('WebDriver');
-		// $elementExist = $webDriver->_findElements($element);
 		$elementExist = array_filter($I->grabMultiple($element));
-		print_r($elementExist);
 
 		if (empty($elementExist))
 		{

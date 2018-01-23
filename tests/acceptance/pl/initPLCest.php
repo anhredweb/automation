@@ -107,7 +107,10 @@ class initPLCest
         $I->wantTo('Login to PEGA UAT');
         $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
 
-/*        $I->wantTo('Switch Application to LOS2');
+        $I->wantTo('Check session message');
+        $I->checkSessionMessage();
+
+        /*$I->wantTo('Switch Application to LOS2');
         $I->switchApplicationToLOS2();
 
         $I->wantTo('Search Application');
@@ -154,7 +157,7 @@ class initPLCest
                 continue;
             }
             
-            $I->wantTo('Documents Stage');
+            $I->wantTo('Check documents');
             $I->shortApplicationDocumentPL();
 
             $I->wantTo('Entry full data');
@@ -164,7 +167,7 @@ class initPLCest
                 continue;
             }
 
-            $I->wantTo('Data Check');
+            $I->wantTo('Check data');
             $caseId = $I->dataCheck('PL');
 
             $I->wantTo('Phone Verification');
