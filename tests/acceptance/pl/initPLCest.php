@@ -54,10 +54,10 @@ class initPLCest
      */
     protected function connectOracle()
     {
-        $db = "(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.11.14)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = finnuat4.fecredit.com.vn)))" ;
+        $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
 
         // Create connection to Oracle
-        $conn = oci_connect("MULCASTRANS", "ANSF1UAT04itdbaBca", $db, 'AL32UTF8');
+        $conn = oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
 
         if (!$conn) 
         {

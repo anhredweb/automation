@@ -37,7 +37,9 @@ class GeneralXpathLibrary
 	
 	public static $productScoreGroup = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-4")]//label[contains(@for, "ProductScoreGroup")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
 
-	public static $randomNumberPL    = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-5")]//label[contains(@for, "RandNumber")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
+	public static $subSegment        = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-5")]//label[contains(@for, "SubSegment")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
+
+	public static $leadBlack         = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-6")]//label[contains(@for, "LeadBlack")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
 
     // Login page
 	public static $username    = '//input[@name="UserIdentifier"]';

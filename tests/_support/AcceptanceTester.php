@@ -642,17 +642,22 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::getScore('12'));
 				break;
 			case 'PL':
-				$responseData['robot_random_number']          = $I->grabTextFrom(\GeneralXpathLibrary::$randomNumberPL);
-				$responseData['robot_product_score_group']    = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
-				$responseData['score_robot_gender']           = $I->grabTextFrom(\GeneralXpathLibrary::getScore('1'));
-				$responseData['score_robot_work_experience']  = $I->grabTextFrom(\GeneralXpathLibrary::getScore('2'));
-				$responseData['score_robot_age']              = $I->grabTextFrom(\GeneralXpathLibrary::getScore('3'));
-				$responseData['score_robot_interest_rate']    = $I->grabTextFrom(\GeneralXpathLibrary::getScore('4'));
-				$responseData['score_robot_dist_office_add']  = $I->grabTextFrom(\GeneralXpathLibrary::getScore('5'));
-				$responseData['score_robot_province']         = $I->grabTextFrom(\GeneralXpathLibrary::getScore('6'));
-				$responseData['score_robot_disburse_date']    = $I->grabTextFrom(\GeneralXpathLibrary::getScore('7'));
-				$responseData['score_robot_dpd_no_disb_apps'] = $I->grabTextFrom(\GeneralXpathLibrary::getScore('8'));
-				$responseData['score_robot_rejection']        = $I->grabTextFrom(\GeneralXpathLibrary::getScore('9'));
+				$responseData['robot_sub_segment']               = $I->grabTextFrom(\GeneralXpathLibrary::$subSegment);
+				$responseData['robot_lead_black']                = $I->grabTextFrom(\GeneralXpathLibrary::$leadBlack);
+				$responseData['robot_product_score_group']       = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
+				$responseData['score_robot_age']                 = $I->grabTextFrom(\GeneralXpathLibrary::getScore('1'));
+				$responseData['score_robot_cic_relationship']    = $I->grabTextFrom(\GeneralXpathLibrary::getScore('2'));
+				$responseData['score_robot_company']             = $I->grabTextFrom(\GeneralXpathLibrary::getScore('3'));
+				$responseData['score_robot_present_of_work_exp'] = $I->grabTextFrom(\GeneralXpathLibrary::getScore('4'));
+				$responseData['score_robot_cust_social_trust']   = $I->grabTextFrom(\GeneralXpathLibrary::getScore('5'));
+				$responseData['score_robot_disb_apps']           = $I->grabTextFrom(\GeneralXpathLibrary::getScore('6'));
+				$responseData['score_robot_dsa']                 = $I->grabTextFrom(\GeneralXpathLibrary::getScore('7'));
+				$responseData['score_robot_education']           = $I->grabTextFrom(\GeneralXpathLibrary::getScore('8'));
+				$responseData['score_robot_gender']              = $I->grabTextFrom(\GeneralXpathLibrary::getScore('9'));
+				$responseData['score_robot_marital_status']      = $I->grabTextFrom(\GeneralXpathLibrary::getScore('10'));
+				$responseData['score_robot_hometown']            = $I->grabTextFrom(\GeneralXpathLibrary::getScore('11'));
+				$responseData['score_robot_rejected_apps']       = $I->grabTextFrom(\GeneralXpathLibrary::getScore('12'));
+				$responseData['score_robot_ts_apply_days']       = $I->grabTextFrom(\GeneralXpathLibrary::getScore('13'));
 				break;
 		}
 
