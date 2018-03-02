@@ -256,7 +256,7 @@ class GeneralPLSteps extends \AcceptanceTester
             'SCORE_USER_AGE',
             'SCORE_USER_CIC_RELATIONSHIP',
             'SCORE_USER_COMPANY',
-            'SCORE_USER_PRESENT_OF_WORK_EXP',
+            'SCORE_USER_PRE_OF_WORK_EXP',
             'SCORE_USER_CUST_SOCIAL_TRUST',
             'SCORE_USER_DISB_APPS',
             'SCORE_USER_DSA',
@@ -276,7 +276,7 @@ class GeneralPLSteps extends \AcceptanceTester
             'SCORE_CHECK_AGE'                 => "'F'",
             'SCORE_CHECK_CIC_RELATIONSHIP'    => "'F'",
             'SCORE_CHECK_COMPANY'             => "'F'",
-            'SCORE_CHECK_PRESENT_OF_WORK_EXP' => "'F'",
+            'SCORE_CHECK_PRE_OF_WORK_EXP' => "'F'",
             'SCORE_CHECK_CUST_SOCIAL_TRUST'   => "'F'",
             'SCORE_CHECK_DISB_APPS'           => "'F'",
             'SCORE_CHECK_DSA'                 => "'F'",
@@ -289,7 +289,7 @@ class GeneralPLSteps extends \AcceptanceTester
             'CHECK_TOTAL_SCORE'               => "'F'",
             'CHECK_SCORE_GROUP'               => "'F'",
             'CHECK_PRODUCT_SCORE_GROUP'       => "'F'",
-            'CHECK_SUB_SEGMENT'               => "'F'"
+            'CHECK_SUB_SEGMENT'               => "'F'",
             'CHECK_LEAD_BLACK'                => "'F'"
         );
         $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_PL WHERE NATIONAL_ID = " . $data['national_id'];
@@ -316,9 +316,9 @@ class GeneralPLSteps extends \AcceptanceTester
             {
                 $selectCheckQuery['SCORE_CHECK_COMPANY'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_PRESENT_OF_WORK_EXP' && $score == $data['score_robot_present_of_work_exp'])
+            elseif ($column == 'SCORE_USER_PRE_OF_WORK_EXP' && $score == $data['score_robot_pre_of_work_exp'])
             {
-                $selectCheckQuery['SCORE_CHECK_PRESENT_OF_WORK_EXP'] = "'P'";
+                $selectCheckQuery['SCORE_CHECK_PRE_OF_WORK_EXP'] = "'P'";
             }
             elseif ($column == 'SCORE_USER_CUST_SOCIAL_TRUST' && $score == $data['score_robot_cust_social_trust'])
             {
@@ -372,7 +372,7 @@ class GeneralPLSteps extends \AcceptanceTester
             {
                 $selectCheckQuery['CHECK_SUB_SEGMENT'] = "'P'";
             }
-             elseif ($column == 'LEAD_BLACK' && $score == $data['robot_lead_black'])
+             elseif ($column == 'LEAD_BLACK' && strtolower($score) == strtolower($data['robot_lead_black']))
             {
                 $selectCheckQuery['CHECK_LEAD_BLACK'] = "'P'";
             }

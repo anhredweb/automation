@@ -648,7 +648,7 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_age']                 = $I->grabTextFrom(\GeneralXpathLibrary::getScore('1'));
 				$responseData['score_robot_cic_relationship']    = $I->grabTextFrom(\GeneralXpathLibrary::getScore('2'));
 				$responseData['score_robot_company']             = $I->grabTextFrom(\GeneralXpathLibrary::getScore('3'));
-				$responseData['score_robot_present_of_work_exp'] = $I->grabTextFrom(\GeneralXpathLibrary::getScore('4'));
+				$responseData['score_robot_pre_of_work_exp']     = $I->grabTextFrom(\GeneralXpathLibrary::getScore('4'));
 				$responseData['score_robot_cust_social_trust']   = $I->grabTextFrom(\GeneralXpathLibrary::getScore('5'));
 				$responseData['score_robot_disb_apps']           = $I->grabTextFrom(\GeneralXpathLibrary::getScore('6'));
 				$responseData['score_robot_dsa']                 = $I->grabTextFrom(\GeneralXpathLibrary::getScore('7'));
