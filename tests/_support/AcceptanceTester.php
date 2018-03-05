@@ -416,11 +416,12 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to data check for Application
 	 *
-	 * @param string  $product  Product
+	 * @param  string  $product  Product
+	 * @param  array   $data     Data
 	 *
 	 * @return string
 	 */
-	public function dataCheck($product = NULL)
+	public function dataCheck($product = NULL, $data = array())
 	{
 		$I = $this;
 
@@ -439,11 +440,53 @@ class AcceptanceTester extends \Codeception\Actor
 
 		// Click CIC tab and select CIC result
 		$I->click(\GeneralXpathLibrary::$cicTab);
-		$I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Don't require"));
+		$I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Ok"));
 		$I->wait(1);
 
 		if ($product == 'PL')
 		{
+			if (empty($data['CIC_DESCRIPTION']))
+	        {
+	            $data['CIC_DESCRIPTION'] = 'NULL';
+	        }
+
+	        if (empty($data['PCB_DESCRIPTION']))
+	        {
+	            $data['PCB_DESCRIPTION'] = 'NULL';
+	        }
+
+			// Click Add item to add CIC
+			$I->click(\GeneralXpathLibrary::$cicAddItem);
+			$I->wait(2);
+
+			// Fill field National ID
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$cicNationalId . "').val('" . $data["NATIONAL_ID"] . "')");
+			$I->wait(2);
+
+			// Fill field Comment
+			$I->fillField(\GeneralXpathLibrary::$cicComment, $data['CIC_DESCRIPTION']);
+			$I->wait(2);
+
+			// Click Save
+			$I->click(\GeneralXpathLibrary::$cicSaveButton);
+			$I->wait(2);
+
+			// Click Add item to add PCB
+			$I->click(\GeneralXpathLibrary::$cicAddItem);
+			$I->wait(2);
+
+			// Fill field National ID
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$cicNationalId . "').val('" . $data["NATIONAL_ID"] . "')");
+			$I->wait(2);
+
+			// Fill field Comment
+			$I->fillField(\GeneralXpathLibrary::$cicComment, $data['PCB_DESCRIPTION']);
+			$I->wait(2);
+
+			// Click Save
+			$I->click(\GeneralXpathLibrary::$cicSaveButton);
+			$I->wait(2);
+
 			// Click PCB tab and select PCB result
 			$I->click(\GeneralXpathLibrary::$pcbTab);
 			$I->selectOption(\GeneralXpathLibrary::$pcbResult, array("value" => "PCB OK"));

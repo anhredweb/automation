@@ -284,6 +284,14 @@ class GeneralXpathLibrary
 
 	public static $pcbTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab4"]//a[@tabtitle="PCB"]';
 
+	public static $cicAddItem         = '//table[contains(@data-ui-meta, "FREEFORM")]//td[contains(@data-ui-meta, "FECredit-FW-LoanFW-Data-CIC")]//a[@data-test-id="2016012116004104207418"]';
+
+	public static $cicNationalId      = 'input#NationalID';
+
+	public static $cicComment         = '//textarea[@id="Comment"]';
+
+	public static $cicSaveButton      = '//table[contains(@class, "buttonMainTable")]//td//button[@name="RowDetailsSubmitButton"]';
+
 	//Phone verification Stage
 	public static $phoneVerification    = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//li[2]//a[1]';
 	

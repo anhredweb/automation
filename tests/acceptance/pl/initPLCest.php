@@ -76,7 +76,7 @@ class initPLCest
     protected function executeQuery()
     {
         $connection = $this->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE_PL a WHERE a.STATUS = 0";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE_PL a WHERE a.IS_RUN = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
@@ -156,6 +156,9 @@ class initPLCest
             {
                 continue;
             }
+
+            $I->wantTo('Update is run');
+            $I->updateIsRun($case, $this->connectOracle());
             
             $I->wantTo('Check documents');
             $I->shortApplicationDocumentPL();
@@ -168,7 +171,7 @@ class initPLCest
             }
 
             $I->wantTo('Check data');
-            $caseId = $I->dataCheck('PL');
+            $caseId = $I->dataCheck('PL', $case);
 
             /*$I->wantTo('Phone Verification');
 

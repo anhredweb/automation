@@ -172,6 +172,11 @@ class GeneralPLSteps extends \AcceptanceTester
     {
         $I = $this;
 
+        if (empty($data['LOAN_PURPOSE']))
+        {
+            $data['LOAN_PURPOSE'] = 'Other';
+        }
+
         // Goods Tab
         $I->wait(2);
 
@@ -386,6 +391,24 @@ class GeneralPLSteps extends \AcceptanceTester
         }
 
         $query = "UPDATE AUTOMATION_TEST_CASE_PL SET " . implode(',', $selectedCheckQuery) . " WHERE NATIONAL_ID = " . $data['national_id'];
+        $stid  = oci_parse($connection, $query);
+        oci_execute($stid);
+        oci_commit($connection);
+
+        return true;
+    }
+
+    /**
+     * Function to update is run status
+     *
+     * @param  array   $data        Data to update
+     * @param  string  $connection  Oracle connection
+     *
+     * @return void
+     */
+    public function updateIsRun($data, $connection)
+    {
+        $query = "UPDATE AUTOMATION_TEST_CASE_PL SET IS_RUN = 1 WHERE NATIONAL_ID = " . $data['NATIONAL_ID'];
         $stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);

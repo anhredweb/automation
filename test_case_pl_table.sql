@@ -23,6 +23,8 @@ CREATE TABLE AUTOMATION_TEST_CASE_PL
        family_income                             NUMBER(18,4),
        phone_reference1                          VARCHAR2(12),
        phone_reference2                          VARCHAR2(12),
+       cic_description                           VARCHAR2(200),
+       pcb_description                           VARCHAR2(4000),
        /* Data will fill after automation run */
        application_id                            VARCHAR2(20),
        case_id                                   VARCHAR2(10),
@@ -84,6 +86,7 @@ CREATE TABLE AUTOMATION_TEST_CASE_PL
        check_sub_segment                         VARCHAR2(2),
        check_lead_black                          VARCHAR2(2),
        /* Checking status */
+       is_run                                    NUMBER(1)     DEFAULT 0,
        status                                    NUMBER(1)     DEFAULT 0
 );
 
@@ -111,6 +114,8 @@ INTO AUTOMATION_TEST_CASE_PL
        family_income,
        phone_reference1,
        phone_reference2,
+       cic_description,
+       pcb_description,
        total_score,
        score_group,
        product_score_group,
@@ -153,6 +158,17 @@ VALUES
        45000000,
        '0912081058',
        '0912081059',
+       'CIC CANNOT CHECK',
+       'Tên khách hàng : MAI VĂN TOÀN
+       Số chứng minh nhân dân : 381458301
+       Địa chỉ thường trú hiện tại : ẤP RẠCH MUỖI,01235013992,PHÚ HƯNG,H.CÁI NƯỚC,CÀ MAU
+       Địa chỉ tạm trú hiện tại : . . RẠCH MUỖI PHÚ HƯNG CÁI NƯỚC TỈNH CÀ MAU
+       Số lượng TCTD mà KH có dư nợ thông thường - thấu chi : Không có quan hệ tại TCTD
+       Số lượng TCTD mà KH có dư nợ thẻ tín dụng : Không có quan hệ tại TCTD
+       Số lượng TCTD mà KH đang có yêu cầu vay : 3
+       Dư nợ hiện tại : 
+       Nhóm nợ cao nhất hiện tại : 
+       Nhóm nợ cao nhất trong vòng 5 năm : 1 - Nợ đủ tiêu chuẩn',
        0,
        0,
        0,
@@ -195,6 +211,8 @@ INTO AUTOMATION_TEST_CASE_PL
        family_income,
        phone_reference1,
        phone_reference2,
+       cic_description,
+       pcb_description,
        total_score,
        score_group,
        product_score_group,
@@ -237,6 +255,17 @@ VALUES
        45000000,
        '0912081101',
        '0912081102',
+       'CIC CANNOT CHECK',
+       'Tên khách hàng : NGUYỄN THỊ DIỄM THÚY
+       Số chứng minh nhân dân : 280708925
+       Địa chỉ thường trú hiện tại : TỔ 7 . ẤP CÂY SẮN XÃ LAI UYÊN BÀU BÀNG TỈNH BÌNH DƯƠNG
+       Địa chỉ tạm trú hiện tại : TỔ 7 . ẤP CÂY SẮN XÃ LAI UYÊN BÀU BÀNG TỈNH BÌNH DƯƠNG
+       Số lượng TCTD mà KH có dư nợ thông thường - thấu chi : 1
+       Số lượng TCTD mà KH có dư nợ thẻ tín dụng : Không có quan hệ tại TCTD
+       Số lượng TCTD mà KH đang có yêu cầu vay : Không có quan hệ tại TCTD
+       Dư nợ hiện tại : 328.000
+       Nhóm nợ cao nhất hiện tại : Nợ nhóm 6 - nợ xấu
+       Nhóm nợ cao nhất trong vòng 5 năm : Nợ nhóm 6 - nợ xấu',
        0,
        0,
        0,
