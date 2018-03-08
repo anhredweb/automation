@@ -233,6 +233,16 @@ class GeneralXpathLibrary
 
 	public static $fbOwnerNationalId        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pNationalId"]';
 
+	// Work Fields
+	
+	public static $yearCurrJob = 'input#YearsInPresentJob';
+
+	public static $yearPrevJob = 'input#YearsInPreviousJob';
+
+	public static $monthPrevJob = 'select#MonthsInPresentJob';
+
+	public static $monthPrevJob = 'select#MonthsInPreviousJob';
+
 	// Income Fields
 
 	public static $rowMainIncome         = '//div[@aria-labelledby="Tab8"]//div[@data-node-id="Income"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pIncome$pIncome$l1"]//td[3]';	

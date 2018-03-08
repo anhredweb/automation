@@ -339,8 +339,18 @@ class AcceptanceTester extends \Codeception\Actor
             $I->wait(2);
         }
 
-        // Income Tab
+        // Work Tab
+        if (isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0)
+        {
+        	$I->click(\GeneralXpathLibrary::getTabId('7'));
+            $I->wait(2);
 
+            // Fill year in current job
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$yearCurrJob . "').val('" . $data['YEAR_IN_CURR_JOB'] . "')");
+			$I->wait(2);
+        }
+
+        // Income Tab
         if (!empty($data['PERSONAL_INCOME']))
         {
             $I->click(\GeneralXpathLibrary::getTabId('8'));
