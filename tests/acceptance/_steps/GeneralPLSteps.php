@@ -114,6 +114,8 @@ class GeneralPLSteps extends \AcceptanceTester
         $I->click(\GeneralXpathLibrary::$rowProductScheme);
         $I->wait(1);
 
+        $data['DSA_CODE'] = 'BAD00002';
+
         // Fill DSA code
         $I->click(\GeneralXpathLibrary::$DSACode);
         $I->wait(1);
@@ -171,11 +173,6 @@ class GeneralPLSteps extends \AcceptanceTester
     public function fullDataEntry($data)
     {
         $I = $this;
-
-        if (empty($data['LOAN_PURPOSE']))
-        {
-            $data['LOAN_PURPOSE'] = 'Other';
-        }
 
         // Goods Tab
         $I->wait(2);
@@ -309,7 +306,7 @@ class GeneralPLSteps extends \AcceptanceTester
 
         foreach ($rows as $column => $score)
         {
-            if ($column == 'SCORE_CHECK_AGE' && $score == $data['score_robot_age'])
+            if ($column == 'SCORE_USER_AGE' && $score == $data['score_robot_age'])
             {
                 $selectCheckQuery['SCORE_CHECK_AGE'] = "'P'";
             }
@@ -409,6 +406,24 @@ class GeneralPLSteps extends \AcceptanceTester
     public function updateIsRun($data, $connection)
     {
         $query = "UPDATE AUTOMATION_TEST_CASE_PL SET IS_RUN = 1 WHERE NATIONAL_ID = " . $data['NATIONAL_ID'];
+        $stid  = oci_parse($connection, $query);
+        oci_execute($stid);
+        oci_commit($connection);
+
+        return true;
+    }
+
+    /**
+     * Function to update is run status
+     *
+     * @param  array   $data        Data to update
+     * @param  string  $connection  Oracle connection
+     *
+     * @return void
+     */
+    public function updateNationalId($data, $connection)
+    {
+        $query = "UPDATE AUTOMATION_TEST_CASE_PL SET NATIONAL_ID = " . $data['TEMP_NATIONAL_ID'] . " WHERE NATIONAL_ID = " . $data['NATIONAL_ID'];
         $stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);

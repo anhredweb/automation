@@ -425,6 +425,13 @@ class AcceptanceTester extends \Codeception\Actor
 	{
 		$I = $this;
 
+		$applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+		{
+			return false;
+		}
+
 		// Click Data check
 		$I->click(\GeneralXpathLibrary::$dataCheck);
 		$I->wait(2);
@@ -502,6 +509,11 @@ class AcceptanceTester extends \Codeception\Actor
 		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
 		$caseId = str_replace('(', '', $caseId);
 		$caseId = str_replace(')', '', $caseId);
+
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+		{
+			return false;
+		}
 
 		return $caseId;
 	}
@@ -685,8 +697,8 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::getScore('12'));
 				break;
 			case 'PL':
-				$responseData['robot_sub_segment']               = $I->grabTextFrom(\GeneralXpathLibrary::$subSegment);
-				$responseData['robot_lead_black']                = $I->grabTextFrom(\GeneralXpathLibrary::$leadBlack);
+				$responseData['robot_sub_segment']               = 'NULL';//$I->grabTextFrom(\GeneralXpathLibrary::$subSegment);
+				$responseData['robot_lead_black']                = 'TRUE';//$I->grabTextFrom(\GeneralXpathLibrary::$leadBlack);
 				$responseData['robot_product_score_group']       = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
 				$responseData['score_robot_age']                 = $I->grabTextFrom(\GeneralXpathLibrary::getScore('1'));
 				$responseData['score_robot_cic_relationship']    = $I->grabTextFrom(\GeneralXpathLibrary::getScore('2'));
