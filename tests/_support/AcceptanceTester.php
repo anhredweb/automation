@@ -504,7 +504,7 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->click(\GeneralXpathLibrary::$submitDataCheck);
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$okDataCheck);
-		$I->wait(1);
+		$I->wait(5);
 
 		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
 		$caseId = str_replace('(', '', $caseId);
