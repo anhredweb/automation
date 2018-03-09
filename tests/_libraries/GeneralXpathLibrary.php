@@ -244,9 +244,9 @@ class GeneralXpathLibrary
 	
 	public static $yearPrevJob    = 'input#YearsInPreviousJob';
 	
-	public static $monthPrevJob   = 'select#MonthsInPresentJob';
+	public static $monthCurrJob   = '//select[@id="MonthsInPresentJob"]';
 	
-	public static $monthPrevJob   = 'select#MonthsInPreviousJob';
+	public static $monthPrevJob   = '//select[@id="MonthsInPreviousJob"]';
 
 	// Income Fields
 

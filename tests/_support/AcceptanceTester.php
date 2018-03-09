@@ -146,7 +146,10 @@ class AcceptanceTester extends \Codeception\Actor
 		$firstname = str_replace("'", " ", $faker->firstname);
 		$lastname  = str_replace("'", " ", $faker->lastname);
 		$I         = $this;
-		$I->wait(3);
+		$I->wait(1);
+
+		$I->click(\GeneralXpathLibrary::$dataCheck);
+		$I->wait(2);
 
 		// Fill firstname
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('" . $firstname . "')");
@@ -347,7 +350,7 @@ class AcceptanceTester extends \Codeception\Actor
 
             if (!empty($data['COMP_TAX_CODE']))
             {
-            	$I->click(\GeneralXpathLibrary::$brand);
+            	$I->click(\GeneralXpathLibrary::$compTaxCode);
 				$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$compTaxCodeJS . "').val('').val('" . $data["COMP_TAX_CODE"] . "')");
 				$I->wait(2);
 				$I->pressKey(\GeneralXpathLibrary::$compTaxCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
@@ -360,7 +363,9 @@ class AcceptanceTester extends \Codeception\Actor
             if (isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0)
             {
 				$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$yearCurrJob . "').val('" . $data['YEAR_IN_CURR_JOB'] . "')");
-				$I->wait(2);	
+				$I->wait(1);
+				$I->selectOption(\GeneralXpathLibrary::$monthPrevJob, array('value' => 0));
+				$I->wait(1);
             }
         }
 
