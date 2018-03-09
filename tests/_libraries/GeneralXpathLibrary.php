@@ -234,14 +234,19 @@ class GeneralXpathLibrary
 	public static $fbOwnerNationalId        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pNationalId"]';
 
 	// Work Fields
+	public static $compTaxCodeJS  = 'input#EM_EMPLOYERTAXID';
 	
-	public static $yearCurrJob = 'input#YearsInPresentJob';
-
-	public static $yearPrevJob = 'input#YearsInPreviousJob';
-
-	public static $monthPrevJob = 'select#MonthsInPresentJob';
-
-	public static $monthPrevJob = 'select#MonthsInPreviousJob';
+	public static $compTaxCode    = '//input[@id="EM_EMPLOYERTAXID"]';
+	
+	public static $rowCompTaxCode = '//tr[contains(@id, "$PD_CIF_Employer_")]';
+	
+	public static $yearCurrJob    = 'input#YearsInPresentJob';
+	
+	public static $yearPrevJob    = 'input#YearsInPreviousJob';
+	
+	public static $monthPrevJob   = 'select#MonthsInPresentJob';
+	
+	public static $monthPrevJob   = 'select#MonthsInPreviousJob';
 
 	// Income Fields
 

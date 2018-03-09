@@ -340,14 +340,28 @@ class AcceptanceTester extends \Codeception\Actor
         }
 
         // Work Tab
-        if (isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0)
+        if ((isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0) || !empty($data['COMP_TAX_CODE']))
         {
         	$I->click(\GeneralXpathLibrary::getTabId('7'));
             $I->wait(2);
 
+            if (!empty($data['COMP_TAX_CODE']))
+            {
+            	$I->click(\GeneralXpathLibrary::$brand);
+				$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$compTaxCodeJS . "').val('').val('" . $data["COMP_TAX_CODE"] . "')");
+				$I->wait(2);
+				$I->pressKey(\GeneralXpathLibrary::$compTaxCode, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+				$I->wait(2);
+				$I->click(\GeneralXpathLibrary::$rowCompTaxCode);
+				$I->wait(1);
+            }
+
             // Fill year in current job
-			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$yearCurrJob . "').val('" . $data['YEAR_IN_CURR_JOB'] . "')");
-			$I->wait(2);
+            if (isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0)
+            {
+				$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$yearCurrJob . "').val('" . $data['YEAR_IN_CURR_JOB'] . "')");
+				$I->wait(2);	
+            }
         }
 
         // Income Tab
