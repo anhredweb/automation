@@ -19,6 +19,27 @@ use Codeception\Module\WebDriver;
 class GeneralPLSteps extends \AcceptanceTester
 {
     /**
+     * Connect to Oracle.
+     *
+     * @return  mixed
+     */
+    public function connectOracle()
+    {
+        $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
+
+        // Create connection to Oracle
+        $conn = oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
+
+        if (!$conn) 
+        {
+            $m = oci_error();
+            return $m['message'];
+        }
+
+        return $conn;
+    }
+
+    /**
      * Function to launch to FECase Manager to Create Application
      *
      * @param  array  $data  Data
@@ -110,6 +131,12 @@ class GeneralPLSteps extends \AcceptanceTester
 
             return false;
         }
+
+        $tempNationalId = date('YmdHi');
+
+        $data['TEMP_NATIONAL_ID'] = $tempNationalId;
+        $I->updateNationalId($data, $this->connectOracle());
+        $data['NATIONAL_ID'] = $data['TEMP_NATIONAL_ID'];
 
         $I->click(\GeneralXpathLibrary::$rowProductScheme);
         $I->wait(1);

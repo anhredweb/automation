@@ -31,6 +31,10 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->fillField(\GeneralXpathLibrary::$username, $username);
         $I->fillField(\GeneralXpathLibrary::$password, $password);
         $I->click(\GeneralXpathLibrary::$loginButton);
+
+        $I->fillField(\GeneralXpathLibrary::$username, $username);
+        $I->fillField(\GeneralXpathLibrary::$password, $password);
+        $I->click(\GeneralXpathLibrary::$loginButton);
 	}
 
 	/**

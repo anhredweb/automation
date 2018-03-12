@@ -47,27 +47,6 @@ class initPLCest
         );
     }
 
-    /**
-     * Connect to Oracle.
-     *
-     * @return  mixed
-     */
-    protected function connectOracle()
-    {
-        $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
-
-        // Create connection to Oracle
-        $conn = oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
-
-        if (!$conn) 
-        {
-            $m = oci_error();
-            return $m['message'];
-        }
-
-        return $conn;
-    }
-
      /**
      * Execute Query.
      *
@@ -133,12 +112,6 @@ class initPLCest
 
         foreach ($data as $key => $case)
         {
-            $tempNationalId = date('YmdHi');
-
-            $case['TEMP_NATIONAL_ID'] = $tempNationalId;
-            $I->updateNationalId($case, $this->connectOracle());
-            $case['NATIONAL_ID'] = $case['TEMP_NATIONAL_ID'];
-
             $case = $I->validationData($case);
 
             $I->wantTo('Launch to FE Manager 7');
@@ -163,7 +136,7 @@ class initPLCest
             }
 
             $I->wantTo('Update is run');
-            $I->updateIsRun($case, $this->connectOracle());
+            $I->updateIsRun($case, $I->connectOracle());
             
             $I->wantTo('Check documents');
             $I->shortApplicationDocumentPL();
@@ -199,10 +172,10 @@ class initPLCest
             if (!empty($responseData))
             {
                 $I->wantTo('Update score');
-                $I->updateScore($responseData, $this->connectOracle());   
+                $I->updateScore($responseData, $I->connectOracle());   
 
                 $I->wantTo('Check score');
-                $I->checkScore($responseData, $this->connectOracle());              
+                $I->checkScore($responseData, $I->connectOracle());              
             }
 
             $I->switchToIFrame();
