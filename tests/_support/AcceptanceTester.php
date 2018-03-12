@@ -146,10 +146,10 @@ class AcceptanceTester extends \Codeception\Actor
 		$firstname = str_replace("'", " ", $faker->firstname);
 		$lastname  = str_replace("'", " ", $faker->lastname);
 		$I         = $this;
-		$I->wait(1);
-
-		$I->click(\GeneralXpathLibrary::$dataCheck);
 		$I->wait(2);
+
+		// $I->click(\GeneralXpathLibrary::$dataCheck);
+		// $I->wait(2);
 
 		// Fill firstname
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('" . $firstname . "')");
@@ -212,6 +212,11 @@ class AcceptanceTester extends \Codeception\Actor
 		// Select Disbursement Channel
 		if ($product == 'PL')
 		{
+			if (empty($data['DISBURSEMENT_CHANNEL']))
+			{
+				$data['DISBURSEMENT_CHANNEL'] = 'VNPOST';
+			}
+
 			$I->selectOption(\GeneralXpathLibrary::$disbursementChannel, array('value' => $data['DISBURSEMENT_CHANNEL']));
 			$I->wait(2);
 		}

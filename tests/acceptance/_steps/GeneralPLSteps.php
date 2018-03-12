@@ -423,7 +423,7 @@ class GeneralPLSteps extends \AcceptanceTester
      */
     public function updateNationalId($data, $connection)
     {
-        $query = "UPDATE AUTOMATION_TEST_CASE_PL SET NATIONAL_ID = " . $data['TEMP_NATIONAL_ID'] . " WHERE NATIONAL_ID = " . $data['NATIONAL_ID'];
+        $query = "UPDATE AUTOMATION_TEST_CASE_PL SET NATIONAL_ID = " . $data['TEMP_NATIONAL_ID'] . " WHERE PRODUCT_SCHEME = '" . $data['PRODUCT_SCHEME'] . "' AND NATIONAL_ID = " . $data['NATIONAL_ID'];
         $stid  = oci_parse($connection, $query);
         oci_execute($stid);
         oci_commit($connection);
