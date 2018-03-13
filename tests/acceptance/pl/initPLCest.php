@@ -57,7 +57,7 @@ class initPLCest
     protected function executeQuery($I)
     {
         $connection = $I->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE a.IS_RUN = 0 AND SUB_SEGMENT = 'NTB_S3' AND PRODUCT_SCHEME = 'FC UP CAT B NEW- 610'";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE a.IS_RUN = 0 AND SUB_SEGMENT = 'NTB_S5'";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
@@ -86,7 +86,7 @@ class initPLCest
         $I = new AcceptanceTester\GeneralPLSteps($scenario);
 
         $I->wantTo('Login to PEGA UAT');
-        $I->loginPega('nhut.le@fecredit.com.vn', 'rules238');
+        $I->loginPega('tu.vuong@fecredit.com.vn', 'rules');
 
         $I->wantTo('Check session message');
         $I->checkSessionMessage();
