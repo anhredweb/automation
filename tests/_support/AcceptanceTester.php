@@ -17,6 +17,27 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
+    /**
+     * Connect to Oracle.
+     *
+     * @return  mixed
+     */
+    public function connectOracle()
+    {
+        $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
+
+        // Create connection to Oracle
+        $conn = oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
+
+        if (!$conn) 
+        {
+            $m = oci_error();
+            return $m['message'];
+        }
+
+        return $conn;
+    }
+
    /**
 	 * Function to login to PEGA UAT Page
 	 *

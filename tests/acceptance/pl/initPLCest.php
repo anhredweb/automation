@@ -50,12 +50,14 @@ class initPLCest
      /**
      * Execute Query.
      *
+     * @param   AcceptanceTester  $I  Acceptance Tester case.
+     *
      * @return  array
      */
-    protected function executeQuery()
+    protected function executeQuery($I)
     {
-        $connection = $this->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE a.IS_RUN = 0 AND SUB_SEGMENT = 'NTB_S3'";
+        $connection = $I->connectOracle();
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE a.IS_RUN = 0 AND SUB_SEGMENT = 'NTB_S3' AND PRODUCT_SCHEME = 'FC UP CAT B NEW- 610'";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
@@ -73,7 +75,7 @@ class initPLCest
      */
     public function createPLApplication(AcceptanceTester $I, $scenario)
     {
-        $data = $this->executeQuery();
+        $data = $this->executeQuery($I);
 
         if (empty($data))
         {
@@ -120,6 +122,12 @@ class initPLCest
             {
                 continue;
             }
+
+            $tempNationalId = (int) date('YmdHi') + (int) $key;
+
+            $case['TEMP_NATIONAL_ID'] = $tempNationalId;
+            $I->updateNationalId($case, $I->connectOracle());
+            $case['NATIONAL_ID'] = $case['TEMP_NATIONAL_ID'];
 
             $I->wantTo('Init data');
 
