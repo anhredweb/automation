@@ -57,7 +57,7 @@ class initPLCest
     protected function executeQuery($I)
     {
         $connection = $I->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE a.IS_RUN = 0 AND SUB_SEGMENT = 'NTB_S5'";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE a.IS_RUN = 0 AND SUB_SEGMENT = 'NTB_S4' AND PRODUCT_SCHEME = 'FC UP DSA TS SCORE 2 NEW- 762'";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
@@ -187,7 +187,7 @@ class initPLCest
             }
 
             $I->switchToIFrame();
-            $I->click(\GeneralXpathLibrary::$closeButton);
+            //$I->click(\GeneralXpathLibrary::$closeButton);
 
             $I->wantTo('Switch Application to Loan');
             $I->switchApplicationToLoan();

@@ -344,7 +344,7 @@ class GeneralXpathLibrary
     public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
 
     // Access by LOS2
-	public static $emailOnTop2         = '//a[contains(@title, "nhut.le@fecredit.com.vn")]';
+	public static $emailOnTop2         = '//a[contains(@title, "tu.vuong@fecredit.com.vn")]';
 	
 	public static $roleMenu            = '//a[@data-test-id="20140927131516034248306"]';
 	
