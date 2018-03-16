@@ -147,7 +147,11 @@ class initPLCest
             $I->updateIsRun($case, $I->connectOracle());
             
             $I->wantTo('Check documents');
-            $I->shortApplicationDocumentPL();
+
+            if (!$I->shortApplicationDocumentPL())
+            {
+                continue;
+            }
 
             $I->wantTo('Entry full data');
 

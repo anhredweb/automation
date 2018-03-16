@@ -226,7 +226,7 @@ class AcceptanceTester extends \Codeception\Actor
 		if (!empty($data['HOMETOWN']))
 		{
 			$I->click(\GeneralXpathLibrary::$hometown);
-			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$hometownJS . "').val('Hồ Chí Minh')");
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$hometownJS . "').val('" . $data['HOMETOWN'] . "')");
 			$I->wait(2);
 			$I->pressKey(\GeneralXpathLibrary::$hometown, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
 			$I->wait(1);
@@ -261,6 +261,13 @@ class AcceptanceTester extends \Codeception\Actor
 	public function shortApplicationDocument()
 	{
 		$I = $this;
+
+		$applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+		{
+			return false;
+		}
 
 		// Click demo data
 		$I->wait(2);
@@ -484,13 +491,6 @@ class AcceptanceTester extends \Codeception\Actor
 	{
 		$I = $this;
 
-		$applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
-
-		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
-		{
-			return false;
-		}
-
 		// Click Data check
 		$I->click(\GeneralXpathLibrary::$dataCheck);
 		$I->wait(2);
@@ -569,10 +569,14 @@ class AcceptanceTester extends \Codeception\Actor
 		$caseId = str_replace('(', '', $caseId);
 		$caseId = str_replace(')', '', $caseId);
 
+		$applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
 		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
 		{
 			return false;
 		}
+
+		print_r($applicationStatus);
 
 		return $caseId;
 	}

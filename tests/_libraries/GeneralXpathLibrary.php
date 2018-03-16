@@ -49,7 +49,6 @@ class GeneralXpathLibrary
 	public static $loginButton = '//button[@name="pyActivity=Code-Security.Login"]';
 
     // Init app Stage
-    
     public static $closeSession      = '//button[@name="pxHAMessage_pyDisplayHarness_37"]';
 
 	public static $launchButton      = '//a[@data-test-id="20140927131516034349915"]';

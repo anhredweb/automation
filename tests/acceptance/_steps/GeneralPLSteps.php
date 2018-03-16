@@ -306,7 +306,7 @@ class GeneralPLSteps extends \AcceptanceTester
 
         foreach ($rows as $column => $score)
         {
-            if ($column == 'SCORE_USER_AGE' && $score == $data['score_robot_age'])
+            if ($column == 'SCORE_USER_AGE' && (int) $score == (int) $data['score_robot_age'])
             {
                 $selectCheckQuery['SCORE_CHECK_AGE'] = "'P'";
             }
