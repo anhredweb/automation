@@ -27,6 +27,8 @@ CREATE TABLE AUTOMATION_TEST_CASE_PL
        phone_reference2                          VARCHAR2(12),
        cic_description                           VARCHAR2(200),
        pcb_description                           VARCHAR2(4000),
+       number_of_rel_cic                         VARCHAR2(5),
+       number_of_rel_pcb                         VARCHAR2(5),
        /* Data will fill after automation run */
        application_id                            VARCHAR2(20),
        case_id                                   VARCHAR2(10),
@@ -120,6 +122,8 @@ INTO AUTOMATION_TEST_CASE_PL
        phone_reference2,
        cic_description,
        pcb_description,
+       number_of_rel_cic,
+       number_of_rel_pcb,
        total_score,
        score_group,
        product_score_group,
@@ -175,6 +179,8 @@ VALUES
        Dư nợ hiện tại : 
        Nhóm nợ cao nhất hiện tại : 
        Nhóm nợ cao nhất trong vòng 5 năm : 1 - Nợ đủ tiêu chuẩn',
+       'R2',
+       'R3',
        0,
        0,
        0,
@@ -221,6 +227,8 @@ INTO AUTOMATION_TEST_CASE_PL
        phone_reference2,
        cic_description,
        pcb_description,
+       number_of_rel_cic,
+       number_of_rel_pcb,
        total_score,
        score_group,
        product_score_group,
@@ -276,6 +284,8 @@ VALUES
        Dư nợ hiện tại : 328.000
        Nhóm nợ cao nhất hiện tại : Nợ nhóm 6 - nợ xấu
        Nhóm nợ cao nhất trong vòng 5 năm : Nợ nhóm 6 - nợ xấu',
+       'R4',
+       'R5'
        0,
        0,
        0,

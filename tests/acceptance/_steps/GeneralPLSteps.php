@@ -147,11 +147,20 @@ class GeneralPLSteps extends \AcceptanceTester
     /**
      * Function to check documents for PL Application
      *
-     * @return void
+     * @return boolean
      */
     public function shortApplicationDocumentPL()
     {
         $I = $this;
+
+        $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+        print_r($applicationStatus);
+
+        if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+        {
+            return false;
+        }
 
         // Click demo data
         $I->wait(2);
@@ -161,6 +170,8 @@ class GeneralPLSteps extends \AcceptanceTester
         // Click submit data
         $I->click(\GeneralXpathLibrary::$submitPLDocument);
         $I->wait(2);
+
+        return true;
     }
 
     /**
@@ -275,24 +286,24 @@ class GeneralPLSteps extends \AcceptanceTester
             'LEAD_BLACK'
         );
         $selectCheckQuery = array(
-            'SCORE_CHECK_AGE'                 => "'F'",
-            'SCORE_CHECK_CIC_RELATIONSHIP'    => "'F'",
-            'SCORE_CHECK_COMPANY'             => "'F'",
-            'SCORE_CHECK_PRE_OF_WORK_EXP' => "'F'",
-            'SCORE_CHECK_CUST_SOCIAL_TRUST'   => "'F'",
-            'SCORE_CHECK_DISB_APPS'           => "'F'",
-            'SCORE_CHECK_DSA'                 => "'F'",
-            'SCORE_CHECK_EDUCATION'           => "'F'",
-            'SCORE_CHECK_GENDER'              => "'F'",
-            'SCORE_CHECK_MARITAL_STATUS'      => "'F'",
-            'SCORE_CHECK_HOMETOWN'            => "'F'",
-            'SCORE_CHECK_REJECTED_APPS'       => "'F'",
-            'SCORE_CHECK_TS_APPLY_DAYS'       => "'F'",
-            'CHECK_TOTAL_SCORE'               => "'F'",
-            'CHECK_SCORE_GROUP'               => "'F'",
-            'CHECK_PRODUCT_SCORE_GROUP'       => "'F'",
-            'CHECK_SUB_SEGMENT'               => "'F'",
-            'CHECK_LEAD_BLACK'                => "'F'"
+            'SCORE_CHECK_AGE'               => "'F'",
+            'SCORE_CHECK_CIC_RELATIONSHIP'  => "'F'",
+            'SCORE_CHECK_COMPANY'           => "'F'",
+            'SCORE_CHECK_PRE_OF_WORK_EXP'   => "'F'",
+            'SCORE_CHECK_CUST_SOCIAL_TRUST' => "'F'",
+            'SCORE_CHECK_DISB_APPS'         => "'F'",
+            'SCORE_CHECK_DSA'               => "'F'",
+            'SCORE_CHECK_EDUCATION'         => "'F'",
+            'SCORE_CHECK_GENDER'            => "'F'",
+            'SCORE_CHECK_MARITAL_STATUS'    => "'F'",
+            'SCORE_CHECK_HOMETOWN'          => "'F'",
+            'SCORE_CHECK_REJECTED_APPS'     => "'F'",
+            'SCORE_CHECK_TS_APPLY_DAYS'     => "'F'",
+            'CHECK_TOTAL_SCORE'             => "'F'",
+            'CHECK_SCORE_GROUP'             => "'F'",
+            'CHECK_PRODUCT_SCORE_GROUP'     => "'F'",
+            'CHECK_SUB_SEGMENT'             => "'F'",
+            'CHECK_LEAD_BLACK'              => "'F'"
         );
         $query      = "SELECT " . implode(',', $selectScoreQuery) . " FROM AUTOMATION_TEST_CASE_PL WHERE NATIONAL_ID = " . $data['national_id'];
         $stid       = oci_parse($connection, $query);
@@ -310,55 +321,55 @@ class GeneralPLSteps extends \AcceptanceTester
             {
                 $selectCheckQuery['SCORE_CHECK_AGE'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_CIC_RELATIONSHIP' && $score == $data['score_robot_cic_relationship'])
+            elseif ($column == 'SCORE_USER_CIC_RELATIONSHIP' && (int) $score == (int) $data['score_robot_cic_relationship'])
             {
                 $selectCheckQuery['SCORE_CHECK_CIC_RELATIONSHIP'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_COMPANY' && $score == $data['score_robot_company'])
+            elseif ($column == 'SCORE_USER_COMPANY' && (int) $score == (int) $data['score_robot_company'])
             {
                 $selectCheckQuery['SCORE_CHECK_COMPANY'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_PRE_OF_WORK_EXP' && $score == $data['score_robot_pre_of_work_exp'])
+            elseif ($column == 'SCORE_USER_PRE_OF_WORK_EXP' && (int) $score == (int) $data['score_robot_pre_of_work_exp'])
             {
                 $selectCheckQuery['SCORE_CHECK_PRE_OF_WORK_EXP'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_CUST_SOCIAL_TRUST' && $score == $data['score_robot_cust_social_trust'])
+            elseif ($column == 'SCORE_USER_CUST_SOCIAL_TRUST' && (int) $score == (int) $data['score_robot_cust_social_trust'])
             {
                 $selectCheckQuery['SCORE_CHECK_CUST_SOCIAL_TRUST'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_DISB_APPS' && $score == $data['score_robot_disb_apps'])
+            elseif ($column == 'SCORE_USER_DISB_APPS' && (int) $score == (int) $data['score_robot_disb_apps'])
             {
                 $selectCheckQuery['SCORE_CHECK_DISB_APPS'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_DSA' && $score == $data['score_robot_dsa'])
+            elseif ($column == 'SCORE_USER_DSA' && (int) $score == (int) $data['score_robot_dsa'])
             {
                 $selectCheckQuery['SCORE_CHECK_DSA'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_EDUCATION' && $score == $data['score_robot_education'])
+            elseif ($column == 'SCORE_USER_EDUCATION' && (int) $score == (int) $data['score_robot_education'])
             {
                 $selectCheckQuery['SCORE_CHECK_EDUCATION'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_GENDER' && $score == $data['score_robot_gender'])
+            elseif ($column == 'SCORE_USER_GENDER' && (int) $score == (int) $data['score_robot_gender'])
             {
                 $selectCheckQuery['SCORE_CHECK_GENDER'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_MARITAL_STATUS' && $score == $data['score_robot_marital_status'])
+            elseif ($column == 'SCORE_USER_MARITAL_STATUS' && (int) $score == (int) $data['score_robot_marital_status'])
             {
                 $selectCheckQuery['SCORE_CHECK_MARITAL_STATUS'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_HOMETOWN' && $score == $data['score_robot_hometown'])
+            elseif ($column == 'SCORE_USER_HOMETOWN' && (int) $score == (int) $data['score_robot_hometown'])
             {
                 $selectCheckQuery['SCORE_CHECK_HOMETOWN'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_REJECTED_APPS' && $score == $data['score_robot_rejected_apps'])
+            elseif ($column == 'SCORE_USER_REJECTED_APPS' && (int) $score == (int) $data['score_robot_rejected_apps'])
             {
                 $selectCheckQuery['SCORE_CHECK_REJECTED_APPS'] = "'P'";
             }
-            elseif ($column == 'SCORE_USER_TS_APPLY_DAYS' && $score == $data['score_robot_ts_apply_days'])
+            elseif ($column == 'SCORE_USER_TS_APPLY_DAYS' && (int) $score == (int) $data['score_robot_ts_apply_days'])
             {
                 $selectCheckQuery['SCORE_CHECK_TS_APPLY_DAYS'] = "'P'";
             }
-            elseif ($column == 'TOTAL_SCORE' && $score == $data['robot_total_score'])
+            elseif ($column == 'TOTAL_SCORE' && (int) $score == (int) $data['robot_total_score'])
             {
                 $selectCheckQuery['CHECK_TOTAL_SCORE'] = "'P'";
             }

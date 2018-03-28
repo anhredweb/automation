@@ -131,7 +131,7 @@ class GeneralXpathLibrary
 	public static $rowHometown  = '//tr[contains(@id, "$PD_ClassificationSchemeList$pSchemes$gHometownProv$ppxResults")]';
 
 	public static $disbursementChannel = '//select[@name="$PpyWorkPage$pLoanApp$pLoanDetail$pDisbursementChannel"]';
-	
+
 	public static $demoDataShortApp   = '//button[@data-click-id="[["showMenu",[{"dataSource":"DemoDataShortApp", "isNavTypeCustom":"false", "className":"FECredit-Base-Loan-Work-Loan-CD","menuAlign":"left","format":"menu-format-standard" , "loadBehavior":"ondisplay", "ellipsisAfter":"999","usingPage":"pyWorkPage", "useNewMenu":"true", "isMobile":"false", "navPageName":"pyNavigation1508927626414"},":event"]]]"]';
 	
 	public static $demoDataG1ShortApp = '//button[@id="pyNavigation1509437842034"]';
@@ -232,6 +232,27 @@ class GeneralXpathLibrary
 
 	public static $fbOwnerNationalId        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pFBOwner$pPerson$pContact$pNationalId"]';
 
+	// Contacts Fields
+	public static $currentAddressRow = '//div[@aria-labelledby="Tab6"]//div[@data-node-id="ContactInformation"]//td[@data-attribute-name="Address"]/div/p[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pAddresses$l1$pFullAddressStr"]';
+	
+	public static $province          = '//input[@id="CityDesc"]';
+	
+	public static $provinceJS        = 'input#CityDesc';
+	
+	public static $rowProvince       = '//tr[contains(@id, "$PD_ClassificationSchemeList$pSchemes$gProvince$ppxResults")]';
+	
+	public static $district          = '//input[@id="DistrictDesc"]';
+	
+	public static $districtJS        = 'input#DistrictDesc';
+	
+	public static $rowDistrict       = '//tr[contains(@id, "$PD_DistrictList")][1]';
+	
+	public static $ward              = '//input[@id="WardDesc"]';
+	
+	public static $wardJS            = 'input#WardDesc';
+	
+	public static $rowWard           = '//tr[contains(@id, "$PD_WardList")][1]';
+
 	// Work Fields
 	public static $compTaxCodeJS  = 'input#EM_EMPLOYERTAXID';
 	
@@ -248,7 +269,6 @@ class GeneralXpathLibrary
 	public static $monthPrevJob   = '//select[@id="MonthsInPreviousJob"]';
 
 	// Income Fields
-
 	public static $rowMainIncome         = '//div[@aria-labelledby="Tab8"]//div[@data-node-id="Income"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pIncome$pIncome$l1"]//td[3]';	
 	
 	public static $personalIncome        = '//input[@id="NetAmount1"]';
@@ -277,34 +297,43 @@ class GeneralXpathLibrary
 	
 	public static $submitFullDataEntry      = '//button[contains(@data-click, "doFormSubmit")]';
 
+	// Pending Rework
+	public static $reworkDemoData = '//button[@name="ScanAppRework_pyWorkPage_37"]';
+	
+	public static $reworkSubmit   = '//button[@name="ScanAppRework_pyWorkPage_42"] ';
+
 	// Data check Stage
-	public static $dataCheck          = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//li[2]//a[1]';
+	public static $dataCheck               = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//li[2]//a[1]';
 	
-	public static $verificationResult = '//select[@name="$PpyWorkPage$pLoanApp$pDCH$pResult"]';
+	public static $verificationResult      = '//select[@name="$PpyWorkPage$pLoanApp$pDCH$pResult"]';
 	
-	public static $demoDataDataCheck  = '//button[@name="DataCheck_pyWorkPage_"]';
+	public static $demoDataDataCheck       = '//button[@name="DataCheck_pyWorkPage_"]';
 	
-	public static $cicResult          = '//select[@id="CICCheckResult"]';
-
-	public static $pcbResult          = '//select[@id="PCBCheckResult"]';
+	public static $cicResult               = '//select[@id="CICCheckResult"]';
 	
-	public static $submitDataCheck    = '//button[@name="DataCheck_pyWorkPage_44"]';
+	public static $pcbResult               = '//select[@id="PCBCheckResult"]';
 	
-	public static $okDataCheck        = '//button[@data-test-id="2016053114385707303299"]';
+	public static $submitDataCheck         = '//button[@name="DataCheck_pyWorkPage_44"]';
 	
-	public static $documentsTab       = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab2"]//a[@tabtitle="2. Documents"]';
+	public static $okDataCheck             = '//button[@data-test-id="2016053114385707303299"]';
 	
-	public static $cicTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab3"]//a[@tabtitle="3. CIC"]';
-
-	public static $pcbTab             = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab4"]//a[@tabtitle="PCB"]';
-
-	public static $cicAddItem         = '//table[contains(@data-ui-meta, "FREEFORM")]//td[contains(@data-ui-meta, "FECredit-FW-LoanFW-Data-CIC")]//a[@data-test-id="2016012116004104207418"]';
-
-	public static $cicNationalId      = 'input#NationalID';
-
-	public static $cicComment         = '//textarea[@id="Comment"]';
-
-	public static $cicSaveButton      = '//table[contains(@class, "buttonMainTable")]//td//button[@name="RowDetailsSubmitButton"]';
+	public static $documentsTab            = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab2"]//a[@tabtitle="2. Documents"]';
+	
+	public static $cicTab                  = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab3"]//a[@tabtitle="3. CIC"]';
+	
+	public static $pcbTab                  = '//div[@data-node-id="CaseContainerDE"]//div[@data-node-id="DataCheckWithDocs"]//div[contains(@id, "PEGA_TABBED")]//ul[contains(@class, "Standard_TopList")]//li[@id="Tab4"]//a[@tabtitle="PCB"]';
+	
+	public static $cicAddItem              = '//table[contains(@data-ui-meta, "FREEFORM")]//td[contains(@data-ui-meta, "FECredit-FW-LoanFW-Data-CIC")]//a[@data-test-id="2016012116004104207418"]';
+	
+	public static $cicNationalId           = 'input#NationalID';
+	
+	public static $cicComment              = '//textarea[@id="Comment"]';
+	
+	public static $cicSaveButton           = '//table[contains(@class, "buttonMainTable")]//td//button[@name="RowDetailsSubmitButton"]';
+	
+	public static $numberOfRelationshipCIC = '//select[@id="NumberOfRelationshipFromCIC"]';
+	
+	public static $numberOfRelationshipPCB = '//select[@id="NumberOfRelationshipFromPCB"]';
 
 	//Phone verification Stage
 	public static $phoneVerification    = '//ul[@id="gridNode0"]//li[@id="$PCaseContentsPage$ppxResults$l1"]//li[2]//a[1]';

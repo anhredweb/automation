@@ -52,10 +52,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->fillField(\GeneralXpathLibrary::$username, $username);
         $I->fillField(\GeneralXpathLibrary::$password, $password);
         $I->click(\GeneralXpathLibrary::$loginButton);
-
-        $I->fillField(\GeneralXpathLibrary::$username, $username);
-        $I->fillField(\GeneralXpathLibrary::$password, $password);
-        $I->click(\GeneralXpathLibrary::$loginButton);
 	}
 
 	/**
@@ -244,6 +240,14 @@ class AcceptanceTester extends \Codeception\Actor
 
 			$I->selectOption(\GeneralXpathLibrary::$disbursementChannel, array('value' => $data['DISBURSEMENT_CHANNEL']));
 			$I->wait(2);
+
+			if (!empty($data['REQUESTED_AMOUNT']))
+	        {
+	            $I->fillField(\GeneralXpathLibrary::$requestedAmount, $data["REQUESTED_AMOUNT"]);
+	            $I->wait(1);
+	            $I->executeJS("return jQuery('" . \GeneralXpathLibrary::$requestedAmountJS . "').val('" . $data["REQUESTED_AMOUNT"] . "').attr('data-value', '" . $data["REQUESTED_AMOUNT"] . "')");
+	            $I->wait(2);
+	        }
 		}
 
 		// Click submit data
@@ -264,6 +268,8 @@ class AcceptanceTester extends \Codeception\Actor
 
 		$applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
 
+		print_r($applicationStatus);
+
 		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
 		{
 			return false;
@@ -279,7 +285,7 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(2);
 	}
 
-	 /**
+	/**
      * Function to entry full data for Application
      *
      * @param  array  $data  Data
@@ -378,6 +384,39 @@ class AcceptanceTester extends \Codeception\Actor
             $I->fillField(\GeneralXpathLibrary::$spouseRelationPeriod, $faker->numberBetween(1, 9));
             $I->wait(2);
         }
+
+        // Contacts Tab
+        if (!empty($data['HOMETOWN']))
+        {
+        	$I->click(\GeneralXpathLibrary::getTabId('6'));
+        	$I->wait(2);
+
+            $I->click(\GeneralXpathLibrary::$currentAddressRow);
+            $I->wait(2);
+
+        	$I->click(\GeneralXpathLibrary::$province);
+			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$provinceJS . "').val('" . $data['HOMETOWN'] . "')");
+			$I->wait(2);
+			$I->pressKey(\GeneralXpathLibrary::$province, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+			$I->wait(1);
+			$I->click(\GeneralXpathLibrary::$rowProvince);
+			$I->wait(2);
+
+			$I->click(\GeneralXpathLibrary::$district);
+			$I->wait(2);
+			$I->pressKey(\GeneralXpathLibrary::$district, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+			$I->wait(1);
+			$I->click(\GeneralXpathLibrary::$rowDistrict);
+			$I->wait(2);
+
+			$I->click(\GeneralXpathLibrary::$ward);
+			$I->wait(2);
+			$I->pressKey(\GeneralXpathLibrary::$ward, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+			$I->wait(1);
+			$I->click(\GeneralXpathLibrary::$rowWard);
+			$I->wait(2);
+        }
+        
 
         // Work Tab
         if ((isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0) || !empty($data['COMP_TAX_CODE']))
@@ -480,6 +519,28 @@ class AcceptanceTester extends \Codeception\Actor
 	}
 
 	/**
+     * Function to Rework Add Documentations
+     *
+     * @return void
+     */
+	public function PendingReworkAddDoc()
+	{
+		$I = $this;
+
+		// Click Pending Rework AddDoc
+		$I->click(\GeneralXpathLibrary::$dataCheck);
+		$I->wait(2);
+
+		// Click Demo data
+		$I->click(\GeneralXpathLibrary::$reworkDemoData);
+        $I->wait(2);
+
+        // Click Submit
+        $I->click(\GeneralXpathLibrary::$reworkSubmit);
+        $I->wait(2);
+	}
+
+	/**
 	 * Function to data check for Application
 	 *
 	 * @param  string  $product  Product
@@ -552,6 +613,20 @@ class AcceptanceTester extends \Codeception\Actor
 			// Click Save
 			$I->click(\GeneralXpathLibrary::$cicSaveButton);
 			$I->wait(2);
+
+			// Select Number of relationship from CIC
+			if (!empty($data['NUMBER_OF_REL_CIC']))
+			{
+				$I->selectOption(\GeneralXpathLibrary::$numberOfRelationshipCIC, array("value" => $data['NUMBER_OF_REL_CIC']));
+				$I->wait(1);
+			}
+
+			// Select Number of relationship from PCB
+			if (!empty($data['NUMBER_OF_REL_PCB']))
+			{
+				$I->selectOption(\GeneralXpathLibrary::$numberOfRelationshipPCB, array("value" => $data['NUMBER_OF_REL_PCB']));
+				$I->wait(1);
+			}
 
 			// Click PCB tab and select PCB result
 			$I->click(\GeneralXpathLibrary::$pcbTab);
@@ -760,8 +835,8 @@ class AcceptanceTester extends \Codeception\Actor
 				$responseData['score_robot_customerage']       = $I->grabTextFrom(\GeneralXpathLibrary::getScore('12'));
 				break;
 			case 'PL':
-				$responseData['robot_sub_segment']               = 'NULL';//$I->grabTextFrom(\GeneralXpathLibrary::$subSegment);
-				$responseData['robot_lead_black']                = 'TRUE';//$I->grabTextFrom(\GeneralXpathLibrary::$leadBlack);
+				$responseData['robot_sub_segment']               = $I->grabTextFrom(\GeneralXpathLibrary::$subSegment);
+				$responseData['robot_lead_black']                = $I->grabTextFrom(\GeneralXpathLibrary::$leadBlack);
 				$responseData['robot_product_score_group']       = $I->grabTextFrom(\GeneralXpathLibrary::$productScoreGroup);
 				$responseData['score_robot_age']                 = $I->grabTextFrom(\GeneralXpathLibrary::getScore('1'));
 				$responseData['score_robot_cic_relationship']    = $I->grabTextFrom(\GeneralXpathLibrary::getScore('2'));
