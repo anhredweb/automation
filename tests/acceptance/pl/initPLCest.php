@@ -91,8 +91,8 @@ class initPLCest
         $I->wantTo('Check session message');
         $I->checkSessionMessage();
 
-        $I->wantTo('Switch Application to LOS2');
-        $I->switchApplicationToLOS2();
+        // $I->wantTo('Switch Application to LOS2');
+        // $I->switchApplicationToLOS2();
 
         /*
         $I->wantTo('Search Application');
@@ -113,7 +113,7 @@ class initPLCest
         $I->wantTo('Switch Application to Loan');
         $I->switchApplicationToLoan();*/
 
-        foreach ($data as $key => $case)
+/*        foreach ($data as $key => $case)
         {
             $I->wantTo('Search Application');
             $responseData = $I->searchApplication($case['CASE_ID'], 'PL', $case);
@@ -131,98 +131,94 @@ class initPLCest
 
             $I->switchToIFrame();
             continue;
-            // $I->click(\GeneralXpathLibrary::$closeButton);
+        }*/
 
-            // $I->wantTo('Switch Application to Loan');
-            // $I->switchApplicationToLoan();
-        }
+        foreach ($data as $key => $case)
+        {
+            $case = $I->validationData($case);
 
-        // foreach ($data as $key => $case)
-        // {
-        //     $case = $I->validationData($case);
+            $I->wantTo('Launch to FE Manager 7');
 
-        //     $I->wantTo('Launch to FE Manager 7');
+            if (!$I->launchPortal($case))
+            {
+                continue;
+            }
 
-        //     if (!$I->launchPortal($case))
-        //     {
-        //         continue;
-        //     }
+            $tempNationalId = (int) date('YmdHi') + (int) $key;
 
-        //     $tempNationalId = (int) date('YmdHi') + (int) $key;
+            $case['TEMP_NATIONAL_ID'] = $tempNationalId;
+            $I->updateNationalId($case, $I->connectOracle());
+            $case['NATIONAL_ID'] = $case['TEMP_NATIONAL_ID'];
 
-        //     $case['TEMP_NATIONAL_ID'] = $tempNationalId;
-        //     $I->updateNationalId($case, $I->connectOracle());
-        //     $case['NATIONAL_ID'] = $case['TEMP_NATIONAL_ID'];
+            $I->wantTo('Init data');
 
-        //     $I->wantTo('Init data');
+            if (!$I->initPLData($case, 'TW'))
+            {
+                continue;
+            }
 
-        //     if (!$I->initPLData($case, 'TW'))
-        //     {
-        //         continue;
-        //     }
+            $I->wantTo('Entry short data');
 
-        //     $I->wantTo('Entry short data');
+            if (!$I->shortApplication($case, 'PL'))
+            {
+                continue;
+            }
 
-        //     if (!$I->shortApplication($case, 'PL'))
-        //     {
-        //         continue;
-        //     }
-
-        //     $I->wantTo('Update is run');
-        //     $I->updateIsRun($case, $I->connectOracle());
+            $I->wantTo('Update is run');
+            $I->updateIsRun($case, $I->connectOracle());
             
-        //     $I->wantTo('Check documents');
+            $I->wantTo('Check documents');
 
-        //     if (!$I->shortApplicationDocumentPL())
-        //     {
-        //         continue;
-        //     }
+            if (!$I->shortApplicationDocumentPL())
+            {
+                continue;
+            }
 
-        //     $I->wantTo('Entry full data');
-        //     $I->fullDataEntry($case);
+            $I->wantTo('Entry full data');
+            $I->fullDataEntry($case);
 
-        //     $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+            $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
 
-        //     if (trim($applicationStatus) == 'Pending-Rework-AddDoc')
-        //     {
-        //         $I->PendingReworkAddDoc();
-        //     }
+            if (trim($applicationStatus) == 'Pending-Rework-AddDoc')
+            {
+                $I->PendingReworkAddDoc();
+            }
 
-        //     $I->wantTo('Check data');
-        //     $caseId = $I->dataCheck('PL', $case);
+            $I->wantTo('Check data');
+            $caseId = $I->dataCheck('PL', $case);
 
-        //     if ($caseId == false)
-        //     {
-        //         continue;
-        //     }
+            if ($caseId == false)
+            {
+                continue;
+            }
 
-        //     /*$I->wantTo('Phone Verification');
+            /*$I->wantTo('Phone Verification');
 
-        //     if (!$I->phoneVerification($case, 'PL'))
-        //     {
-        //         continue;
-        //     }*/
+            if (!$I->phoneVerification($case, 'PL'))
+            {
+                continue;
+            }*/
 
-        //     $I->wantTo('Switch Application to LOS2');
-        //     $I->switchApplicationToLOS2();
+            $I->wantTo('Switch Application to LOS2');
+            $I->switchApplicationToLOS2();
 
-        //     $I->wantTo('Search Application');
-        //     $responseData = $I->searchApplication($caseId, 'PL', $case);
+            $I->wantTo('Search Application');
+            $responseData = $I->searchApplication($caseId, 'PL', $case);
 
-        //     if (!empty($responseData))
-        //     {
-        //         $I->wantTo('Update score');
-        //         $I->updateScore($responseData, $I->connectOracle());   
+            if (!empty($responseData))
+            {
+                $I->wantTo('Update score');
+                $I->updateScore($responseData, $I->connectOracle());   
 
-        //         $I->wantTo('Check score');
-        //         $I->checkScore($responseData, $I->connectOracle());              
-        //     }
+                $I->wantTo('Check score');
+                $I->checkScore($responseData, $I->connectOracle());              
+            }
 
-        //     $I->switchToIFrame();
-        //     //$I->click(\GeneralXpathLibrary::$closeButton);
+            $I->switchToIFrame();
+            //$I->click(\GeneralXpathLibrary::$closeButton);
 
-        //     $I->wantTo('Switch Application to Loan');
-        //     $I->switchApplicationToLoan();
-        // }
+            $I->wantTo('Switch Application to Loan');
+            $I->switchApplicationToLoan();
+        }
     }
 }
