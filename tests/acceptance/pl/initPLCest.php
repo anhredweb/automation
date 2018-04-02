@@ -91,29 +91,11 @@ class initPLCest
         $I->wantTo('Check session message');
         $I->checkSessionMessage();
 
-        // $I->wantTo('Switch Application to LOS2');
-        // $I->switchApplicationToLOS2();
+        // Only Search Applications and update to DB
+/*        $I->wantTo('Switch Application to LOS2');
+        $I->switchApplicationToLOS2();
 
-        /*
-        $I->wantTo('Search Application');
-        $responseData = $I->searchApplication('CDL-18146');
-
-        if (!empty($responseData))
-        {
-            $I->wantTo('Update score');
-            $I->updateScore($responseData, $this->connectOracle());   
-
-            $I->wantTo('Check score');
-            $I->checkScore($responseData, $this->connectOracle());              
-        }
-
-        $I->switchToIFrame();
-        $I->click(\GeneralXpathLibrary::$closeButton);
-
-        $I->wantTo('Switch Application to Loan');
-        $I->switchApplicationToLoan();*/
-
-/*        foreach ($data as $key => $case)
+        foreach ($data as $key => $case)
         {
             $I->wantTo('Search Application');
             $responseData = $I->searchApplication($case['CASE_ID'], 'PL', $case);
@@ -133,6 +115,7 @@ class initPLCest
             continue;
         }*/
 
+        // Process flow
         foreach ($data as $key => $case)
         {
             $case = $I->validationData($case);
