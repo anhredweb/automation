@@ -25,8 +25,7 @@ codecept.phar
 selenium.log
 tests/_output
 tests/RoboFile.ini
-selenium-server-standalone.jar
-selenium-server-standalone-3.6.0.jar
+*.jar
 tests/_support/_generated/*
 
 # Never ignore
