@@ -31,8 +31,9 @@ class AcceptanceTester extends \Codeception\Actor
 
         if (!$conn) 
         {
-            $m = oci_error();
-            return $m['message'];
+            $error = oci_error();
+
+            return $error['message'];
         }
 
         return $conn;
