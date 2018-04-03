@@ -57,7 +57,7 @@ class initPLCest
     protected function executeQuery($I)
     {
         $connection = $I->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE NOTE = 'NTB_S5' AND STATUS = 0";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE SUB_SEGMENT = 'NTB_S1' AND IS_RUN = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
         $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
