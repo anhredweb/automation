@@ -1,4 +1,6 @@
 image: php:7.1.9
+before_script:
+  - bash ci/docker_install.sh > /dev/null
 job:
   script:
   - .\vendor\bin\codecept run tests\acceptance\pl\initPLCest.php --steps
