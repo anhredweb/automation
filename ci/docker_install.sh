@@ -7,7 +7,7 @@ set -xe
 
 apt-get update -yqq
 apt-get install curl git -yqq
-curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/
 php /composer
 composer install
 
