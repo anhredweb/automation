@@ -1,3 +1,6 @@
+install_composer:
+  script: sudo apt-get install composer
+
 composer:
   script:
     - composer install
