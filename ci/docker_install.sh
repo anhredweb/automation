@@ -6,7 +6,7 @@
 set -xe
 
 apt-get update -yqq
-apt-get install zip unzip
+apt-get install zip unzip openjdk-8-jre
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
