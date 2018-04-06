@@ -1,9 +1,6 @@
-install_composer:
-  script: sudo apt-get install composer
-
-composer:
-  script:
-    - composer install
-tests:
-  script:
-    - .\vendor\bin\codecept run tests\acceptance\pl\initPLCest.php --steps
+image: php:7.1.9
+job:
+  script: 
+  - sudo apt-get install composer
+  - composer install
+  - .\vendor\bin\codecept run tests\acceptance\pl\initPLCest.php --steps
