@@ -104,8 +104,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->click(\GeneralXpathLibrary::$rowDealerCode);
 		$I->wait(1);
 
-
-
 		// Fill POS code
 		$I->click(\GeneralXpathLibrary::$posCode);
 		$I->wait(1);
