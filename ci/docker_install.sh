@@ -6,6 +6,7 @@
 set -xe
 
 apt-get update -yqq
+apt-get install composer -yqq
 composer install
 
 # Install phpunit, the tool that we will use for testing
