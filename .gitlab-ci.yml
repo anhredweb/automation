@@ -1,6 +1,4 @@
 image: php:7.1.9
 job:
-  script: 
-  - sudo apt-get install composer
-  - composer install
+  script:
   - .\vendor\bin\codecept run tests\acceptance\pl\initPLCest.php --steps
