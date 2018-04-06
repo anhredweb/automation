@@ -1,0 +1,6 @@
+composer:
+  script:
+    - composer install
+tests:
+  script:
+    - .\vendor\bin\codecept run tests\acceptance\pl\initPLCest.php --steps
