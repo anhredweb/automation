@@ -6,7 +6,9 @@
 set -xe
 
 apt-get update -yqq
-apt-get install composer -yqq
+apt-get install curl php7-cli git -yqq
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/
+php /composer
 composer install
 
 # Install phpunit, the tool that we will use for testing
