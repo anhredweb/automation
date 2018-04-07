@@ -6,8 +6,9 @@
 set -xe
 
 apt-get update -yqq
-apt-get install zip unzip oracle-java8-installer
+apt-get install zip unzip
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 php composer.phar install
+docker run -it --rm dockerfile/java java
