@@ -1,6 +1,6 @@
 language: php
 sudo: required
-dist: precise
+dist: trusty
 addons: # get google-chrome-stable
   chrome: stable
 install:
@@ -35,6 +35,7 @@ before_script:
   - sudo apt-get install oracle-java8-set-default
   - java -version
   - composer install
+  - jdk_switcher use oraclejdk8
 
 script:
   - whereis google-chrome-stable
