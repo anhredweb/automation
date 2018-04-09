@@ -163,8 +163,8 @@ class GeneralPLSteps extends \AcceptanceTester
         }
 
         // Click Scan and Attach Documents
-        $I->click(\GeneralXpathLibrary::$dataCheck);
-        $I->wait(2);
+        // $I->click(\GeneralXpathLibrary::$dataCheck);
+        // $I->wait(2);
 
         // Click demo data
         $I->wait(2);

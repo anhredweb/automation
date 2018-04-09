@@ -54,6 +54,11 @@ class AcceptanceTester extends \Codeception\Actor
         $I->fillField(\GeneralXpathLibrary::$password, $password);
         $I->click(\GeneralXpathLibrary::$loginButton);
 
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$errorDiv))
+		{
+			return;
+		}
+
         $I->fillField(\GeneralXpathLibrary::$username, $username);
         $I->fillField(\GeneralXpathLibrary::$password, $password);
         $I->click(\GeneralXpathLibrary::$loginButton);
@@ -174,14 +179,12 @@ class AcceptanceTester extends \Codeception\Actor
 
 		// $I->click(\GeneralXpathLibrary::$dataCheck);
 		// $I->wait(2);
-
-		// Fill firstname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('" . $firstname . "')");
-		$I->wait(1);
-
-		// Fill lastname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$lastname . "').val('" . $lastname . "')");
-		$I->wait(1);
+		
+		// Click demo data
+        $I->click(\GeneralXpathLibrary::$demoDataShortApp);
+        $I->wait(2);
+        $I->click(\GeneralXpathLibrary::$demoDataG1ShortApp);
+        $I->wait(2);
 
 		$genders = array('M', 'F');
 
@@ -198,12 +201,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$nationalId . "').val('" . $data['NATIONAL_ID'] . "')");
 		$I->wait(1);
 
-		// Fill date of issue
-		$I->click(\GeneralXpathLibrary::$dateOfIssue);
-		$I->wait(2);
-		$I->click(\GeneralXpathLibrary::$todayLink);
-		$I->wait(2);
-
 		// Fill date of birth
 		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['DATE_OF_BIRTH']);
 		$I->wait(2);
@@ -212,10 +209,6 @@ class AcceptanceTester extends \Codeception\Actor
 		{
 			$data['FB_NUMBER'] = 'FB#' . $data['NATIONAL_ID'];
 		}
-
-		// Fill family book number
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$fbNumber . "').val('" . $data['FB_NUMBER'] . "')");
-		$I->wait(1);
 
 		// Fill phone
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$phone . "').val('" . $data['PHONE'] . "')");

@@ -132,9 +132,9 @@ class GeneralXpathLibrary
 
 	public static $disbursementChannel = '//select[@name="$PpyWorkPage$pLoanApp$pLoanDetail$pDisbursementChannel"]';
 
-	public static $demoDataShortApp   = '//button[@data-click-id="[["showMenu",[{"dataSource":"DemoDataShortApp", "isNavTypeCustom":"false", "className":"FECredit-Base-Loan-Work-Loan-CD","menuAlign":"left","format":"menu-format-standard" , "loadBehavior":"ondisplay", "ellipsisAfter":"999","usingPage":"pyWorkPage", "useNewMenu":"true", "isMobile":"false", "navPageName":"pyNavigation1508927626414"},":event"]]]"]';
+	public static $demoDataShortApp   = '//button[contains(@data-click, "DemoDataShortApp")]';
 	
-	public static $demoDataG1ShortApp = '//button[@id="pyNavigation1509437842034"]';
+	public static $demoDataG1ShortApp = '//ul[contains(@style, "display: block;")]/li[contains(@class, "menu-item")]/a[contains(@data-click, "DemoDataEnterShortAppG1G6")]';
 	
 	public static $submitShortApp     = '//button[@data-test-id="20151224215849068133296"]';
 
@@ -151,7 +151,6 @@ class GeneralXpathLibrary
 	public static $addItemButton         = '//div[@data-node-id="AddDelete"]//a[@data-test-id="2016121614080304138535"]';
 
 	// Good Fields
-	
 	public static $assetType             = '//select[@name="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l2$pAssetType"]';
 	
 	public static $rowGoodData           = '//div[@gpropindex="PFinancialGoods1"]//div[@id="gridBody_right"]//table[@id="bodyTbl_right"]//tr[@id="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l1"]';	
@@ -187,7 +186,6 @@ class GeneralXpathLibrary
 	public static $saveGoodButton        = '//button[@id="RowDetailsButtonSubmit"]';
 
 	// Loan Fields
-	
 	public static $requestedAmount       = '//input[@id="RequestedAmount"]';
 
 	public static $requestedAmountJS     = 'input#RequestedAmount';
@@ -201,7 +199,6 @@ class GeneralXpathLibrary
 	public static $tenor                 = 'input#RequestedTenure';
 
 	// Customer Fields	
-	
 	public static $isFbOwner             = '//input[@id="IsFBOwner"]';
 
 	public static $title                 = '//select[@id="Title"]';
@@ -213,7 +210,6 @@ class GeneralXpathLibrary
 	public static $education             = '//select[@id="EducationId"]';
 
 	// Family Fields
-
 	public static $spouseLastname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pLastName"]';
 
 	public static $spouseFirstname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pFirstName"]';
@@ -278,7 +274,6 @@ class GeneralXpathLibrary
 	public static $familyIncome          = '//input[@id="NetAmount2"]';
 
 	// Reference Fields
-
 	public static $rowPhoneReference1    = '//div[@aria-labelledby="Tab9"]//div[@data-node-id="OtherReferensedPersons"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l1"]';
 
 	public static $rowMobile1    = '// tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l1$pPerson$pPhones$l1"]//td[3]';
@@ -366,10 +361,10 @@ class GeneralXpathLibrary
 	
 	public static $popupMessage      = 'Please correct flagged fields before submitting the form!';
 	
-	public static $errorDiv          = '//div[contains(@class, "inputErrorDiv")]//span[contains(@class, "inputError")]';
+	public static $errorDiv          = '//div[@id="errorDiv"]//div[@id="error"]';
 
     // Error message text 
-    public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
+	public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
 
     // Access by LOS2
 	public static $emailOnTop2         = '//a[contains(@title, "tu.vuong@fecredit.com.vn")]';
