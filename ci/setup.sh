@@ -37,5 +37,5 @@ composer install
 #npm install
 
 sh -e /etc/init.d/xvfb start
-fluxbox &
-sleep 3
+#fluxbox &
+#sleep 3

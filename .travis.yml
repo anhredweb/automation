@@ -8,7 +8,7 @@ install:
   - nvm install 8
   - nvm use 8
 php:
-  - 7.1.9
+  - 7.0
 cache:
   apt: true
   directories:
@@ -22,7 +22,7 @@ matrix:
   fast_finish: true
 
 before_script:
-  - "export DISPLAY=:99.0"
+  - export DISPLAY=:99.0
   - chmod +x ./ci/setup.sh
   - ./ci/setup.sh
 
