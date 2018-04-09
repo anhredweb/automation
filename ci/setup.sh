@@ -47,19 +47,7 @@ else
 	fluxbox &
 	sleep 3
 
-	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
-	composer global require hirak/prestissimo
-
-	cd libraries/redshop
-	composer install --prefer-dist
-
-	cd ../../plugins/redshop_pdf/tcpdf/helper
-	composer install --prefer-dist
-
-	cd ../../../..
-	composer install --prefer-dist
+	composer install
 
 	npm install
-	mv gulp-config.sample.json gulp-config.json
-	gulp release --skip-version
 fi

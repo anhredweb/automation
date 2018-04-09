@@ -28,7 +28,9 @@ matrix:
   fast_finish: true
 
 before_script:
-  - ./ci/setup.sh
+  - cd ./ci/
+  - ./setup.sh
 
 script:
-  - ./ci/script.sh
+  - cd ./ci/
+  - ./script.sh
