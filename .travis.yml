@@ -22,7 +22,6 @@ matrix:
   fast_finish: true
 
 before_script:
-  - export DISPLAY=:99.0
   - chmod +x ./ci/setup.sh
   - ./ci/setup.sh
 
