@@ -2,7 +2,7 @@ language: php
 sudo: required
 dist: precise
 addons:
-  firefox: "46.0"
+  firefox: "47.0.1"
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
