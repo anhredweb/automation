@@ -21,7 +21,6 @@ matrix:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - sudo add-apt-repository ppa:webupd8team/java
   - sudo apt-get update
   - java -version
   - sudo apt-get install oracle-java8-installer
