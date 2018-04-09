@@ -30,18 +30,12 @@ matrix:
 before_script:
   - "export DISPLAY=:99.0"
   - sudo apt-get update
-  - # forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
   - sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
-  - sudo apt-get update -qq
-    - sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
-    - sudo mkdir $(pwd)/.run
+  - sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
+  - sudo mkdir $(pwd)/.run
   - phpversionname="$(phpenv version-name)"
   - file="/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf"
   - cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf
-  - if [ -f /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default ]; then
-    - cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
-    - file=/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
-  - fi;
   - sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${phpversionname:0:1}-fpm.sock,g" --in-place $file
   - sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place $file
   - sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place $file
