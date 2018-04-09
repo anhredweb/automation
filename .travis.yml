@@ -21,7 +21,7 @@ matrix:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - .travis/setup.sh
+  - ./.travis/setup.sh
 
 script:
-  - .travis/script.sh
+  - ./.travis/script.sh
