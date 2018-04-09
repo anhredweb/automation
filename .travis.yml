@@ -1,6 +1,6 @@
 language: php
 sudo: required
-dist: trusty
+dist: precise
 addons:
   firefox: "46.0"
 install:
