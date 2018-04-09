@@ -53,6 +53,10 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->fillField(\GeneralXpathLibrary::$username, $username);
         $I->fillField(\GeneralXpathLibrary::$password, $password);
         $I->click(\GeneralXpathLibrary::$loginButton);
+
+        $I->fillField(\GeneralXpathLibrary::$username, $username);
+        $I->fillField(\GeneralXpathLibrary::$password, $password);
+        $I->click(\GeneralXpathLibrary::$loginButton);
 	}
 
 	/**
@@ -274,6 +278,10 @@ class AcceptanceTester extends \Codeception\Actor
 			return false;
 		}
 
+		// Click Scan and Attach Documents
+		$I->click(\GeneralXpathLibrary::$dataCheck);
+		$I->wait(2);
+
 		// Click demo data
 		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$demoDataDocument);
@@ -380,8 +388,6 @@ class AcceptanceTester extends \Codeception\Actor
             $I->wait(2);
             $I->fillField(\GeneralXpathLibrary::$spouseNationalId, $nationalId + 2);
             $I->wait(2);
-            $I->fillField(\GeneralXpathLibrary::$spouseRelationPeriod, $faker->numberBetween(1, 9));
-            $I->wait(2);
         }
 
         // Contacts Tab
@@ -423,7 +429,7 @@ class AcceptanceTester extends \Codeception\Actor
         	$I->click(\GeneralXpathLibrary::getTabId('7'));
             $I->wait(2);
 
-            if (!empty($data['COMP_TAX_CODE']))
+            if (!empty($data['COMP_TAX_CODE']) && $data['COMP_TAX_CODE'] != '000-000-111-999')
             {
             	$I->click(\GeneralXpathLibrary::$compTaxCode);
 				$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$compTaxCodeJS . "').val('').val('" . $data["COMP_TAX_CODE"] . "')");
