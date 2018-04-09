@@ -36,7 +36,6 @@ composer install
 
 #npm install
 
-export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
 fluxbox &
 sleep 3

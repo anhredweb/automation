@@ -2,7 +2,7 @@ language: php
 sudo: required
 dist: trusty
 addons:
-  firefox: lastest
+  firefox: "46.0"
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
@@ -22,6 +22,7 @@ matrix:
   fast_finish: true
 
 before_script:
+  - "export DISPLAY=:99.0"
   - chmod +x ./ci/setup.sh
   - ./ci/setup.sh
 
