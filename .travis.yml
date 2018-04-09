@@ -1,18 +1,12 @@
 language: php
 sudo: required
 dist: precise
-addons: # get google-chrome-stable
-  chrome: stable
+addons:
+  firefox: "46.0"
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
   - nvm use 8
-  - wget -N http://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip -P ~/
-  - unzip ~/chromedriver_linux64.zip -d ~/
-  - rm ~/chromedriver_linux64.zip
-  - sudo mv -f ~/chromedriver /usr/local/share/
-  - sudo chmod +x /usr/local/share/chromedriver
-  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 php:
   - 7.1.9
 cache:
