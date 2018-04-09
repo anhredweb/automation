@@ -1,11 +1,12 @@
 language: php
 sudo: required
-dist: precise
+dist: trusty
 addons:
-  firefox: "47.0.1"
+  chrome: stable
 services:
   - docker
 before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
   - docker pull selenium/standalone-chrome
   - docker run --net=host selenium/standalone-chrome
 install:
