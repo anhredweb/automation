@@ -23,10 +23,10 @@ matrix:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - ./.travis/setup.sh
+  - $HOME/.travis/setup.sh
 
 script:
-  - ./.travis/script.sh
+  - $HOME/.travis/script.sh
 
 notifications:
   slack:
