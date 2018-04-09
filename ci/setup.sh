@@ -34,9 +34,9 @@ sudo service apache2 restart
 
 composer install
 
-npm install
+#npm install
 
 export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
-#fluxbox &
+fluxbox &
 sleep 3
