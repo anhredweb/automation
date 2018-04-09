@@ -34,6 +34,5 @@ composer install
 sh -e /etc/init.d/xvfb start
 sleep 3
 sudo apt-get install fluxbox -y --force-yes
-fluxbox &
-sleep 3
-docker run --net=host selenium/standalone-chrome
+#fluxbox &
+#sleep 3

@@ -3,14 +3,17 @@ sudo: required
 dist: precise
 addons:
   firefox: "47.0.1"
+services:
+  - docker
+before_install:
+  - docker pull selenium/standalone-chrome
+  - docker run --net=host selenium/standalone-chrome
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
   - nvm use 8
 php:
   - 7.0
-services:
-  - docker
 cache:
   apt: true
   directories:
