@@ -21,7 +21,9 @@ matrix:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - ./.travis/setup.sh
+  - sudo apt-get update
+  - composer install
 
 script:
-  - ./.travis/script.sh
+  - java -jar -Dwebdriver.chrome.driver="chrome_driver/chromedriver" "selenium-server-standalone.jar"
+  - vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps
