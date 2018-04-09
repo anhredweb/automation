@@ -36,5 +36,6 @@ sleep 3
 sudo apt-get install fluxbox -y --force-yes
 fluxbox &
 sleep 3
+export DISPLAY=:99.0
 java -jar -Dwebdriver.chrome.driver="chrome_driver/chromedriver" "selenium-server-standalone.jar"
 sleep 3
