@@ -2,7 +2,7 @@ language: php
 sudo: required
 dist: precise
 addons: # get google-chrome-stable
-  chrome: stable
+  chrome: "stable"
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
