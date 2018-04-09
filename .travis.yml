@@ -28,9 +28,9 @@ matrix:
   fast_finish: true
 
 before_script:
-  - cd ./ci/
-  - sudo ./setup.sh
+  - chmod -r 777 ./ci/setup.sh
+  - ./ci/setup.sh
 
 script:
-  - cd ./ci/
-  - sudo ./script.sh
+  - chmod -r 777 ./ci/script.sh
+  - ./ci/script.sh
