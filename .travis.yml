@@ -29,8 +29,8 @@ matrix:
 
 before_script:
   - chmod -r 777 ./ci/setup.sh
-  - ./ci/setup.sh
+  - ci/setup.sh
 
 script:
   - chmod -r 777 ./ci/script.sh
-  - ./ci/script.sh
+  - ci/script.sh
