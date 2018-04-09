@@ -22,6 +22,8 @@ matrix:
 before_script:
   - "export DISPLAY=:99.0"
   - sudo apt-get update
+  - sudo apt-get install openjdk-8-jre
+  - java -version
   - composer install
 
 script:
