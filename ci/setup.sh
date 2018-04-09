@@ -17,8 +17,8 @@ sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/default
 sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
 sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default
 sudo service apache2 restart
-"export DISPLAY=:99.0"
-"sh -e /etc/init.d/xvfb start"
+export DISPLAY=:99.0
+sh -e /etc/init.d/xvfb start
 sleep 3 # give xvfb some time to start
 sudo apt-get install fluxbox -y --force-yes
 fluxbox &
