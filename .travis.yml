@@ -29,8 +29,8 @@ matrix:
 
 before_script:
   - cd ./ci/
-  - ./setup.sh
+  - sudo ./setup.sh
 
 script:
   - cd ./ci/
-  - ./script.sh
+  - sudo ./script.sh
