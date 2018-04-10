@@ -24,12 +24,16 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis()
 	{
-		$this->taskExec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &")
+		$this->taskExec('java -jar -Dwebdriver.chrome.driver="chrome_driver/chromedriver" "selenium-server-standalone.jar"')
 			->background()
             ->run()
             ->stopOnFail();
 
-		$this->taskExec('vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps')
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/pl/initPLCest.php')
 			->run()
 			->stopOnFail();
 	}
