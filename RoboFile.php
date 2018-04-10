@@ -24,9 +24,8 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis()
 	{
-		$this->taskServer(4444)
-            ->background()
-            ->run();
+		$this->taskOpenBrowser('http://localhost:4444/wd/hub')
+			->run();
 
 		if ($this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')->background()->run()->wasSuccessful()) 
 		{
