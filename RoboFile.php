@@ -24,6 +24,11 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis()
 	{
+		$this->taskServer(8000)
+            ->background()
+            ->dir('web')
+            ->run();
+
 		$this->taskExec('java -jar -Dwebdriver.chrome.driver="chrome_driver/chromedriver" "selenium-server-standalone.jar"')
 			->background()
             ->run()
