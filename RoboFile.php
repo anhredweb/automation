@@ -29,13 +29,16 @@ class RoboFile extends \Robo\Tasks
             ->dir('web')
             ->run();
 
-		$this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')
-			->background()
-            ->run();
+		if ($this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')->background()->run()->wasSuccessful()) 
+		{
+			$this->say('tests passed');
 
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('tests/acceptance/pl/initPLCest.php')
-			->run();
+			$this->taskCodecept()
+				->arg('--steps')
+				->arg('tests/acceptance/pl/initPLCest.php')
+				->run();
+		}
+
+		$this->say('tests failed');
 	}
 }
