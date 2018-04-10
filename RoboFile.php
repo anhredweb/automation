@@ -25,6 +25,7 @@ class RoboFile extends \Robo\Tasks
 	public function runTravis()
 	{
 		$this->runSelenium();
+		$this->_exec('vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps');
 	}
 
 	/**
