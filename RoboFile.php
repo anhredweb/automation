@@ -29,7 +29,7 @@ class RoboFile extends \Robo\Tasks
             ->dir('web')
             ->run();
 
-		$this->taskExec('java -jar -Dwebdriver.chrome.driver="chrome_driver/chromedriver" "selenium-server-standalone.jar"')
+		$this->taskExec('vendor/bin/selenium-server-standalone')
 			->background()
             ->run();
 
