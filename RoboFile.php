@@ -31,15 +31,13 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskExec('java -jar -Dwebdriver.chrome.driver="chrome_driver/chromedriver" "selenium-server-standalone.jar"')
 			->background()
-            ->run()
-            ->stopOnFail();
+            ->run();
 
 		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/pl/initPLCest.php')
-			->run()
-			->stopOnFail();
+			->run();
 	}
 }
