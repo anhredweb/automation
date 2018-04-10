@@ -24,7 +24,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis()
 	{
-		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &")
+		$this->taskExec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &")
 			->background()
             ->run();
 
