@@ -26,7 +26,6 @@ class RoboFile extends \Robo\Tasks
 	{
 		$this->taskServer(4444)
             ->background()
-            ->dir('web')
             ->run();
 
 		if ($this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')->background()->run()->wasSuccessful()) 

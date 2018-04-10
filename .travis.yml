@@ -2,7 +2,9 @@ language: php
 sudo: required
 dist: trusty
 addons:
-  firefox: lastest
+  chrome: stable
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
