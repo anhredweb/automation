@@ -26,9 +26,11 @@ class RoboFile extends \Robo\Tasks
 	{
 		$this->taskExec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &")
 			->background()
-            ->run();
+            ->run()
+            ->stopOnFail();
 
 		$this->taskExec('vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps')
-			->run();
+			->run()
+			->stopOnFail();
 	}
 }
