@@ -9,7 +9,7 @@ modules:
        enabled:
           - WebDriver:
              url: 'http://localhost/'
-             browser: chrome # 'chrome' or 'firefox'
+             browser: firefox # 'chrome' or 'firefox'
              window_size: maximize # disabled in ChromeDriver
              clear_cookies: true
              reset: true
