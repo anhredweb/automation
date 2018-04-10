@@ -9,7 +9,7 @@ modules:
        enabled:
           - WebDriver:
              url: 'https://pega-uat.fecredit.com.vn'
-             browser: firefox # 'chrome' or 'firefox'
+             browser: chrome # 'chrome' or 'firefox'
              window_size: maximize # disabled in ChromeDriver
              clear_cookies: true
              wait: 5

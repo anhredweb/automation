@@ -29,10 +29,11 @@ sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2
 sudo a2ensite default.conf
 sudo service apache2 restart
 
-#npm install -g selenium-webdriver
-
+composer require se/selenium-server-standalone
 composer install
-sudo apt-get install fluxbox -y --force-yes
+
+#sudo apt-get install fluxbox -y --force-yes
 sh -e /etc/init.d/xvfb start
+vendor/bin/selenium-server-standalone
 sleep 3
-fluxbox >/dev/null 2>&1 &
+#fluxbox >/dev/null 2>&1 &
