@@ -20,12 +20,9 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Method for run specific scenario
 	 *
-	 * @param   string $testCase  Scenario case.
-	 *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
-	 *
 	 * @return  void
 	 */
-	public function runTravis($testCase)
+	public function runTravis()
 	{
 		$this->runSelenium();
 	}
