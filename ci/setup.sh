@@ -34,6 +34,5 @@ composer install
 
 #sudo apt-get install fluxbox -y --force-yes
 sh -e /etc/init.d/xvfb start
-vendor/bin/selenium-server-standalone
 sleep 3
 #fluxbox >/dev/null 2>&1 &
