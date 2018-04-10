@@ -24,7 +24,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis()
 	{
-		$this->taskServer(8000)
+		$this->taskServer(4444)
             ->background()
             ->dir('web')
             ->run();
