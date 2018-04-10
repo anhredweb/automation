@@ -28,7 +28,7 @@ class RoboFile extends \Robo\Tasks
 			->background()
             ->run();
 
-		$this->_exec('vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps')
+		$this->taskExec('vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps')
 			->run();
 	}
 }
