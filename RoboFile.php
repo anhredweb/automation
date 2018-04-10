@@ -24,19 +24,17 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis()
 	{
-		$this->taskServer(4444)
+/*		$this->taskServer(4444)
             ->background()
             ->dir('web')
-            ->run();
+            ->run();*/
 
 		$this->taskExec('vendor/bin/selenium-server-standalone')
-			->background()
+			//->background()
             ->run();
 
 		$this->taskCodecept()
 			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
 			->arg('tests/acceptance/pl/initPLCest.php')
 			->run();
 	}
