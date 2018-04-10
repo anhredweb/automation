@@ -29,8 +29,8 @@ class RoboFile extends \Robo\Tasks
             ->dir('web')
             ->run();*/
 
-		$this->taskExec('vendor/bin/selenium-server-standalone')
-			//->background()
+		$this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')
+			->background()
             ->run();
 
 		$this->taskCodecept()
