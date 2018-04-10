@@ -24,23 +24,11 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTravis()
 	{
-		$this->runSelenium()
+		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &")
 			->background()
             ->run();
 
 		$this->_exec('vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps')
 			->run();
-	}
-
-	/**
-	 * Runs Selenium Standalone Server
-	 *
-	 * @param   string $path Optional path to selenium standalone server
-	 *
-	 * @return void
-	 */
-	public function runSelenium($path = null)
-	{
-		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
 	}
 }
