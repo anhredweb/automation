@@ -1,6 +1,6 @@
 language: php
 sudo: required
-dist: trusty
+dist: precise
 addons:
   chrome: stable
 before_install:
