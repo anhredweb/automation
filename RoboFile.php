@@ -27,12 +27,7 @@ class RoboFile extends \Robo\Tasks
 		/*$this->taskOpenBrowser('http://localhost:4444/wd/hub')
 			->run();*/
 
-		$this->taskParallelExec()
-			->process('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')
-			->process('vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps')
-			->run();
-
-		/*if ($this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')->background()->run()->wasSuccessful())
+		if ($this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')->background()->run()->wasSuccessful())
 		{
 			$this->say('tests passed');
 
@@ -42,6 +37,6 @@ class RoboFile extends \Robo\Tasks
 				->run();
 		}
 
-		$this->say('tests failed');*/
+		$this->say('tests failed');
 	}
 }
