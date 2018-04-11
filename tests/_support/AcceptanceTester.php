@@ -205,26 +205,9 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['DATE_OF_BIRTH']);
 		$I->wait(2);
 
-		if (empty($data['FB_NUMBER']))
-		{
-			$data['FB_NUMBER'] = 'FB#' . $data['NATIONAL_ID'];
-		}
-
 		// Fill phone
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$phone . "').val('" . $data['PHONE'] . "')");
 		$I->wait(2);
-
-		// Fill hometown
-		if (!empty($data['HOMETOWN']))
-		{
-			$I->click(\GeneralXpathLibrary::$hometown);
-			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$hometownJS . "').val('" . $data['HOMETOWN'] . "')");
-			$I->wait(2);
-			$I->pressKey(\GeneralXpathLibrary::$hometown, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
-			$I->wait(1);
-			$I->click(\GeneralXpathLibrary::$rowHometown);
-			$I->wait(2);
-		}
 
 		// Select Disbursement Channel
 		if ($product == 'PL')
