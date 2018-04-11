@@ -3,6 +3,7 @@
         "codeception/codeception": "*",
         "fzaninotto/faker": "~1",
         "monolog/monolog": "^1.23",
-        "consolidation/robo": "~1"
+        "consolidation/robo": "~1",
+        "se/selenium-server-standalone": "^3.11"
     }
 }
