@@ -170,7 +170,7 @@ class initPLCest
             $I->wantTo('Check data');
             $caseId = $I->dataCheck('PL', $case);
 
-            if ($caseId == false)
+            if ($caseId == '')
             {
                 continue;
             }

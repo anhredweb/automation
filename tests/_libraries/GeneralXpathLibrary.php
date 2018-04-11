@@ -400,7 +400,7 @@ class GeneralXpathLibrary
      *
      * @return xpath
      */
-    public function getTabId($tabId)
+    public static function getTabId($tabId)
     {
         return '//div[@data-node-id="FullAppContainer"]//div[contains(@id, "PEGA_TABBED")]//ul[@role="tablist"]//li[@id="Tab' . $tabId . '"]//a';
     }
@@ -412,7 +412,7 @@ class GeneralXpathLibrary
      *
      * @return xpath
      */
-    public function getPhoneTabId($tabId)
+    public static function getPhoneTabId($tabId)
     {
         return '//div[@tabgroupid="TGPHVContactDetailsA"]/ul//li[@id="Tab' . $tabId . '"]';
     }
@@ -424,7 +424,7 @@ class GeneralXpathLibrary
      *
      * @return xpath
      */
-    public function getScore($scoreRow)
+    public static function getScore($scoreRow)
     {
         return '(//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(3).ScResult"]//div[@base_ref=".ScResult(' . $scoreRow . ')"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]/span';
     }

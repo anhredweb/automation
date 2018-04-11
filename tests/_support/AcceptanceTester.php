@@ -171,10 +171,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 */
 	public function shortApplication($data, $product = NULL)
 	{
-		$faker     = \Faker\Factory::create();
-		$firstname = str_replace("'", " ", $faker->firstname);
-		$lastname  = str_replace("'", " ", $faker->lastname);
-		$I         = $this;
+		$I = $this;
 		$I->wait(2);
 
 		// $I->click(\GeneralXpathLibrary::$dataCheck);
@@ -239,7 +236,7 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to check documents for Application
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function shortApplicationDocument()
 	{
@@ -266,6 +263,8 @@ class AcceptanceTester extends \Codeception\Actor
 		// Click submit data
 		$I->click(\GeneralXpathLibrary::$submitDocument);
 		$I->wait(2);
+
+		return true;
 	}
 
 	/**
@@ -277,8 +276,9 @@ class AcceptanceTester extends \Codeception\Actor
      */
 	public function generalFullDataEntry($data)
 	{
-		$faker = \Faker\Factory::create();
-		$I     = $this;
+		$faker      = \Faker\Factory::create();
+		$I          = $this;
+		$nationalId = (int) date('YmdHi');
 
 		//Customer Tab
         $I->click(\GeneralXpathLibrary::getTabId('4'));
@@ -334,7 +334,6 @@ class AcceptanceTester extends \Codeception\Actor
         {
             $I->click(\GeneralXpathLibrary::getTabId('5'));
             $I->wait(2);
-            $nationalId = (int) date('YmdHi');
         }
 
         if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
@@ -629,7 +628,7 @@ class AcceptanceTester extends \Codeception\Actor
 
 		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
 		{
-			return false;
+			return '';
 		}
 
 		print_r($applicationStatus);
