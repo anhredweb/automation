@@ -103,7 +103,7 @@ class initCDLCest
 
         if (empty($data))
         {
-            return true;
+            return;
         }
 
         $I->amOnUrl(\GeneralXpathLibrary::$url);

@@ -102,7 +102,7 @@ class initTWCest
 
         if (empty($data))
         {
-            return true;
+            return;
         }
 
         $I->amOnUrl(\GeneralXpathLibrary::$url);

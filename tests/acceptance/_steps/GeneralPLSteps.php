@@ -407,7 +407,7 @@ class GeneralPLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
     }
 
     /**
@@ -425,7 +425,7 @@ class GeneralPLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
     }
 
     /**
@@ -443,6 +443,6 @@ class GeneralPLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
     }
 }

@@ -184,7 +184,7 @@ class GeneralCDLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
 	}
 
 	/**
@@ -335,6 +335,6 @@ class GeneralCDLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-       	return true;
+       	return;
 	}
 }

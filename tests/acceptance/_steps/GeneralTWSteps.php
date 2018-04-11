@@ -169,7 +169,7 @@ class GeneralTWSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
 	}
 
 	/**
@@ -223,7 +223,7 @@ class GeneralTWSteps extends \AcceptanceTester
 
         if (empty($rows))
         {
-        	return false;
+        	return;
         }
 
         foreach ($rows as $column => $score)
@@ -302,6 +302,6 @@ class GeneralTWSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-       	return true;
+       	return;
 	}
 }
