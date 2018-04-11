@@ -6,7 +6,7 @@
     "require"    : {
         "php": ">=7.0"
     },
-    "require": {
+    "require-dev": {
         "codeception/codeception": "*",
         "fzaninotto/faker": "~1",
         "monolog/monolog": "^1.23",
