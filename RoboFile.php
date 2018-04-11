@@ -27,7 +27,7 @@ class RoboFile extends \Robo\Tasks
 		/*$this->taskOpenBrowser('http://localhost:4444/wd/hub')
 			->run();*/
 
-		if ($this->taskExec('vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &')->background()->run()->wasSuccessful())
+		if ($this->taskExec('java -jar -Dwebdriver.chrome.driver="chrome_driver\chromedriver" "selenium-server-standalone.jar"')->background()->run()->wasSuccessful())
 		{
 			$this->say('tests passed');
 
