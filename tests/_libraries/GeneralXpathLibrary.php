@@ -398,7 +398,7 @@ class GeneralXpathLibrary
      *
      * @param  int $tabId Tab ID
      *
-     * @return xpath
+     * @return string
      */
     public static function getTabId($tabId)
     {
@@ -410,7 +410,7 @@ class GeneralXpathLibrary
      *
      * @param  int $tabId Tab ID
      *
-     * @return xpath
+     * @return string
      */
     public static function getPhoneTabId($tabId)
     {
@@ -422,7 +422,7 @@ class GeneralXpathLibrary
      *
      * @param  int $scoreRow Score row number
      *
-     * @return xpath
+     * @return string
      */
     public static function getScore($scoreRow)
     {

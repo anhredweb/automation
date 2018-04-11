@@ -741,7 +741,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param  string  $product  Product name
 	 * @param  array   $data     Data
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function searchApplication($caseId, $product, $data)
 	{

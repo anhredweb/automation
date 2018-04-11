@@ -391,7 +391,7 @@ class GeneralXpathLibrary_BK
      *
      * @param  int $tabId Tab ID
      *
-     * @return xpath
+     * @return string
      */
     public function getTabId($tabId)
     {
@@ -403,7 +403,7 @@ class GeneralXpathLibrary_BK
      *
      * @param  int $scoreRow Score row number
      *
-     * @return xpath
+     * @return string
      */
     public function getScore($scoreRow)
     {
