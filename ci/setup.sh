@@ -9,5 +9,4 @@ sleep 3
 #fluxbox &
 #sleep 3
 
-composer require se/selenium-server-standalone
 composer install
