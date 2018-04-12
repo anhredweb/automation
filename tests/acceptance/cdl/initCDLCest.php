@@ -15,7 +15,7 @@ class initCDLCest
     /**
      * @var  string
      */
-    private $defaultData;
+    private $defaultData = array();
 
     /**
      * Constructor.
@@ -84,7 +84,7 @@ class initCDLCest
         $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_CDL a WHERE a.STATUS = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
-        $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
 
         return $data;
     }

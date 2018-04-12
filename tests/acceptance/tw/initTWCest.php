@@ -15,7 +15,7 @@ class initTWCest
     /**
      * @var  string
      */
-    private $defaultData;
+    private $defaultData = array();
 
     /**
      * Constructor.
@@ -83,7 +83,7 @@ class initTWCest
         $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE_TW a WHERE a.STATUS = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
-        $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
 
         return $data;
     }

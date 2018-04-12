@@ -15,7 +15,7 @@ class initPLCest
     /**
      * @var  string
      */
-    private $defaultData;
+    private $defaultData = array();
 
     /**
      * Constructor.
@@ -60,7 +60,7 @@ class initPLCest
         $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE SUB_SEGMENT = 'NTB_S2' AND IS_RUN = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
-        $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
 
         return $data;
     }
