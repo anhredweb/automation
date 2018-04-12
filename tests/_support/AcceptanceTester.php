@@ -7,7 +7,6 @@
 
 use Codeception\Lib\ModuleContainer;
 use Codeception\Module\WebDriver;
-use Codeception\Module\GeneralHelper;
 /**
  * Class Helper
  *
@@ -27,16 +26,7 @@ class AcceptanceTester extends \Codeception\Actor
         $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
 
         // Create connection to Oracle
-        $conn = oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
-
-        if (!$conn) 
-        {
-            $error = oci_error();
-
-            return $error['message'];
-        }
-
-        return $conn;
+        return oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
     }
 
    /**
