@@ -8,7 +8,6 @@
 namespace AcceptanceTester;
 
 use Codeception\Module\WebDriver;
-use Codeception\Module\GeneralHelper;
 
 /**
  * Class GeneralCDLSteps
@@ -244,7 +243,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 
         if (empty($rows))
         {
-        	return false;
+        	return;
         }
 
         foreach ($rows as $column => $score)
