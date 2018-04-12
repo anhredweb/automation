@@ -233,8 +233,8 @@ class GeneralPLSteps extends \AcceptanceTester
     /**
      * Function to update score to DB
      *
-     * @param  array   $data        Data to update
-     * @param  mixed   $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */
@@ -262,8 +262,8 @@ class GeneralPLSteps extends \AcceptanceTester
     /**
      * Function to check score and update to DB
      *
-     * @param  array   $data        Data to update
-     * @param  mixed   $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */
