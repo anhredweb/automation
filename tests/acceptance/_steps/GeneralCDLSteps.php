@@ -161,7 +161,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 	 * Function to update score to DB
 	 *
 	 * @param  array   $data        Data to update
-	 * @param  string  $connection  Oracle connection
+	 * @param  mixed   $connection  Oracle connection
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 	 * Function to check score and update to DB
 	 *
 	 * @param  array   $data        Data to update
-	 * @param  string  $connection  Oracle connection
+	 * @param  mixed   $connection  Oracle connection
 	 *
 	 * @return void
 	 */
