@@ -53,34 +53,15 @@ class initCDLCest
     }
 
     /**
-     * Connect to Oracle.
-     *
-     * @return  mixed
-     */
-    protected function connectOracle()
-    {
-        $db = "(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.11.14)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = finnuat4.fecredit.com.vn)))" ;
-
-        // Create connection to Oracle
-        $conn = oci_connect("MULCASTRANS", "ANSF1UAT04itdbaBca", $db, 'AL32UTF8');
-
-        if (!$conn) 
-        {
-            $m = oci_error();
-            return $m['message'];
-        }
-
-        return $conn;
-    }
-
-     /**
      * Execute Query.
+     *
+     * @param   AcceptanceTester  $I  Acceptance Tester case.
      *
      * @return  array
      */
-    protected function executeQuery()
+    protected function executeQuery($I)
     {
-        $connection = $this->connectOracle();
+        $connection = $I->connectOracle();
         $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_CDL a WHERE a.STATUS = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
@@ -99,7 +80,7 @@ class initCDLCest
      */
     public function createCDLApplication(AcceptanceTester $I, $scenario)
     {
-        $data = $this->executeQuery();
+        $data = $this->executeQuery($I);
 
         if (empty($data))
         {
@@ -181,10 +162,10 @@ class initCDLCest
             if (!empty($responseData))
             {
                 $I->wantTo('Update score');
-                $I->updateScore($responseData, $this->connectOracle());   
+                $I->updateScore($responseData, $I->connectOracle());   
 
                 $I->wantTo('Check score');
-                $I->checkScore($responseData, $this->connectOracle());              
+                $I->checkScore($responseData, $I->connectOracle());              
             }
 
             $I->switchToIFrame();
