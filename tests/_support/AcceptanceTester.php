@@ -529,15 +529,8 @@ class AcceptanceTester extends \Codeception\Actor
 
 		if ($product == 'PL')
 		{
-			if (empty($data['CIC_DESCRIPTION']))
-	        {
-	            $data['CIC_DESCRIPTION'] = 'NULL';
-	        }
-
-	        if (empty($data['PCB_DESCRIPTION']))
-	        {
-	            $data['PCB_DESCRIPTION'] = 'NULL';
-	        }
+	        $data['CIC_DESCRIPTION'] = empty($data['CIC_DESCRIPTION']) ? $data['CIC_DESCRIPTION'] : 'NULL';
+	        $data['PCB_DESCRIPTION'] = empty($data['PCB_DESCRIPTION']) ? $data['PCB_DESCRIPTION'] : 'NULL';
 
 			// Click Add item to add CIC
 			$I->click(\GeneralXpathLibrary::$cicAddItem);
