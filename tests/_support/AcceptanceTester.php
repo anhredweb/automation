@@ -173,13 +173,6 @@ class AcceptanceTester extends \Codeception\Actor
         $I->click(\GeneralXpathLibrary::$demoDataG1ShortApp);
         $I->wait(2);
 
-		$genders = array('M', 'F');
-
-		if (!in_array($data['GENDER'], $genders))
-		{
-			$data['GENDER'] = 'M';
-		}
-
 		// Select gender
 		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['GENDER']));
 		$I->wait(2);
@@ -275,14 +268,8 @@ class AcceptanceTester extends \Codeception\Actor
         $I->wait(1);
 
         // Select title
-        if ($data['GENDER'] == 'M')
-        {
-            $I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mr.'));
-        }
-        else
-        {
-            $I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mrs.'));
-        }
+        $title = $data['GENDER'] == 'M' ? 'Mr.' : 'Mrs.';
+        $I->selectOption(\GeneralXpathLibrary::$title, array('value' => $title));
 
         // Check/Uncheck FB Owner
         if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'Y')
