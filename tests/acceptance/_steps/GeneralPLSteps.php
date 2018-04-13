@@ -413,8 +413,8 @@ class GeneralPLSteps extends \AcceptanceTester
     /**
      * Function to update is run status
      *
-     * @param  array   $data        Data to update
-     * @param  string  $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */
@@ -431,8 +431,8 @@ class GeneralPLSteps extends \AcceptanceTester
     /**
      * Function to update is run status
      *
-     * @param  array   $data        Data to update
-     * @param  string  $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */

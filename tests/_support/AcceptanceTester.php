@@ -154,8 +154,8 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to entry short data for Application
 	 *
-	 * @param  array  $data     Data
-	 * @param  array  $product  Product
+	 * @param  array   $data     Data
+	 * @param  string  $product  Product
 	 *
 	 * @return boolean
 	 */
@@ -275,12 +275,12 @@ class AcceptanceTester extends \Codeception\Actor
         if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'Y')
         {
             $I->wait(1);
-            $I->checkOption(\GeneralXpathLibrary::$isFbOwner);  
+            $I->checkOption(\GeneralXpathLibrary::$isFbOwner);
         }
         else
         {
             $I->wait(1);
-            $I->uncheckOption(\GeneralXpathLibrary::$isFbOwner);    
+            $I->uncheckOption(\GeneralXpathLibrary::$isFbOwner);
         }
 
         // Select education
@@ -373,7 +373,6 @@ class AcceptanceTester extends \Codeception\Actor
 			$I->click(\GeneralXpathLibrary::$rowWard);
 			$I->wait(2);
         }
-        
 
         // Work Tab
         if ((isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0) || !empty($data['COMP_TAX_CODE']))

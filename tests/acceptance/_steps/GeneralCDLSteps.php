@@ -60,7 +60,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 	 *
 	 * @param  array  $data  Data
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function fullDataEntry($data)
 	{

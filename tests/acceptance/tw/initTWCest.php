@@ -47,7 +47,7 @@ class initTWCest
             'PERSONAL_INCOME'        => '35000000',
             'FAMILY_INCOME'          => '40000000',
             'PHONE_REFERENCE1'       => '01652679145',
-            'PHONE_REFERENCE2'       => '01652679146',
+            'PHONE_REFERENCE2'       => '01652679146'
         );
     }
 
