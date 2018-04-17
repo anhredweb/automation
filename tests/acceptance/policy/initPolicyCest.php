@@ -1,0 +1,148 @@
+<?php
+/**
+ * @package     FE Credit
+ * @subpackage  Automation Testing
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/**
+ * Class init to create PL Application
+ *
+ * @since  1.0
+ */
+class initPLCest
+{
+    /**
+     * Execute Query.
+     *
+     * @param   AcceptanceTester  $I  Acceptance Tester case.
+     *
+     * @return  array
+     */
+    protected function executeQuery($I)
+    {
+        $connection = $I->connectOracle();
+        $query      = "SELECT d.ITEM_ID, d.SEQ_ID, d.STAGE,
+                (SELECT FLD_NM_PEGA FROM TPEGA_AUTO_RUN_FLD_MAPPING where FLD_TYP = 'STAGE' AND FLD_NM = d.STAGE) STAGE_PEGA,
+                d.FLD_NM,
+                (SELECT FLD_NM_PEGA FROM TPEGA_AUTO_RUN_FLD_MAPPING where FLD_TYP = 'FLD' AND FLD_NM = d.FLD_NM) FLD_NM_PEGA,
+                (SELECT FLD_TYP_PEGA FROM TPEGA_AUTO_RUN_FLD_MAPPING where FLD_TYP = 'FLD' AND FLD_NM = d.FLD_NM) FLD_TYP_PEGA,
+                d.FLD_VALU, d.TRXN_DT, m.CASE_ID, m.APP_ID , m.PRODUCT, m.SCHEME_ID, m.ID_NO1, m.ID_NO2, m.CURR_STAGE
+                FROM TPEGA_AUTO_RUN_MASTER m
+                LEFT JOIN TPEGA_AUTO_RUN_DETAILS d ON m.ITEM_ID = d.ITEM_ID
+                ORDER BY d.ITEM_ID, d.SEQ_ID";
+        $stid       = oci_parse($connection, $query);
+        oci_execute($stid);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+
+        return $data;
+    }
+
+    /**
+     * Function to login
+     *
+     * @param   AcceptanceTester  $I         Acceptance Tester case.
+     * @param   Scenario          $scenario  Scenario for test.
+     *
+     * @return  void
+     */
+    public function createApplication(AcceptanceTester $I, $scenario)
+    {
+        $originalData = $this->executeQuery($I);
+
+        if (empty($originalData))
+        {
+            return;
+        }
+
+        $data = array();
+
+        foreach ($originalData as $key => $value)
+        {
+            $data[$value['ITEM_ID']]['PRODUCT'] = $value['PRODUCT'];
+            $data[$value['ITEM_ID']][$value['STAGE']][$value['FLD_NM_PEGA']]['type'] = $value['FLD_TYP_PEGA']; 
+            $data[$value['ITEM_ID']][$value['STAGE']][$value['FLD_NM_PEGA']]['value'] = $value['FLD_VALU']; 
+        }
+
+        // $I->amOnUrl(\GeneralXpathLibrary::$url);
+        // $I = new AcceptanceTester\GeneralPolicySteps($scenario);
+
+        // $I->wantTo('Login to PEGA UAT');
+        // $I->loginPega('tu.vuong@fecredit.com.vn', 'rules');
+
+        // $I->wantTo('Check session message');
+        // $I->checkSessionMessage();
+
+        // Process flow
+        foreach ($data as $item => $case)
+        {
+            $product = $case['PRODUCT'];
+            unset($case['PRODUCT']);
+
+            print_r($case);die;
+
+            $I->wantTo('Launch to FE Manager 7');
+
+            if (!$I->launchPortal($product))
+            {
+                continue;
+            }
+
+            $I->wantTo('Init data');
+
+            if (!$I->initDemoData($case, $product))
+            {
+                continue;
+            }
+
+            $I->wantTo('Entry short data');
+
+            if (!$I->shortApplicationPolicy($case, $product))
+            {
+                continue;
+            }
+            
+            $I->wantTo('Check documents');
+
+            if (!$I->shortApplicationDocumentPolicy($product))
+            {
+                continue;
+            }
+
+            $I->wantTo('Entry full data');
+            $I->fullDataEntry($case);
+
+            $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+            if (trim($applicationStatus) == 'Pending-Rework-AddDoc')
+            {
+                $I->PendingReworkAddDoc();
+            }
+
+            $I->wantTo('Check data');
+            $caseId = $I->dataCheck($case, $product);
+
+            if ($caseId == '')
+            {
+                continue;
+            }
+
+            $I->wantTo('Switch Application to LOS2');
+            $I->switchApplicationToLOS2();
+
+            $I->wantTo('Search Application');
+            $responseData = $I->searchApplication($caseId, $product, $case);
+
+            if (!empty($responseData))
+            {
+         
+            }
+
+            $I->switchToIFrame();
+            //$I->click(\GeneralXpathLibrary::$closeButton);
+
+            $I->wantTo('Switch Application to Loan');
+            $I->switchApplicationToLoan();
+        }
+    }
+}
