@@ -97,9 +97,9 @@ class GeneralXpathLibrary
 
 	public static $rowProductScheme  = '//tr[contains(@id, "$PpyWorkPage$pFilteredSchemes")]';
 	
-	public static $demoDataCDLInitApp  = '//button[@name="NewProcess_pyWorkPage_13"]';
+	public static $demoDataCDLInitApp  = '//button[@name="NewProcess_pyWorkPage_15"]';
 
-	public static $demoDataTWInitApp   = '//button[@name="NewProcess_pyWorkPage_17"]';
+	public static $demoDataTWInitApp   = '//button[@name="NewProcess_pyWorkPage_74"]';
 	
 	public static $createDataInitApp   = '//button[@name="NewProcessButtons_pyWorkPage_1"]';
 
@@ -305,6 +305,8 @@ class GeneralXpathLibrary
 	public static $demoDataDataCheck       = '//button[@name="DataCheck_pyWorkPage_"]';
 	
 	public static $cicResult               = '//select[@id="CICCheckResult"]';
+
+	public static $cicReason               = '//select[@id="CICCheckResultReason"]';
 	
 	public static $pcbResult               = '//select[@id="PCBCheckResult"]';
 	

@@ -21,11 +21,11 @@ class GeneralPolicySteps extends \AcceptanceTester
     /**
      * Function to launch to FECase Manager to Create Application
      *
-     * @param  array  $data  Data
+     * @param  string  $product  Product name
      *
      * @return  boolean
      */
-    public function launchPortal($data)
+    public function launchPortal($product)
     {
         $I = $this;
         $I->wait(2);
@@ -54,8 +54,22 @@ class GeneralPolicySteps extends \AcceptanceTester
 
         $I->click(\GeneralXpathLibrary::$createButton);
 
-        $I->waitForElement(\GeneralXpathLibrary::$PLApplication, 2);
-        $I->click(\GeneralXpathLibrary::$PLApplication);
+        // Click demo data
+        switch ($product) 
+        {
+            case 'CDL':
+                $I->waitForElement(\GeneralXpathLibrary::$CDLApplication, 2);
+                $I->click(\GeneralXpathLibrary::$CDLApplication);
+                break;
+            case 'TW':
+                $I->waitForElement(\GeneralXpathLibrary::$TWApplication, 2);
+                $I->click(\GeneralXpathLibrary::$TWApplication);        
+                break;
+            case 'PL':
+                $I->waitForElement(\GeneralXpathLibrary::$PLApplication, 2);
+                $I->click(\GeneralXpathLibrary::$PLApplication);
+            break;
+        }
 
         return true;
     }
@@ -116,7 +130,7 @@ class GeneralPolicySteps extends \AcceptanceTester
                 $I->wait(1);
 
                 // Fill national Id
-                $I->executeJS("return jQuery('" . \GeneralXpathLibrary::$nationalId . "').val('" . date('Ymd') . "')");
+                $I->executeJS("return jQuery('" . \GeneralXpathLibrary::$nationalId . "').val('" . $data['NATIONAL_ID'] . "')");
                 $I->wait(1);
 
                 // Click create data
@@ -127,11 +141,16 @@ class GeneralPolicySteps extends \AcceptanceTester
         if (!empty($data['NEW_APP']))
         {
             // Fill fields
-            foreach ($data['NEW_APP'] as $field => $value)
+            foreach ($data['NEW_APP'] as $key => $value)
             {
-                $I->fillData($field, $value['type'], $value['value']);
+                $I->fillData($value['name'], $value['type'], $value['value']);
             }
         }
+
+        $I->wait(2);
+
+        // Click create data
+        $I->click(\GeneralXpathLibrary::$createDataInitApp);
 
         return $I->checkError($data['NATIONAL_ID']);
     }
@@ -161,9 +180,9 @@ class GeneralPolicySteps extends \AcceptanceTester
         if (!empty($data['SHORT_APP']))
         {
             // Fill fields
-            foreach ($data['SHORT_APP'] as $field => $value)
+            foreach ($data['SHORT_APP'] as $key => $value)
             {
-                $I->fillData($field, $value['type'], $value['value']);
+                $I->fillData($value['name'], $value['type'], $value['value']);
             }
         }
 
@@ -228,11 +247,12 @@ class GeneralPolicySteps extends \AcceptanceTester
     /**
      * Function to entry full data for Application
      *
-     * @param  array  $data  Data
+     * @param  array   $data     Data
+     * @param  string  $product  Product
      *
      * @return void
      */
-    public function fullDataEntry($data)
+    public function fullDataEntry($data, $product)
     {
         $I = $this;
 
@@ -244,6 +264,21 @@ class GeneralPolicySteps extends \AcceptanceTester
         $I->wait(2);
         $I->click(\GeneralXpathLibrary::$demoDataG11FullDataEntry);
         $I->wait(2);
+
+        if (!empty($data['FULL_DATA_ENTRY']))
+        {
+            // Fill fields
+            foreach ($data['FULL_DATA_ENTRY'] as $tab => $values)
+            {
+                $I->click(\GeneralXpathLibrary::getTabId($tab));
+                $I->wait(1);
+
+                foreach ($values as $key => $value)
+                {
+                    $I->fillData($value['name'], $value['type'], $value['value']);
+                }
+            }
+        }
 
         // Click submit data
         $I->click(\GeneralXpathLibrary::$submitFullDataEntry);
@@ -263,6 +298,7 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function dataCheckPolicy($data = array(), $product = NULL)
     {
         $I = $this;
+        $I->wait(10);
 
         // Click Data check
         $I->click(\GeneralXpathLibrary::$dataCheck);
@@ -279,7 +315,10 @@ class GeneralPolicySteps extends \AcceptanceTester
 
         // Click CIC tab and select CIC result
         $I->click(\GeneralXpathLibrary::$cicTab);
-        $I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Ok"));
+        $I->selectOption(\GeneralXpathLibrary::$cicResult, array("value" => "Don't require"));
+        $I->wait(1);
+
+        $I->selectOption(\GeneralXpathLibrary::$cicReason, array("value" => "CICDR"));
         $I->wait(1);
 
         // Click submit data
@@ -315,13 +354,15 @@ class GeneralPolicySteps extends \AcceptanceTester
      */
     public function fillData($field, $type, $value)
     {
+        $I = $this;
+
         switch ($type) 
         {
             case 'input':
                 $I->executeJS("return jQuery('" . $field . "').val('" . $value . "')");
                 $I->wait(1);
                 break;
-            case 'select':
+            case 'dropdownlist':
                 $I->wait(1);
                 $I->selectOption($field, array('value' => $value));
                 break;
