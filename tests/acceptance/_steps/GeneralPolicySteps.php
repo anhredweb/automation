@@ -21,11 +21,9 @@ class GeneralPolicySteps extends \AcceptanceTester
     /**
      * Function to launch to FECase Manager to Create Application
      *
-     * @param  string  $product  Product name
-     *
      * @return  boolean
      */
-    public function launchPortal($product)
+    public function launchPortal()
     {
         $I = $this;
         $I->wait(2);
@@ -52,9 +50,24 @@ class GeneralPolicySteps extends \AcceptanceTester
             return false;
         }
 
+        return true;
+    }
+
+    /**
+     * Function to launch to FECase Manager to Create Application
+     *
+     * @param  string  $product  Product name
+     *
+     * @return  boolean
+     */
+    public function selectedProduct($product)
+    {
+        $I = $this;
+        $I->wait(2);
+
         $I->click(\GeneralXpathLibrary::$createButton);
 
-        // Click demo data
+        // Click choose product
         switch ($product) 
         {
             case 'CDL':
@@ -166,7 +179,7 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function shortApplicationPolicy($data, $product = NULL)
     {
         $I = $this;
-        $I->wait(2);
+        $I->wait(5);
 
         // $I->click(\GeneralXpathLibrary::$dataCheck);
         // $I->wait(2);
@@ -298,7 +311,7 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function dataCheckPolicy($data = array(), $product = NULL)
     {
         $I = $this;
-        $I->wait(60);
+        $I->wait(80);
 
         // Click Data check
         $I->click(\GeneralXpathLibrary::$dataCheck);
@@ -341,6 +354,66 @@ class GeneralPolicySteps extends \AcceptanceTester
         print_r($applicationStatus);
 
         return $caseId;
+    }
+
+    /**
+     * Function to get Data
+     *
+     * @param  string  $caseId   Case ID
+     * @param  string  $product  Product name
+     * @param  array   $data     Data
+     *
+     * @return array
+     */
+    public function getData($caseId, $product, $itemId)
+    {
+        $I = $this;
+
+        $responseData = array();
+        $caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+        $caseId = str_replace("(", "", $caseId);
+        $caseId = str_replace(")", "", $caseId);
+        $responseData['case_id']    = $caseId;
+        $responseData['app_id']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
+        $responseData['id_no1']     = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
+        $responseData['scheme_id']  = $I->grabTextFrom(\GeneralXpathLibrary::$productSchemeName);
+        $responseData['curr_stage'] = $I->grabTextFrom(\GeneralXpathLibrary::$currentStage);
+        $responseData['remark']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+        $responseData['item_id']    = $itemId;
+
+        $I->wait(3);
+
+        print_r($responseData);
+
+        return $responseData;
+    }
+
+    /**
+     * Function to update data to DB
+     *
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
+     *
+     * @return void
+     */
+    public function updateData($data, $connection)
+    {
+        $itemId = $data['item_id'];
+        unset($data['item_id']);
+        unset($data['scheme_id']);
+        $setQuery = array();
+
+        foreach ($data as $column => $value)
+        {
+            $setQuery[] = $column . " = " . "'" . $value . "'";
+        }
+
+        $query = "UPDATE TPEGA_AUTO_RUN_MASTER SET " . implode(',', $setQuery) . " WHERE ITEM_ID = " . $itemId;
+        $stid  = oci_parse($connection, $query);
+        oci_execute($stid);
+        oci_commit($connection);
+
+        return;
     }
 
     /**

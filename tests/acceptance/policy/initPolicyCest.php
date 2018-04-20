@@ -92,15 +92,18 @@ class initPLCest
         $I->wantTo('Check session message');
         $I->checkSessionMessage();
 
+        $I->wantTo('Launch to FE Manager 7');
+        $I->launchPortal();
+
         // Process flow
         foreach ($data as $item => $case)
         {
             $product = $case['PRODUCT'];
             unset($case['PRODUCT']);
 
-            $I->wantTo('Launch to FE Manager 7');
+            $I->wantTo('Select product');
 
-            if (!$I->launchPortal($product))
+            if (!$I->selectedProduct($product))
             {
                 continue;
             }
@@ -144,22 +147,15 @@ class initPLCest
                 continue;
             }
 
-            $I->wantTo('Switch Application to LOS2');
-            $I->switchApplicationToLOS2();
-
             $I->wantTo('Search Application');
-            $responseData = $I->searchApplication($caseId, $product, $case);
+            $responseData = $I->getData($caseId, $product, $item);
 
             if (!empty($responseData))
             {
-         
+                $I->updateData($responseData, $I->connectOracle());
             }
 
             $I->switchToIFrame();
-            //$I->click(\GeneralXpathLibrary::$closeButton);
-
-            $I->wantTo('Switch Application to Loan');
-            $I->switchApplicationToLoan();
         }
     }
 }

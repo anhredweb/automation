@@ -710,7 +710,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param  string  $product  Product name
 	 * @param  array   $data     Data
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function searchApplication($caseId, $product, $data)
 	{
@@ -733,6 +733,13 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$decisionMaking);
 		$I->wait(1);
+
+		$applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft' || trim($applicationStatus) == 'Pending-DC')
+		{
+			return array();
+		}
 
 		$responseData = array();
 		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);

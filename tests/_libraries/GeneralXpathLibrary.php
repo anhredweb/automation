@@ -24,10 +24,14 @@ class GeneralXpathLibrary
 	public static $caseId            = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]//span[contains(@class, "case_title")]';
 	
 	public static $applicationStatus = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-3")]//div[contains(@class, "dataValueRead")]//img//following-sibling::span';
+
+	public static $currentStage      = '//div[@data-node-id="pyCaseHeader"]//div[contains(@data-ui-meta, "CurrentStage")]//div[contains(@data-ui-meta, "CurrentStageLabel")]//span';
 	
-	public static $nationalIdScoring = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.PersonalInfo.Person.Contact.NationalId")])[1]//span';
+	public static $nationalIdScoring = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.PersonalInfo.Person.Contact.NationalId")])[1]//span';
 	
-	public static $applicationId     = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.ApplicationID")])[1]//span';
+	public static $applicationId     = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.ApplicationID")])[1]//span';
+
+	public static $productSchemeName = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.SelectedScheme.SchemeDescription")])[1]//span';
 	
 	public static $totalScore        = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-2")]//label[contains(@for, "Score")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
 	
