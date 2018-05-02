@@ -151,6 +151,16 @@ class GeneralPolicySteps extends \AcceptanceTester
                 break;
         }
 
+        $I->wait(3);
+
+         // Fill product scheme
+        $I->click(\GeneralXpathLibrary::$productScheme);
+        $I->wait(1);
+        $I->executeJS("return jQuery('" . \GeneralXpathLibrary::$productSchemeJS . "').val('" . $data["PRODUCT_SCHEME"] . "')");
+        $I->wait(1);
+        $I->pressKey(\GeneralXpathLibrary::$productScheme, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
+        $I->wait(1);
+
         if (!empty($data['NEW_APP']))
         {
             // Fill fields
@@ -293,6 +303,8 @@ class GeneralPolicySteps extends \AcceptanceTester
             }
         }
 
+        $I->wait(2);
+
         // Click submit data
         $I->click(\GeneralXpathLibrary::$submitFullDataEntry);
         $I->wait(2);
@@ -311,7 +323,7 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function dataCheckPolicy($data = array(), $product = NULL)
     {
         $I = $this;
-        $I->wait(80);
+        $I->wait(200);
 
         // Click Data check
         $I->click(\GeneralXpathLibrary::$dataCheck);
@@ -432,11 +444,13 @@ class GeneralPolicySteps extends \AcceptanceTester
         switch ($type) 
         {
             case 'input':
-                $I->executeJS("return jQuery('" . $field . "').val('" . $value . "')");
-                $I->wait(1);
+                $I->clearField($field);
+                $I->wait(2);
+                $I->fillField($field, $value);
+                $I->wait(2);
                 break;
             case 'dropdownlist':
-                $I->wait(1);
+                $I->wait(2);
                 $I->selectOption($field, array('value' => $value));
                 break;
         }

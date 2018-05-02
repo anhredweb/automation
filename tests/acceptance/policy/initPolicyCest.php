@@ -31,6 +31,7 @@ class initPLCest
                 d.FLD_VALU, d.TRXN_DT, m.CASE_ID, m.APP_ID , m.PRODUCT, m.SCHEME_ID, m.ID_NO1, m.ID_NO2, m.CURR_STAGE
                 FROM TPEGA_AUTO_RUN_MASTER m
                 LEFT JOIN TPEGA_AUTO_RUN_DETAILS d ON m.ITEM_ID = d.ITEM_ID
+                WHERE m.CASE_ID IS NULL
                 ORDER BY d.ITEM_ID, d.SEQ_ID";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
@@ -61,6 +62,7 @@ class initPLCest
         foreach ($originalData as $key => $value)
         {
             $data[$value['ITEM_ID']]['PRODUCT']     = $value['PRODUCT'];
+            $data[$value['ITEM_ID']]['PRODUCT_SCHEME']     = $value['SCHEME_ID'];
             $data[$value['ITEM_ID']]['NATIONAL_ID'] = date('YmdHis');
 
             if ($value['STAGE'] == 'SHORT_APP' && $value['FLD_NM'] == 'NATIONAL_ID_1')
