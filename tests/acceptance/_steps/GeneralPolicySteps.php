@@ -323,7 +323,7 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function dataCheckPolicy($data = array(), $product = NULL)
     {
         $I = $this;
-        $I->wait(200);
+        $I->wait(2);
 
         // Click Data check
         $I->click(\GeneralXpathLibrary::$dataCheck);

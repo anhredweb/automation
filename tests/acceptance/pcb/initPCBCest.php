@@ -6,7 +6,7 @@
  */
 
 /**
- * Class init to create PL Application
+ * Class init to check PCB
  *
  * @since  1.0
  */
@@ -21,17 +21,17 @@ class initPCBCest
      */
     protected function executeData($I)
     {
-        $fileName                  = '034174001091_LÊ_THỊ_THỦY_20180420_094343.xml';
+        //152107393_NGUYỄN_MINH_CHIẾN_20180402_114457
+        $fileName                  = '364023242_NGUYỄN_VĂN_ÚT_20180404_175302.xml';
         $maxCurrentDebtGroup       = $this->currentDebtGroup($fileName);
         $maxCurrentDebtGroup5Years = $this->currentDebtGroup5Years($fileName);
 
-        print_r(
+        return 
             array(
                 'File name'                  => $fileName,
                 'Current Debt Group'         => $maxCurrentDebtGroup,
                 'Current Debt Group 5 Years' => $maxCurrentDebtGroup5Years
-            )
-        );
+            );
     }
 
     /**
@@ -70,6 +70,11 @@ class initPCBCest
         {
             foreach ($resultInstalments as $key => $value)
             {
+                if (empty($value['Profiles']))
+                {
+                    continue;
+                }
+
                 $instalments[] = $value['Profiles'];
             }
 
@@ -97,7 +102,7 @@ class initPCBCest
                     continue;
                 }
 
-                $value['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . $value['Status'];
+                $value['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . (int) $value['Status'];
                 $finalInstalments[] = $value;
             }
 
@@ -105,7 +110,7 @@ class initPCBCest
                 return ($a['ReferenceYearMonth'] < $b['ReferenceYearMonth']);
             });
 
-            $instalmentsStatus = $finalInstalments[0]['Status'];
+            $instalmentsStatus = !empty($finalInstalments) ? $finalInstalments[0]['Status'] : 0;
         }
 
         $resultNotInstalments = array();
@@ -130,6 +135,11 @@ class initPCBCest
         {
             foreach ($resultNotInstalments as $key => $value)
             {
+                if (empty($value['Profiles']))
+                {
+                    continue;
+                }
+
                 $notInstalments[] = $value['Profiles'];
             }
 
@@ -165,7 +175,7 @@ class initPCBCest
                 return ($a['ReferenceYearMonth'] < $b['ReferenceYearMonth']);
             });
 
-            $notInstalmentsStatus = $finalNotInstalments[0]['Status'];
+            $notInstalmentsStatus = !empty($finalNotInstalments) ? $finalNotInstalments[0]['Status'] : 0;
         }
 
         $resultCards = array();
@@ -194,7 +204,7 @@ class initPCBCest
                 return ($a['ReferenceYear'] < $b['ReferenceYear'] && $a['ReferenceMonth'] < $b['ReferenceMonth']);
             });
 
-            $cardsStatus = $cards[0]['Status'];
+            $cardsStatus = !empty($cards) ? $cards[0]['Status'] : 0;
         }
 
         $creditHistory = array($instalmentsStatus, $notInstalmentsStatus, $cardsStatus);
@@ -217,10 +227,21 @@ class initPCBCest
         $array = json_decode($json, true);
 
         $iwsArr = array();
+        $instalmentsData = !empty($array['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $array['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
 
-        if (!empty($array['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']))
+        if (!empty($instalmentsData))
         {
-            foreach ($array['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] as $key => $value)
+            if (!empty($instalmentsData['WorstStatus']))
+            {
+                $iwsArr[] = $instalmentsData['WorstStatus'];
+            }
+
+            if (!empty($instalmentsData['Profiles']['Status']))
+            {
+                $iwsArr[] = $instalmentsData['Profiles']['Status'];
+            }
+
+            foreach ($instalmentsData as $key => $value)
             {
                 if (!empty($value['WorstStatus']))
                 {
@@ -242,10 +263,21 @@ class initPCBCest
         }
 
         $nwsArr = array();
+        $notInstalmentsData = !empty($array['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $array['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
 
-        if (!empty($array['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']))
+        if (!empty($notInstalmentsData))
         {
-            foreach ($array['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] as $key => $value)
+            if (!empty($notInstalmentsData['WorstStatus']))
+            {
+                $iwsArr[] = $notInstalmentsData['WorstStatus'];
+            }
+
+            if (!empty($notInstalmentsData['Profiles']['Status']))
+            {
+                $iwsArr[] = $notInstalmentsData['Profiles']['Status'];
+            }
+
+            foreach ($notInstalmentsData as $key => $value)
             {
                 if (!empty($value['WorstStatus']))
                 {
@@ -267,10 +299,21 @@ class initPCBCest
         }
 
         $cwsArr = array();
+        $cardsData = !empty($array['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $array['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
 
-        if (!empty($array['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']))
+        if (!empty($cardsData))
         {
-            foreach ($array['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] as $key => $value)
+            if (!empty($cardsData['WorstStatus']))
+            {
+                $cwsArr[] = $cardsData['WorstStatus'];
+            }
+
+            if (!empty($cardsData['Profiles']['Status']))
+            {
+                $cwsArr[] = $cardsData['Profiles']['Status'];
+            }
+
+            foreach ($cardsData as $key => $value)
             {
                 if (!empty($value['WorstStatus']))
                 {
@@ -297,7 +340,7 @@ class initPCBCest
     }
 
     /**
-     * Function to login
+     * Function to init Data
      *
      * @param   AcceptanceTester  $I         Acceptance Tester case.
      * @param   Scenario          $scenario  Scenario for test.
@@ -307,5 +350,7 @@ class initPCBCest
     public function initData(AcceptanceTester $I, $scenario)
     {
         $initData = $this->executeData($I);
+
+        print_r($initData);
     }
 }
