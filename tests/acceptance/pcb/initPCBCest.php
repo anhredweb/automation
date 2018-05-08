@@ -48,15 +48,15 @@ class initPCBCest
             $acCreditLimitNonInstalment = $this->getACCreditLimitNonInstalment($data);
 
             $initData = array(
-                "'" . str_replace("'", " ", $file) . "'",
-                "'" . $cbSubjectCode . "'",
+                $this->formatString($file),
+                $this->formatString($cbSubjectCode),
                 $maxCurrentDebtGroup,
                 $maxCurrentDebtGroup5Years,
                 $pcbScore,
-                "'" . $nationalID . "'",
-                "'" . str_replace("'", " ", $fullName) . "'",
-                "'" . str_replace("'", " ", $address) . "'",
-                "'" . $mobile . "'",
+                $this->formatString($nationalID),
+                $this->formatString($fullName),
+                $this->formatString($address),
+                $this->formatString($mobile),
                 $monthlyInstalment,
                 $creditLimit,
                 $creditLimitNonInstalment,
@@ -80,149 +80,191 @@ class initPCBCest
      */
     protected function getCurrentDebtGroup($xmlArray)
     {
+        $instalmentsStatus    = $this->getInstalmentsDebtGroup($xmlArray);
+        $notInstalmentsStatus = $this->getNonInstalmentsDebtGroup($xmlArray);
+        $cardsStatus          = $this->getCardsDebtGroup($xmlArray);
+
+        return max(array($instalmentsStatus, $notInstalmentsStatus, $cardsStatus));
+    }
+
+    /**
+     * Get Instalments Debt Group
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  integer
+     */
+    protected function getInstalmentsDebtGroup($xmlArray)
+    {
         $resultInstalments = array();
         $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
 
-        if (!empty($instalmentsData))
+        if (empty($instalmentsData))
         {
-            foreach ($instalmentsData as $key => $value)
-            {
-                if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
-                {
-                    continue;
-                }
-
-                $resultInstalments[$key] = $value;
-            }
+            return 0;
         }   
 
-        $instalments       = array();
-        $instalmentsStatus = 0;
-
-        if (!empty($resultInstalments))
+        foreach ($instalmentsData as $key => $value)
         {
-            foreach ($resultInstalments as $key => $value)
+            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
             {
-                if (empty($value['Profiles']))
-                {
-                    continue;
-                }
-
-                $instalments[] = $value['Profiles'];
+                continue;
             }
 
-            $newInstalments = array();
-            $i = 0;
-
-            foreach ($instalments as $key => $values)
-            {
-                
-                if (is_array($values))
-                {
-                    if (!empty($values['ReferenceYear']))
-                    {
-                        $newInstalments[$i] = $values;
-                        $i++;
-                    }
-                    else
-                    {
-                        foreach ($values as $value)
-                        {
-                            $newInstalments[$i] = $value;
-                            $i++;
-                        }
-                    }  
-                }
-            }
-
-            $finalInstalments = array();
-
-            foreach ($newInstalments as $key => $value)
-            {
-                if (!is_array($value))
-                {
-                    continue;
-                }
-
-                $value['Status'] = (int) $value['Status'];
-                $value['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . $value['Status'];
-                $finalInstalments[] = $value;
-            }
-
-            usort($finalInstalments, function($a, $b){
-                return ($a['ReferenceYearMonth'] < $b['ReferenceYearMonth']);
-            });
-
-            $instalmentsStatus = !empty($finalInstalments) ? (int) $finalInstalments[0]['Status'] : 0;
+            $resultInstalments[$key] = $value;
         }
 
-        $resultNotInstalments = array();
-        $notInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
+        $instalments = array();
 
-        if (!empty($notInstalmentsData))
+        if (empty($resultInstalments))
         {
-            foreach ($notInstalmentsData as $key => $value)
-            {
-                if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
-                {
-                    continue;
-                }
-
-                $resultNotInstalments[] = $value;
-            }
+            return 0;
         }
 
-        $notInstalments       = array();
-        $notInstalmentsStatus = 0;
-
-        if (!empty($resultNotInstalments))
+        foreach ($resultInstalments as $key => $value)
         {
-            foreach ($resultNotInstalments as $key => $value)
+            if (empty($value['Profiles']))
             {
-                if (empty($value['Profiles']))
-                {
-                    continue;
-                }
-
-                $notInstalments[] = $value['Profiles'];
+                continue;
             }
 
-            $newNotInstalments = array();
-            $i = 0;
+            $instalments[] = $value['Profiles'];
+        }
 
-            foreach ($notInstalments as $key => $values)
+        $newInstalments = array();
+        $i = 0;
+
+        foreach ($instalments as $key => $values)
+        {
+            
+            if (is_array($values))
             {
-                if (is_array($values))
+                if (!empty($values['ReferenceYear']))
+                {
+                    $newInstalments[$i] = $values;
+                    $i++;
+                }
+                else
                 {
                     foreach ($values as $value)
                     {
-                        $newNotInstalments[$i] = $value;
+                        $newInstalments[$i] = $value;
                         $i++;
-                    }    
-                }
+                    }
+                }  
             }
-
-            $finalNotInstalments = array();
-
-            foreach ($newNotInstalments as $key => $value)
-            {
-                if (!is_array($value))
-                {
-                    continue;
-                }
-
-                $value['Status'] = (int) $value['Status'];
-                $value['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . $value['Status'];
-                $finalNotInstalments[] = $value;
-            }
-
-            usort($finalNotInstalments, function($a, $b){
-                return ($a['ReferenceYearMonth'] < $b['ReferenceYearMonth']);
-            });
-
-            $notInstalmentsStatus = !empty($finalNotInstalments) ? (int) $finalNotInstalments[0]['Status'] : 0;
         }
 
+        $finalInstalments = array();
+
+        foreach ($newInstalments as $key => $value)
+        {
+            if (!is_array($value))
+            {
+                continue;
+            }
+
+            $value['Status'] = (int) $value['Status'];
+            $value['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . $value['Status'];
+            $finalInstalments[] = $value;
+        }
+
+        usort($finalInstalments, function($a, $b){
+            return ($a['ReferenceYearMonth'] < $b['ReferenceYearMonth']);
+        });
+
+        return !empty($finalInstalments) ? (int) $finalInstalments[0]['Status'] : 0;
+    }
+
+    /**
+     * Get Non-Instalments Debt Group
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  integer
+     */
+    protected function getNonInstalmentsDebtGroup($xmlArray)
+    {
+        $resultNotInstalments = array();
+        $notInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
+
+        if (empty($notInstalmentsData))
+        {
+            return 0;
+        }
+
+        foreach ($notInstalmentsData as $key => $value)
+        {
+            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+            {
+                continue;
+            }
+
+            $resultNotInstalments[] = $value;
+        }
+
+        $notInstalments = array();
+
+        if (empty($resultNotInstalments))
+        {
+            return 0;
+        }
+
+        foreach ($resultNotInstalments as $key => $value)
+        {
+            if (empty($value['Profiles']))
+            {
+                continue;
+            }
+
+            $notInstalments[] = $value['Profiles'];
+        }
+
+        $newNotInstalments = array();
+        $i = 0;
+
+        foreach ($notInstalments as $key => $values)
+        {
+            if (is_array($values))
+            {
+                foreach ($values as $value)
+                {
+                    $newNotInstalments[$i] = $value;
+                    $i++;
+                }    
+            }
+        }
+
+        $finalNotInstalments = array();
+
+        foreach ($newNotInstalments as $key => $value)
+        {
+            if (!is_array($value))
+            {
+                continue;
+            }
+
+            $value['Status'] = (int) $value['Status'];
+            $value['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . $value['Status'];
+            $finalNotInstalments[] = $value;
+        }
+
+        usort($finalNotInstalments, function($a, $b){
+            return ($a['ReferenceYearMonth'] < $b['ReferenceYearMonth']);
+        });
+
+        return !empty($finalNotInstalments) ? (int) $finalNotInstalments[0]['Status'] : 0;
+    }
+
+    /**
+     * Get Cards Debt Group
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  integer
+     */
+    protected function getCardsDebtGroup($xmlArray)
+    {
         $resultCards = array();
         $cardsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
 
@@ -231,46 +273,45 @@ class initPCBCest
             $resultCards[] = $cardsData['Profiles'];
         }
 
-        $cards       = array();
-        $cardsStatus = 0;
+        $cards = array();
 
-        if (!empty($resultCards))
+        if (empty($resultCards))
         {
-            foreach ($resultCards as $key => $value)
-            {
-                $cards = $value;
-
-                if (!empty($cards['ReferenceYear']))
-                {
-                    $cards['Status'] = (int) $cards['Status'];
-                    $cards['ReferenceYearMonth'] = $cards['ReferenceYear'] . $cards['ReferenceMonth'] . $cards['Status'];
-                }
-            }
-
-            if (empty($cards['ReferenceYear']))
-            {
-                foreach ($cards as $key => $value)
-                {
-                    $value['Status'] = (int) $value['Status'];
-                    $cards[$key]['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . $value['Status'];
-                }
-            }
-
-            if (empty($cards['ReferenceYearMonth']))
-            {
-                usort($cards, function($a, $b){
-                    return $a['ReferenceYearMonth'] < $b['ReferenceYearMonth'];
-                });
-            }
-            else
-            {
-                $cards = array($cards);
-            }
-
-            $cardsStatus = !empty($cards) ? (int) $cards[0]['Status'] : 0;
+            return 0;
         }
 
-        return max(array($instalmentsStatus, $notInstalmentsStatus, $cardsStatus));
+        foreach ($resultCards as $key => $value)
+        {
+            $cards = $value;
+
+            if (!empty($cards['ReferenceYear']))
+            {
+                $cards['Status'] = (int) $cards['Status'];
+                $cards['ReferenceYearMonth'] = $cards['ReferenceYear'] . $cards['ReferenceMonth'] . $cards['Status'];
+            }
+        }
+
+        if (empty($cards['ReferenceYear']))
+        {
+            foreach ($cards as $key => $value)
+            {
+                $value['Status'] = (int) $value['Status'];
+                $cards[$key]['ReferenceYearMonth'] = $value['ReferenceYear'] . $value['ReferenceMonth'] . $value['Status'];
+            }
+        }
+
+        if (empty($cards['ReferenceYearMonth']))
+        {
+            usort($cards, function($a, $b){
+                return $a['ReferenceYearMonth'] < $b['ReferenceYearMonth'];
+            });
+        }
+        else
+        {
+            $cards = array($cards);
+        }
+
+        return !empty($cards) ? (int) $cards[0]['Status'] : 0;
     }
 
     /**
@@ -281,6 +322,23 @@ class initPCBCest
      * @return  integer
      */
     protected function getCurrentDebtGroup5Years($xmlArray)
+    {
+
+        $iws = $this->getIWS($xmlArray);
+        $nws = $this->getNWS($xmlArray); 
+        $cws = $this->getCWS($xmlArray); 
+
+        return max(array($iws, $nws, $cws));
+    }
+
+    /**
+     * Get Instalments
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  integer
+     */
+    protected function getIWS($xmlArray)
     {
         $iwsArr = array();
         $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
@@ -311,8 +369,18 @@ class initPCBCest
             }
         }   
 
-        $iws = !empty($iwsArr) ? max($iwsArr) : 0;
+        return !empty($iwsArr) ? max($iwsArr) : 0;
+    }
 
+    /**
+     * Get Non-Instalments
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  integer
+     */
+    protected function getNWS($xmlArray)
+    {
         $nwsArr = array();
         $notInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
 
@@ -342,8 +410,18 @@ class initPCBCest
             }
         }   
 
-        $nws = !empty($nwsArr) ? max($nwsArr) : 0;
+        return !empty($nwsArr) ? max($nwsArr) : 0;
+    }
 
+    /**
+     * Get Cards
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  integer
+     */
+    protected function getCWS($xmlArray)
+    {
         $cwsArr = array();
         $cardsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
 
@@ -373,9 +451,7 @@ class initPCBCest
             }
         }   
 
-        $cws = !empty($cwsArr) ? max($cwsArr) : 0;
-
-        return max(array($iws, $nws, $cws));
+        return !empty($cwsArr) ? max($cwsArr) : 0;
     }
 
     /**
@@ -653,6 +729,18 @@ class initPCBCest
         oci_commit($this->connectOracle());
 
         return;
+    }
+
+    /**
+     * Function to update is run status
+     *
+     * @param  string  $string  String to format
+     *
+     * @return string
+     */
+    protected function formatString($string)
+    {
+        return "'" . str_replace("'", " ", $string) . "'";
     }
 
     /**
