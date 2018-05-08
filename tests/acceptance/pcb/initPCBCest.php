@@ -15,11 +15,9 @@ class initPCBCest
     /**
      * Execute Data.
      *
-     * @param   AcceptanceTester  $I  Acceptance Tester case.
-     *
      * @return  void
      */
-    protected function executeData($I)
+    protected function executeData()
     {
         $listFiles = array_diff(scandir('./PCB/'), array('..', '.'));
 
@@ -513,7 +511,7 @@ class initPCBCest
         }
         else
         {
-            $resultInstalments[] = !empty($cardsData['MonthlyInstalmentAmount']) ? $cardsData ['MonthlyInstalmentAmount'] : 0;
+            $resultInstalments[] = !empty($cardsData['MonthlyInstalmentAmount']) ? $cardsData['MonthlyInstalmentAmount'] : 0;
         }
 
         return !empty($resultInstalments) ? array_sum($resultInstalments) : 0;
@@ -540,15 +538,15 @@ class initPCBCest
                     continue;
                 }
 
-                $resultInstalments[] = !empty($value['CreditLimit']) ? $value['CreditLimit'] : 0;
+                $resultCards[] = !empty($value['CreditLimit']) ? $value['CreditLimit'] : 0;
             }
         }
         else
         {
-            $resultInstalments[] = !empty($cardsData['CreditLimit']) ? $cardsData ['CreditLimit'] : 0;
+            $resultCards[] = !empty($cardsData['CreditLimit']) ? $cardsData ['CreditLimit'] : 0;
         }
 
-        return !empty($resultInstalments) ? array_sum($resultInstalments) : 0;
+        return !empty($resultCards) ? array_sum($resultCards) : 0;
     }
 
     /**
@@ -577,7 +575,7 @@ class initPCBCest
         }
         else
         {
-            $resultInstalments[] = !empty($cardsData['AmountOfTheCredits']) ? $cardsData ['AmountOfTheCredits'] : 0;
+            $resultNonInstalments[] = !empty($cardsData['AmountOfTheCredits']) ? $cardsData['AmountOfTheCredits'] : 0;
         }
 
         return !empty($resultNonInstalments) ? array_sum($resultNonInstalments) : 0;
@@ -667,6 +665,6 @@ class initPCBCest
      */
     public function initData(AcceptanceTester $I, $scenario)
     {
-        $this->executeData($I);
+        $this->executeData();
     }
 }
