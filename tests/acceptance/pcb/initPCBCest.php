@@ -22,13 +22,12 @@ class initPCBCest
     protected function executeData($I)
     {
         $listFiles = array_diff(scandir('./PCB/'), array('..', '.'));
-        //152107393_NGUYỄN_MINH_CHIẾN_20180402_114457
 
         foreach ($listFiles as $key => $file)
         {
             print_r($file);
             // Init Data
-            // $fileName = '112191100_ĐẶNG_THỊ_THỦY_20180417_113120.xml';
+            // 024060513_TRẦN_THANH_TÀI_20180405_153904.xml
             $path     = './PCB/' . $file;
             $xml      = simplexml_load_file($path);
             $json     = json_encode($xml);
@@ -500,7 +499,7 @@ class initPCBCest
         $resultInstalments = array();
         $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
 
-        if (!empty($instalmentsData))
+        if (!empty($instalmentsData) && empty($cardsData['MonthlyInstalmentAmount']))
         {
             foreach ($instalmentsData as $key => $value)
             {
@@ -511,6 +510,10 @@ class initPCBCest
 
                 $resultInstalments[] = !empty($value['MonthlyInstalmentAmount']) ? $value['MonthlyInstalmentAmount'] : 0;
             }
+        }
+        else
+        {
+            $resultInstalments[] = !empty($cardsData['MonthlyInstalmentAmount']) ? $cardsData ['MonthlyInstalmentAmount'] : 0;
         }
 
         return !empty($resultInstalments) ? array_sum($resultInstalments) : 0;
@@ -528,7 +531,7 @@ class initPCBCest
         $resultCards = array();
         $cardsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
 
-        if (!empty($cardsData))
+        if (!empty($cardsData) && empty($cardsData['CreditLimit']))
         {
             foreach ($cardsData as $key => $value)
             {
@@ -539,6 +542,10 @@ class initPCBCest
 
                 $resultInstalments[] = !empty($value['CreditLimit']) ? $value['CreditLimit'] : 0;
             }
+        }
+        else
+        {
+            $resultInstalments[] = !empty($cardsData['CreditLimit']) ? $cardsData ['CreditLimit'] : 0;
         }
 
         return !empty($resultInstalments) ? array_sum($resultInstalments) : 0;
@@ -554,9 +561,9 @@ class initPCBCest
     protected function getCreditLimitNonInstalment($xmlArray)
     {
         $resultNonInstalments = array();
-        $nonInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NotInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NotInstalments']['GrantedContract'] : array();
+        $nonInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
 
-        if (!empty($nonInstalmentsData))
+        if (!empty($nonInstalmentsData) && empty($cardsData['AmountOfTheCredits']))
         {
             foreach ($nonInstalmentsData as $key => $value)
             {
@@ -565,8 +572,12 @@ class initPCBCest
                     continue;
                 }
 
-                $resultNonInstalments[] = !empty($value['AmountOfTheCredit']) ? $value['AmountOfTheCredit'] : 0;
+                $resultNonInstalments[] = !empty($value['AmountOfTheCredits']) ? $value['AmountOfTheCredits'] : 0;
             }
+        }
+        else
+        {
+            $resultInstalments[] = !empty($cardsData['AmountOfTheCredits']) ? $cardsData ['AmountOfTheCredits'] : 0;
         }
 
         return !empty($resultNonInstalments) ? array_sum($resultNonInstalments) : 0;
@@ -615,10 +626,18 @@ class initPCBCest
      */
     protected function connectOracle()
     {
-        $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
+        $db = "(DESCRIPTION =
+            (LOAD_BALANCE=YES)
+            (ADDRESS_LIST =
+              (ADDRESS = (PROTOCOL = TCP)(HOST = ods-scan)(PORT = 1521))
+            )
+            (CONNECT_DATA =
+              (SERVICE_NAME = dwproddc)
+            )
+          )" ;
 
         // Create connection to Oracle
-        return oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
+        return oci_connect("COMMON", "Common_Risk_0616", $db, 'AL32UTF8');
     }
 
     /**
