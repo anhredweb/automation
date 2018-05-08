@@ -24,8 +24,8 @@ class initPCBCest
         foreach ($listFiles as $key => $file)
         {
             print_r($file);
+
             // Init Data
-            // 024060513_TRẦN_THANH_TÀI_20180405_153904.xml
             $path     = './PCB/' . $file;
             $xml      = simplexml_load_file($path);
             $json     = json_encode($xml);
@@ -497,7 +497,7 @@ class initPCBCest
         $resultInstalments = array();
         $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
 
-        if (!empty($instalmentsData) && empty($cardsData['MonthlyInstalmentAmount']))
+        if (!empty($instalmentsData) && empty($instalmentsData['MonthlyInstalmentAmount']))
         {
             foreach ($instalmentsData as $key => $value)
             {
@@ -511,7 +511,7 @@ class initPCBCest
         }
         else
         {
-            $resultInstalments[] = !empty($cardsData['MonthlyInstalmentAmount']) ? $cardsData['MonthlyInstalmentAmount'] : 0;
+            $resultInstalments[] = !empty($instalmentsData['MonthlyInstalmentAmount']) ? $instalmentsData['MonthlyInstalmentAmount'] : 0;
         }
 
         return !empty($resultInstalments) ? array_sum($resultInstalments) : 0;
@@ -543,7 +543,7 @@ class initPCBCest
         }
         else
         {
-            $resultCards[] = !empty($cardsData['CreditLimit']) ? $cardsData ['CreditLimit'] : 0;
+            $resultCards[] = !empty($cardsData['CreditLimit']) ? $cardsData['CreditLimit'] : 0;
         }
 
         return !empty($resultCards) ? array_sum($resultCards) : 0;
@@ -561,7 +561,7 @@ class initPCBCest
         $resultNonInstalments = array();
         $nonInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
 
-        if (!empty($nonInstalmentsData) && empty($cardsData['AmountOfTheCredits']))
+        if (!empty($nonInstalmentsData) && empty($nonInstalmentsData['AmountOfTheCredits']))
         {
             foreach ($nonInstalmentsData as $key => $value)
             {
@@ -575,7 +575,7 @@ class initPCBCest
         }
         else
         {
-            $resultNonInstalments[] = !empty($cardsData['AmountOfTheCredits']) ? $cardsData['AmountOfTheCredits'] : 0;
+            $resultNonInstalments[] = !empty($nonInstalmentsData['AmountOfTheCredits']) ? $nonInstalmentsData['AmountOfTheCredits'] : 0;
         }
 
         return !empty($resultNonInstalments) ? array_sum($resultNonInstalments) : 0;
