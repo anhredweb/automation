@@ -343,31 +343,19 @@ class initPCBCest
         $iwsArr = array();
         $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
 
-        if (!empty($instalmentsData))
+        if (empty($instalmentsData))
         {
-            if (!empty($instalmentsData['WorstStatus']))
-            {
-                $iwsArr[] = $instalmentsData['WorstStatus'];
-            }
-
-            if (!empty($instalmentsData['Profiles']['Status']))
-            {
-                $iwsArr[] = $instalmentsData['Profiles']['Status'];
-            }
-
-            foreach ($instalmentsData as $key => $value)
-            {
-                if (!empty($value['WorstStatus']))
-                {
-                    $iwsArr[] = $value['WorstStatus'];
-                }
-
-                if (!empty($value['Profiles']['Status']))
-                {
-                    $iwsArr[] = $value['Profiles']['Status'];
-                }
-            }
+            return 0;
         }   
+
+        $iwsArr[] = !empty($instalmentsData['WorstStatus']) ? $instalmentsData['WorstStatus'] : 0;
+        $iwsArr[] = !empty($instalmentsData['Profiles']['Status']) ? $instalmentsData['Profiles']['Status'] : 0;
+
+        foreach ($instalmentsData as $key => $value)
+        {
+            $iwsArr[] = !empty($value['WorstStatus']) ? $value['WorstStatus'] : 0;
+            $iwsArr[] = !empty($value['Profiles']['Status']) ? $value['Profiles']['Status'] : 0;
+        }
 
         return !empty($iwsArr) ? max($iwsArr) : 0;
     }
@@ -384,31 +372,19 @@ class initPCBCest
         $nwsArr = array();
         $notInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
 
-        if (!empty($notInstalmentsData))
+        if (empty($notInstalmentsData))
         {
-            if (!empty($notInstalmentsData['WorstStatus']))
-            {
-                $nwsArr[] = $notInstalmentsData['WorstStatus'];
-            }
-
-            if (!empty($notInstalmentsData['Profiles']['Status']))
-            {
-                $nwsArr[] = $notInstalmentsData['Profiles']['Status'];
-            }
-
-            foreach ($notInstalmentsData as $key => $value)
-            {
-                if (!empty($value['WorstStatus']))
-                {
-                    $nwsArr[] = $value['WorstStatus'];
-                }
-
-                if (!empty($value['Profiles']['Status']))
-                {
-                    $nwsArr[] = $value['Profiles']['Status'];
-                }
-            }
+            return 0;
         }   
+
+        $nwsArr[] = !empty($notInstalmentsData['WorstStatus']) ? $notInstalmentsData['WorstStatus'] : 0;
+        $nwsArr[] = !empty($notInstalmentsData['Profiles']['Status']) ? $notInstalmentsData['Profiles']['Status'] : 0;
+
+        foreach ($notInstalmentsData as $key => $value)
+        {
+            $nwsArr[] = !empty($value['WorstStatus']) ? $value['WorstStatus'] : 0;
+            $nwsArr[] = !empty($value['Profiles']['Status']) ? $value['Profiles']['Status'] : 0;
+        }
 
         return !empty($nwsArr) ? max($nwsArr) : 0;
     }
@@ -425,31 +401,19 @@ class initPCBCest
         $cwsArr = array();
         $cardsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
 
-        if (!empty($cardsData))
+        if (empty($cardsData))
         {
-            if (!empty($cardsData['WorstStatus']))
-            {
-                $cwsArr[] = $cardsData['WorstStatus'];
-            }
+            return 0;
+        }
 
-            if (!empty($cardsData['Profiles']['Status']))
-            {
-                $cwsArr[] = $cardsData['Profiles']['Status'];
-            }
+        $cwsArr[] = !empty($cardsData['WorstStatus']) ? $cardsData['WorstStatus'] : 0;
+        $cwsArr[] = !empty($cardsData['Profiles']['Status']) ? $cardsData['Profiles']['Status'] : 0;
 
-            foreach ($cardsData as $key => $value)
-            {
-                if (!empty($value['WorstStatus']))
-                {
-                    $cwsArr[] = $value['WorstStatus'];
-                }
-
-                if (!empty($value['Profiles']['Status']))
-                {
-                    $cwsArr[] = $value['Profiles']['Status'];
-                }
-            }
-        }   
+        foreach ($cardsData as $key => $value)
+        {
+            $cwsArr[] = !empty($value['WorstStatus']) ? $value['WorstStatus'] : 0;
+            $cwsArr[] = !empty($value['Profiles']['Status']) ? $value['Profiles']['Status'] : 0;
+        }
 
         return !empty($cwsArr) ? max($cwsArr) : 0;
     }
