@@ -10,7 +10,7 @@
  *
  * @since  1.0
  */
-class initPLCest
+class initPolicyCest
 {
     /**
      * Execute Query.
