@@ -572,7 +572,7 @@ class initPCBCest
             return 0;
         }
 
-        if (!empty($instalmentsData) && !empty($instalmentsData['MonthlyInstalmentAmount']))
+        if (!empty($instalmentsData['MonthlyInstalmentAmount']))
         {
             return $instalmentsData['MonthlyInstalmentAmount'];
         }
@@ -581,12 +581,12 @@ class initPCBCest
 
         foreach ($instalmentsData as $key => $value)
         {
-            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+            if ((!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV') || empty($value['MonthlyInstalmentAmount']))
             {
                 continue;
             }
 
-            $resultInstalments[] = !empty($value['MonthlyInstalmentAmount']) ? $value['MonthlyInstalmentAmount'] : 0;
+            $resultInstalments[] = $value['MonthlyInstalmentAmount'];
         }
 
         return !empty($resultInstalments) ? array_sum($resultInstalments) : 0;
@@ -608,7 +608,7 @@ class initPCBCest
             return 0;
         }
 
-        if (!empty($cardsData) && !empty($cardsData['CreditLimit']))
+        if (!empty($cardsData['CreditLimit']))
         {
            return $cardsData['CreditLimit'];
         }
@@ -617,12 +617,12 @@ class initPCBCest
 
         foreach ($cardsData as $key => $value)
         {
-            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+            if ((!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV') || empty($value['CreditLimit']))
             {
                 continue;
             }
 
-            $resultCards[] = !empty($value['CreditLimit']) ? $value['CreditLimit'] : 0;
+            $resultCards[] = $value['CreditLimit'];
         }
 
         return !empty($resultCards) ? array_sum($resultCards) : 0;
@@ -644,7 +644,7 @@ class initPCBCest
             return 0;
         }
 
-        if (!empty($nonInstalmentsData) && !empty($nonInstalmentsData['AmountOfTheCredits']))
+        if (!empty($nonInstalmentsData['AmountOfTheCredits']))
         {
             return $nonInstalmentsData['AmountOfTheCredits'];
         }
@@ -653,12 +653,12 @@ class initPCBCest
 
         foreach ($nonInstalmentsData as $key => $value)
         {
-            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+            if ((!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV') || empty($value['AmountOfTheCredits']))
             {
                 continue;
             }
 
-            $resultNonInstalments[] = !empty($value['AmountOfTheCredits']) ? $value['AmountOfTheCredits'] : 0;
+            $resultNonInstalments[] = $value['AmountOfTheCredits'];
         }
 
         return !empty($resultNonInstalments) ? array_sum($resultNonInstalments) : 0;
