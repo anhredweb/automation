@@ -532,34 +532,25 @@ class initPCBCest
             return 0;
         }
 
-        $reference  = $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Reference'];
-        $mobileList = array();
-        $mobile     = '';
-        $type       = '';
+        $reference = $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Reference'];
+        $mobile    = '';
+        $type      = '';
 
         foreach ($reference as $key => $value)
         {
-            if ($key = 'Number')
+            if (!is_array($value) && ($value['Type'] != 'PN' || $value['Type'] != 'MP'))
             {
-                $mobile = $value;
+                continue;
             }
 
-            if ($key = 'Type')
-            {
-                $type = $value;
-            }
-
-            if (is_array($value) && ($value['Type'] == 'PN' || $value['Type'] == 'MP'))
-            {
-                $mobileList['Type']   = $value['Type'];
-                $mobileList['Number'] = $value['Number'];
-            }
+            $type   = $value['Type'];
+            $mobile = $value['Number'];
         }
 
-        if (!empty($mobileList))
+        if (!empty($reference['Number']))
         {
-            $type   = $mobileList['Type'];
-            $mobile = $mobileList['Number'];
+            $type   = $reference['Number'];
+            $mobile = $reference['Type'];
         }
 
         return (!empty($mobile) && ($type == 'PN' || $type == 'MP')) ? $mobile : 0;
@@ -574,24 +565,28 @@ class initPCBCest
      */
     protected function getMonthlyInstalment($xmlArray)
     {
-        $resultInstalments = array();
         $instalmentsData = $this->getInstalmentsData($xmlArray);
 
-        if (!empty($instalmentsData) && empty($instalmentsData['MonthlyInstalmentAmount']))
+        if (empty($instalmentsData))
         {
-            foreach ($instalmentsData as $key => $value)
-            {
-                if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
-                {
-                    continue;
-                }
-
-                $resultInstalments[] = !empty($value['MonthlyInstalmentAmount']) ? $value['MonthlyInstalmentAmount'] : 0;
-            }
+            return 0;
         }
-        else
+
+        if (!empty($instalmentsData) && !empty($instalmentsData['MonthlyInstalmentAmount']))
         {
-            $resultInstalments[] = !empty($instalmentsData['MonthlyInstalmentAmount']) ? $instalmentsData['MonthlyInstalmentAmount'] : 0;
+            return $instalmentsData['MonthlyInstalmentAmount'];
+        }
+
+        $resultInstalments = array();
+
+        foreach ($instalmentsData as $key => $value)
+        {
+            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+            {
+                continue;
+            }
+
+            $resultInstalments[] = !empty($value['MonthlyInstalmentAmount']) ? $value['MonthlyInstalmentAmount'] : 0;
         }
 
         return !empty($resultInstalments) ? array_sum($resultInstalments) : 0;
@@ -606,24 +601,28 @@ class initPCBCest
      */
     protected function getCreditLimit($xmlArray)
     {
-        $resultCards = array();
         $cardsData = $this->getCardsData($xmlArray);
 
-        if (!empty($cardsData) && empty($cardsData['CreditLimit']))
+        if (empty($cardsData))
         {
-            foreach ($cardsData as $key => $value)
-            {
-                if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
-                {
-                    continue;
-                }
-
-                $resultCards[] = !empty($value['CreditLimit']) ? $value['CreditLimit'] : 0;
-            }
+            return 0;
         }
-        else
+
+        if (!empty($cardsData) && !empty($cardsData['CreditLimit']))
         {
-            $resultCards[] = !empty($cardsData['CreditLimit']) ? $cardsData['CreditLimit'] : 0;
+           return $cardsData['CreditLimit'];
+        }
+
+        $resultCards = array();
+
+        foreach ($cardsData as $key => $value)
+        {
+            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+            {
+                continue;
+            }
+
+            $resultCards[] = !empty($value['CreditLimit']) ? $value['CreditLimit'] : 0;
         }
 
         return !empty($resultCards) ? array_sum($resultCards) : 0;
@@ -638,24 +637,28 @@ class initPCBCest
      */
     protected function getCreditLimitNonInstalment($xmlArray)
     {
-        $resultNonInstalments = array();
         $nonInstalmentsData = $this->getNonInstalmentsData($xmlArray);
 
-        if (!empty($nonInstalmentsData) && empty($nonInstalmentsData['AmountOfTheCredits']))
+        if (empty($nonInstalmentsData))
         {
-            foreach ($nonInstalmentsData as $key => $value)
-            {
-                if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
-                {
-                    continue;
-                }
-
-                $resultNonInstalments[] = !empty($value['AmountOfTheCredits']) ? $value['AmountOfTheCredits'] : 0;
-            }
+            return 0;
         }
-        else
+
+        if (!empty($nonInstalmentsData) && !empty($nonInstalmentsData['AmountOfTheCredits']))
         {
-            $resultNonInstalments[] = !empty($nonInstalmentsData['AmountOfTheCredits']) ? $nonInstalmentsData['AmountOfTheCredits'] : 0;
+            return $nonInstalmentsData['AmountOfTheCredits'];
+        }
+
+        $resultNonInstalments = array();
+
+        foreach ($nonInstalmentsData as $key => $value)
+        {
+            if (!empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+            {
+                continue;
+            }
+
+            $resultNonInstalments[] = !empty($value['AmountOfTheCredits']) ? $value['AmountOfTheCredits'] : 0;
         }
 
         return !empty($resultNonInstalments) ? array_sum($resultNonInstalments) : 0;
