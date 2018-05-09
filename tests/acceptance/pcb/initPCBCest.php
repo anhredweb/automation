@@ -97,7 +97,7 @@ class initPCBCest
     protected function getInstalmentsDebtGroup($xmlArray)
     {
         $resultInstalments = array();
-        $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
+        $instalmentsData = $this->getInstalmentsData($xmlArray);
 
         if (empty($instalmentsData))
         {
@@ -137,21 +137,23 @@ class initPCBCest
         foreach ($instalments as $key => $values)
         {
             
-            if (is_array($values))
+            if (!is_array($values))
             {
-                if (!empty($values['ReferenceYear']))
+                 continue; 
+            }
+
+            if (!empty($values['ReferenceYear']))
+            {
+                $newInstalments[$i] = $values;
+                $i++;
+            }
+            else
+            {
+                foreach ($values as $value)
                 {
-                    $newInstalments[$i] = $values;
+                    $newInstalments[$i] = $value;
                     $i++;
                 }
-                else
-                {
-                    foreach ($values as $value)
-                    {
-                        $newInstalments[$i] = $value;
-                        $i++;
-                    }
-                }  
             }
         }
 
@@ -186,7 +188,7 @@ class initPCBCest
     protected function getNonInstalmentsDebtGroup($xmlArray)
     {
         $resultNotInstalments = array();
-        $notInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
+        $notInstalmentsData = $this->getNonInstalmentsData($xmlArray);
 
         if (empty($notInstalmentsData))
         {
@@ -225,13 +227,15 @@ class initPCBCest
 
         foreach ($notInstalments as $key => $values)
         {
-            if (is_array($values))
+            if (!is_array($values))
             {
-                foreach ($values as $value)
-                {
-                    $newNotInstalments[$i] = $value;
-                    $i++;
-                }    
+                continue;
+            }
+
+            foreach ($values as $value)
+            {
+                $newNotInstalments[$i] = $value;
+                $i++;
             }
         }
 
@@ -266,7 +270,7 @@ class initPCBCest
     protected function getCardsDebtGroup($xmlArray)
     {
         $resultCards = array();
-        $cardsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
+        $cardsData = $this->getCardsData($xmlArray);
 
         if (!empty($cardsData) && !empty($cardsData['CommonData']) && $cardsData['CommonData']['ContractPhase'] == 'LV')
         {
@@ -341,7 +345,7 @@ class initPCBCest
     protected function getIWS($xmlArray)
     {
         $iwsArr = array();
-        $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
+        $instalmentsData = $this->getInstalmentsData($xmlArray);
 
         if (empty($instalmentsData))
         {
@@ -370,7 +374,7 @@ class initPCBCest
     protected function getNWS($xmlArray)
     {
         $nwsArr = array();
-        $notInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
+        $notInstalmentsData = $this->getNonInstalmentsData($xmlArray);
 
         if (empty($notInstalmentsData))
         {
@@ -399,7 +403,7 @@ class initPCBCest
     protected function getCWS($xmlArray)
     {
         $cwsArr = array();
-        $cardsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
+        $cardsData = $this->getCardsData($xmlArray);
 
         if (empty($cardsData))
         {
@@ -416,6 +420,42 @@ class initPCBCest
         }
 
         return !empty($cwsArr) ? max($cwsArr) : 0;
+    }
+
+    /**
+     * Get Non-Instalments Data
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  array
+     */
+    protected function getInstalmentsData($xmlArray)
+    {
+        return !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
+    }
+
+    /**
+     * Get Instalments Data
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  array
+     */
+    protected function getNonInstalmentsData($xmlArray)
+    {
+        return !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
+    }
+
+    /**
+     * Get Cards Data
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  array
+     */
+    protected function getCardsData($xmlArray)
+    {
+        return !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
     }
 
     /**
@@ -535,7 +575,7 @@ class initPCBCest
     protected function getMonthlyInstalment($xmlArray)
     {
         $resultInstalments = array();
-        $instalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Instalments']['GrantedContract'] : array();
+        $instalmentsData = $this->getInstalmentsData($xmlArray);
 
         if (!empty($instalmentsData) && empty($instalmentsData['MonthlyInstalmentAmount']))
         {
@@ -567,7 +607,7 @@ class initPCBCest
     protected function getCreditLimit($xmlArray)
     {
         $resultCards = array();
-        $cardsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['Cards']['GrantedContract'] : array();
+        $cardsData = $this->getCardsData($xmlArray);
 
         if (!empty($cardsData) && empty($cardsData['CreditLimit']))
         {
@@ -599,7 +639,7 @@ class initPCBCest
     protected function getCreditLimitNonInstalment($xmlArray)
     {
         $resultNonInstalments = array();
-        $nonInstalmentsData = !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['NonInstalments']['GrantedContract'] : array();
+        $nonInstalmentsData = $this->getNonInstalmentsData($xmlArray);
 
         if (!empty($nonInstalmentsData) && empty($nonInstalmentsData['AmountOfTheCredits']))
         {
