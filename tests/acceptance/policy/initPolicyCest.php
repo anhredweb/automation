@@ -41,6 +41,72 @@ class initPolicyCest
     }
 
     /**
+     * Execute Query.
+     *
+     * @param   AcceptanceTester  $I  Acceptance Tester case.
+     *
+     * @return  array
+     */
+    protected function executeQueryCaseId($I)
+    {
+        $connection = $I->connectOracle();
+        $query      = "SELECT CASE_ID, PRODUCT, APP_ID FROM TPEGA_AUTO_RUN_MASTER WHERE CASE_ID IS NOT NULL AND COMP_DT IS NULL";
+        $stid       = oci_parse($connection, $query);
+        oci_execute($stid);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+
+        return $data;
+    }
+
+     /**
+     * Function to login
+     *
+     * @param   AcceptanceTester  $I         Acceptance Tester case.
+     * @param   Scenario          $scenario  Scenario for test.
+     *
+     * @return  void
+     */
+    protected function updateApplication(AcceptanceTester $I, $scenario)
+    {
+        $data = $this->executeQueryCaseId($I);
+
+        if (empty($data))
+        {
+            return;
+        }
+
+        $I->amOnUrl(\GeneralXpathLibrary::$url);
+        $I = new AcceptanceTester\GeneralPolicySteps($scenario);
+
+        $I->wantTo('Login to PEGA UAT');
+        $I->loginPega('tu.vuong@fecredit.com.vn', 'rules');
+
+        $I->wantTo('Check session message');
+        $I->checkSessionMessage();
+
+        // Only Search Applications and update to DB
+        $I->wantTo('Switch Application to LOS2');
+        $I->switchApplicationToLOS2();
+
+        foreach ($data as $key => $case)
+        {
+            $I->wantTo('Search Application');
+            $responseData = $I->searchPolicyApplication($case);
+
+            if (!empty($responseData))
+            {
+                $I->wantTo('Update score');
+                $I->updatePreScoring($responseData, $I->connectOracle());          
+            }
+
+            print_r('Update successfull');
+
+            $I->switchToIFrame();
+            continue;
+        }
+    }
+
+    /**
      * Function to login
      *
      * @param   AcceptanceTester  $I         Acceptance Tester case.
@@ -61,11 +127,11 @@ class initPolicyCest
 
         foreach ($originalData as $key => $value)
         {
-            $data[$value['ITEM_ID']]['PRODUCT']     = $value['PRODUCT'];
-            $data[$value['ITEM_ID']]['PRODUCT_SCHEME']     = $value['SCHEME_ID'];
-            $data[$value['ITEM_ID']]['NATIONAL_ID'] = date('YmdHis');
+            $data[$value['ITEM_ID']]['PRODUCT']        = $value['PRODUCT'];
+            $data[$value['ITEM_ID']]['PRODUCT_SCHEME'] = $value['SCHEME_ID'];
+            //$data[$value['ITEM_ID']]['NATIONAL_ID']    = date('YmdHi');
 
-            if ($value['STAGE'] == 'SHORT_APP' && $value['FLD_NM'] == 'NATIONAL_ID_1')
+            if (trim($value['STAGE']) == 'SHORT_APP' && trim($value['FLD_NM']) == 'NATIONAL_ID_1')
             {
                 $data[$value['ITEM_ID']]['NATIONAL_ID'] = $value['FLD_VALU'];
             }
@@ -100,64 +166,79 @@ class initPolicyCest
         // Process flow
         foreach ($data as $item => $case)
         {
-            $product = $case['PRODUCT'];
-            unset($case['PRODUCT']);
-
-            $I->wantTo('Select product');
-
-            if (!$I->selectedProduct($product))
+            if (strlen($case['NATIONAL_ID']) == 9 || strlen($case['NATIONAL_ID']) == 12)
             {
-                continue;
+                $product = $case['PRODUCT'];
+                unset($case['PRODUCT']);
+
+                $I->wantTo('Select product');
+
+                if (!$I->selectedProduct($product))
+                {
+                    continue;
+                }
+
+                $I->wantTo('Init data');
+
+                if (!$I->initDemoData($case, $product))
+                {
+                    continue;
+                }
+
+                $I->wantTo('Entry short data');
+
+                if (!$I->shortApplicationPolicy($case, $product))
+                {
+                    continue;
+                }
+                
+                $I->wantTo('Check documents');
+
+                if (!$I->shortApplicationDocumentPolicy($product))
+                {
+                    $I->wantTo('GetData');
+                    $caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+                    $caseId = str_replace('(', '', $caseId);
+                    $caseId = str_replace(')', '', $caseId);
+                    $responseData = $I->getData($caseId, $product, $item);
+
+                    if (!empty($responseData))
+                    {
+                        $I->updateData($responseData, $I->connectOracle());
+                    }
+
+                    continue;
+                }
+
+                $I->wantTo('Entry full data');
+                $I->fullDataEntry($case, $product);
+
+                $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+                if (trim($applicationStatus) == 'Pending-Rework-AddDoc')
+                {
+                    $I->PendingReworkAddDoc();
+                }
+
+                $I->wantTo('Check data');
+                $caseId = $I->dataCheckPolicy($case, $product);
+
+                if ($caseId == '')
+                {
+                    continue;
+                }
+
+                $I->wantTo('GetData');
+                $responseData = $I->getData($caseId, $product, $item);
+
+                if (!empty($responseData))
+                {
+                    $I->updateData($responseData, $I->connectOracle());
+                }
+
+                $I->switchToIFrame();
             }
 
-            $I->wantTo('Init data');
-
-            if (!$I->initDemoData($case, $product))
-            {
-                continue;
-            }
-
-            $I->wantTo('Entry short data');
-
-            if (!$I->shortApplicationPolicy($case, $product))
-            {
-                continue;
-            }
-            
-            $I->wantTo('Check documents');
-
-            if (!$I->shortApplicationDocumentPolicy($product))
-            {
-                continue;
-            }
-
-            $I->wantTo('Entry full data');
-            $I->fullDataEntry($case, $product);
-
-            $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
-
-            if (trim($applicationStatus) == 'Pending-Rework-AddDoc')
-            {
-                $I->PendingReworkAddDoc();
-            }
-
-            $I->wantTo('Check data');
-            $caseId = $I->dataCheckPolicy($case, $product);
-
-            if ($caseId == '')
-            {
-                continue;
-            }
-
-            $I->wantTo('Search Application');
-            $responseData = $I->getData($caseId, $product, $item);
-
-            if (!empty($responseData))
-            {
-                $I->updateData($responseData, $I->connectOracle());
-            }
-
-            $I->switchToIFrame();
         }
     }
 }

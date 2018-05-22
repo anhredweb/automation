@@ -118,7 +118,7 @@ class GeneralXpathLibrary
 	
 	public static $nationalId         = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalId"]';
 
-	public static $nationalId2        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalId2"]';
+	public static $nationalId2        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalID02"]';
 	
 	public static $dateOfIssue        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalIdDateIssue"]//following-sibling::img';
 
@@ -435,5 +435,94 @@ class GeneralXpathLibrary
     public static function getScore($scoreRow)
     {
         return '(//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(3).ScResult"]//div[@base_ref=".ScResult(' . $scoreRow . ')"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]/span';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     *
+     * @return string
+     */
+    public static function getTransactionDate($number)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-1")]//div[contains(@class, "item-3")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     *
+     * @return string
+     */
+    public static function getProcessedUser($number)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-1")]//div[contains(@class, "item-5")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPrescoringResult($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-2")]//div[contains(@class, "item-' . $row . '")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicyPrescoring($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row . ')"]//div[contains(@class, "header-content")]/span[contains(@class, "header-title")][1])[1]';
+    }
+
+    /**
+     * Function to get score result
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicyScoreResult($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row. ')"]//div[contains(@class, "layout-content-stacked")]//div[contains(@class, "content-layout item-1")]//div[contains(@class, "item-2")]//div[contains(@class, "dataValueRead")]/span)[1]';
+    }
+
+    /**
+     * Function to get score
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicySCAction($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row . ')"]//div[contains(@class, "layout-content-stacked")]//div[contains(@class, "content-layout item-1")]//div[contains(@class, "item-3")]//div[contains(@class, "dataValueRead")]/span)[1]';
+    }
+
+    /**
+     * Function to get score
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicySCResultInfo($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row . ')"]//div[contains(@class, "layout-content-stacked")]//div[contains(@class, "content-layout item-2")]//div[contains(@class, "item-1")]//div[contains(@class, "dataValueRead")]/span)[1]';
     }
 }

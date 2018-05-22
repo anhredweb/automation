@@ -536,6 +536,11 @@ class initPCBCest
         $mobile    = '';
         $type      = '';
 
+        if (!empty($reference['Number']))
+        {
+            $reference = array($reference);
+        }
+
         foreach ($reference as $key => $value)
         {
             if (!is_array($value) && ($value['Type'] != 'PN' || $value['Type'] != 'MP'))
@@ -543,17 +548,10 @@ class initPCBCest
                 continue;
             }
 
-            $type   = $value['Type'];
             $mobile = $value['Number'];
         }
 
-        if (!empty($reference['Number']))
-        {
-            $type   = $reference['Number'];
-            $mobile = $reference['Type'];
-        }
-
-        return (!empty($mobile) && ($type == 'PN' || $type == 'MP')) ? $mobile : 0;
+        return !empty($mobile) ? $mobile : 0;
     }
 
     /**
@@ -722,6 +720,19 @@ class initPCBCest
     }
 
     /**
+     * Connect to Oracle F1_UAT05.
+     *
+     * @return  mixed
+     */
+    protected function connectOracleUAT05()
+    {
+        $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
+
+        // Create connection to Oracle
+        return oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
+    }
+
+    /**
      * Function to update is run status
      *
      * @param  array  $data  Data to update
@@ -760,6 +771,22 @@ class initPCBCest
      */
     public function initData(AcceptanceTester $I, $scenario)
     {
-        $this->executeData();
+        // $this->executeData();
+
+        $connection = $this->connectOracle();
+        $query      = "SELECT APP_ID_C FROM T_TEST_DATA_MINH";
+        $stid       = oci_parse($this->connectOracleUAT05(), $query);
+        oci_execute($stid);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_COLUMN);
+
+        foreach ($data['APP_ID_C'] as $key => $value)
+        {
+            $queryInsert = "INSERT INTO T_TEST_DATA_MINH_CM_ID VALUES(" . $value . ")";
+            $stidInsert  = oci_parse($connection, $queryInsert);
+            oci_execute($stidInsert);
+            oci_commit($connection);
+
+            print_r($value . ' - ');
+        }
     }
 }
