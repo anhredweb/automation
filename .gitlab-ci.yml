@@ -1,0 +1,7 @@
+image: tetraweb/php
+before_script:
+  - bash ci/docker_install.sh > /dev/null
+job:
+  script:
+  - java -jar -Dwebdriver.chrome.driver="chrome_driver/chromedriver" "selenium-server-standalone.jar"
+  - vendor/bin/codecept run tests/acceptance/pl/initPLCest.php --steps

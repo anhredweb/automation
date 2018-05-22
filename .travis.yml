@@ -1,0 +1,33 @@
+language: php
+sudo: required
+dist: precise
+addons:
+  chrome: stable
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install 8
+  - nvm use 8
+php:
+  - 7.0
+cache:
+  apt: true
+  directories:
+    - "node_modules"
+    - $HOME/.composer/cache/files
+env:
+  matrix:
+      - ACCEPTANCE=true # run test
+
+matrix:
+  fast_finish: true
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - chmod +x ./ci/setup.sh
+  - ./ci/setup.sh
+
+script:
+  - chmod +x ./ci/script.sh
+  - ./ci/script.sh
