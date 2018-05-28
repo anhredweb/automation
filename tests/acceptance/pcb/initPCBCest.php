@@ -40,6 +40,8 @@ class initPCBCest
             $fullName                   = $this->getFullName($data);
             $address                    = $this->getAddress($data);
             $mobile                     = $this->getMobile($data);
+            $gender                     = $this->getGender($data);
+            $dateOfBirth                = $this->getDateOfBirth($data);
             $monthlyInstalment          = $this->getMonthlyInstalment($data);
             $creditLimit                = $this->getCreditLimit($data);
             $creditLimitNonInstalment   = $this->getCreditLimitNonInstalment($data);
@@ -57,6 +59,8 @@ class initPCBCest
                 $this->formatString($fullName),
                 $this->formatString($address),
                 $this->formatString($mobile),
+                $this->formatString($gender),
+                "TO_DATE(" . $this->formatString($dateOfBirth) . ", 'DD/MM/YYYY')",
                 $monthlyInstalment,
                 $creditLimit,
                 $creditLimitNonInstalment,
@@ -519,6 +523,36 @@ class initPCBCest
     }
 
     /**
+     * Get Gender
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  string
+     */
+    protected function getGender($xmlArray)
+    {
+        return !empty($xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Gender']) ? $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Gender'] : '';
+    }
+
+    /**
+     * Get Date of Birth
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  string
+     */
+    protected function getDateOfBirth($xmlArray)
+    {
+        $dateOfBirth = !empty($xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['DateOfBirth']) ? $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['DateOfBirth'] : '';
+
+        $day = substr($dateOfBirth, 0, 2);
+        $month = substr($dateOfBirth, 2, 2);
+        $year = substr($dateOfBirth, 4, 4);
+
+        return $day . '/' . $month . '/' . $year;
+    }
+
+    /**
      * Get Mobile
      *
      * @param  $xmlArray  array  XML Array
@@ -536,14 +570,14 @@ class initPCBCest
         $mobile    = '';
         $type      = '';
 
-        if (!empty($reference['Number']))
+        if (isset($reference['Number']))
         {
-            $reference = array($reference);
+            return (!empty($reference['Type']) && ($reference['Type'] == 'PN' || $reference['Type'] == 'MP')) ? $reference['Number'] : 0;
         }
 
         foreach ($reference as $key => $value)
         {
-            if (!is_array($value) && ($value['Type'] != 'PN' || $value['Type'] != 'MP'))
+            if (!is_array($value) && !empty($value['Type']) && ($value['Type'] != 'PN' || $value['Type'] != 'MP'))
             {
                 continue;
             }
@@ -771,9 +805,9 @@ class initPCBCest
      */
     public function initData(AcceptanceTester $I, $scenario)
     {
-        // $this->executeData();
+        $this->executeData();
 
-        $connection = $this->connectOracle();
+        /*$connection = $this->connectOracle();
         $query      = "SELECT APP_ID_C FROM T_TEST_DATA_MINH";
         $stid       = oci_parse($this->connectOracleUAT05(), $query);
         oci_execute($stid);
@@ -787,6 +821,6 @@ class initPCBCest
             oci_commit($connection);
 
             print_r($value . ' - ');
-        }
+        }*/
     }
 }

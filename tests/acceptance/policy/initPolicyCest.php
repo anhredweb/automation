@@ -207,6 +207,8 @@ class initPolicyCest
                         $I->updateData($responseData, $I->connectOracle());
                     }
 
+                    $I->switchToIFrame();
+
                     continue;
                 }
 

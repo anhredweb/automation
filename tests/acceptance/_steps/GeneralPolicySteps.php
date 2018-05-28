@@ -229,8 +229,10 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function shortApplicationDocumentPolicy($product)
     {
         $I = $this;
+        $I->wait(10);
 
         $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+        print_r($applicationStatus);
 
         if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
         {
@@ -326,7 +328,7 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function dataCheckPolicy($data = array(), $product = NULL)
     {
         $I = $this;
-        $I->wait(3);
+        $I->wait(5);
 
         // Click Data check
         $I->click(\GeneralXpathLibrary::$dataCheck);
