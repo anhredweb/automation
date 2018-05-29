@@ -805,7 +805,7 @@ class initPCBCest
      */
     public function initData(AcceptanceTester $I, $scenario)
     {
-        $this->executeData();
+        // $this->executeData();
 
         /*$connection = $this->connectOracle();
         $query      = "SELECT APP_ID_C FROM T_TEST_DATA_MINH";
@@ -822,5 +822,66 @@ class initPCBCest
 
             print_r($value . ' - ');
         }*/
+
+        $input = 'D4C4C8H7S4';
+
+        $exInput = str_split($input, 2);
+
+        print_r($exInput);
+
+        $suits   = array('S', 'H', 'D', 'C');
+        $ranks   = array(2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A');
+        $mapping = array();
+
+        foreach ($suits as $suit)
+        {
+            foreach ($ranks as $rank)
+            {
+                $mapping[$rank][] = $suit . $rank;
+            }
+        }
+
+        $map = array();
+
+        /*foreach ($exInput as $value)
+        {
+            $rankValue = str_split($value);
+            $rankValue = $rankValue[1];
+            $map[$rankValue][] = $value; 
+        }*/
+
+        $final = array();
+
+        foreach ($map as $value)
+        {
+            $final[] = count($value);
+        }
+
+        if ($final == array(2, 3) || $final == array(3, 2))
+        {
+            print_r('FH');
+        }
+
+        if ($final == array(2, 1, 1, 1) || $final == array(1, 2, 1, 1) || $final == array(1, 1, 2, 1) || $final == array(1, 1, 1, 2))
+        {
+            print_r('1P');
+        }
+
+        if ($final == array(2, 2, 1) || $final == array(2, 1, 2) || $final == array(1, 2, 2))
+        {
+            print_r('2P');
+        }
+
+        if ($final == array(3, 1, 1) || $final == array(1, 3, 1) || $final == array(1, 1, 3))
+        {
+            print_r('3C');
+        }
+
+        if ($final == array(4, 1) || $final == array(1, 4))
+        {
+            print_r('4C');
+        }
+
+        print_r($final);
     }
 }
