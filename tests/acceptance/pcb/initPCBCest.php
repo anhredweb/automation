@@ -823,11 +823,33 @@ class initPCBCest
             print_r($value . ' - ');
         }*/
 
-        $input = 'D4C4C8H7S4';
+        $input = 'D4C4H4S3S4';
+        print_r($this->pokerHand($input));
+    }
+
+    /**
+     * Function to play cards
+     *
+     * @param   integer  $input  Cards string
+     *
+     * @return  string
+     */
+    protected function pokerHand($input)
+    {
+        $pattern = '/[A-Z0-9]{10}$/';
+
+        if (!preg_match($pattern, $input))
+        {
+            return 'Input should be contains 10 characters (Included UPPERCASE Chars and Numbers)';
+        }
 
         $exInput = str_split($input, 2);
+        $exInput = array_unique($exInput);
 
-        print_r($exInput);
+        if (count($exInput) != 5)
+        {
+            return 'Invalid string';
+        }
 
         $suits   = array('S', 'H', 'D', 'C');
         $ranks   = array(2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A');
@@ -842,13 +864,26 @@ class initPCBCest
         }
 
         $map = array();
+        $i = 0;
 
-        /*foreach ($exInput as $value)
+        foreach ($exInput as $value)
         {
             $rankValue = str_split($value);
             $rankValue = $rankValue[1];
-            $map[$rankValue][] = $value; 
-        }*/
+
+            if (!in_array($value, $mapping[$rankValue]))
+            {
+                $i++;
+                continue;
+            }
+
+            $map[$rankValue][] = $value;
+        }
+
+        if ($i > 0)
+        {
+            return 'Invalid string';
+        }
 
         $final = array();
 
@@ -859,29 +894,23 @@ class initPCBCest
 
         if ($final == array(2, 3) || $final == array(3, 2))
         {
-            print_r('FH');
+            return 'FH';
         }
-
-        if ($final == array(2, 1, 1, 1) || $final == array(1, 2, 1, 1) || $final == array(1, 1, 2, 1) || $final == array(1, 1, 1, 2))
+        elseif ($final == array(2, 1, 1, 1) || $final == array(1, 2, 1, 1) || $final == array(1, 1, 2, 1) || $final == array(1, 1, 1, 2))
         {
-            print_r('1P');
+            return '1P';
         }
-
-        if ($final == array(2, 2, 1) || $final == array(2, 1, 2) || $final == array(1, 2, 2))
+        elseif ($final == array(2, 2, 1) || $final == array(2, 1, 2) || $final == array(1, 2, 2))
         {
-            print_r('2P');
+            return '2P';
         }
-
-        if ($final == array(3, 1, 1) || $final == array(1, 3, 1) || $final == array(1, 1, 3))
+        elseif ($final == array(3, 1, 1) || $final == array(1, 3, 1) || $final == array(1, 1, 3))
         {
-            print_r('3C');
+            return '3C';
         }
-
-        if ($final == array(4, 1) || $final == array(1, 4))
+        elseif ($final == array(4, 1) || $final == array(1, 4))
         {
-            print_r('4C');
+            return '4C';
         }
-
-        print_r($final);
     }
 }
