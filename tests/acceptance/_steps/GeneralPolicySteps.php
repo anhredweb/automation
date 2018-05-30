@@ -469,12 +469,16 @@ class GeneralPolicySteps extends \AcceptanceTester
         $iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$decisionMakingFrame, 'name');
         $I->switchToIFrame($iframeName);
         $I->wait(1);
+        $I->click(\GeneralXpathLibrary::$information);
+        $I->wait(1);
+        $I->click(\GeneralXpathLibrary::$customer);
+        $nationalId02 = $I->grabTextFrom(\GeneralXpathLibrary::$nationalId2Scoring);
+        $I->wait(1);
         $I->click(\GeneralXpathLibrary::$decisionMaking);
         $I->wait(1);
 
-        $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
-
         $responseData                           = array();
+        $responseData['1']['NATIONAL_ID2']      = "'" . $nationalId02 . "'";
         $responseData['1']['APP_ID']            = "'" . $data['APP_ID'] . "'";
         $responseData['1']['CASE_ID']           = "'" . $data['CASE_ID'] . "'";
         $responseData['1']['USER_ID']           = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getProcessedUser('1')) . "'";
@@ -516,6 +520,7 @@ class GeneralPolicySteps extends \AcceptanceTester
 
         if (!empty($elementExist))
         {
+            $responseData['2']['NATIONAL_ID2']      = "'" . $nationalId02 . "'";
             $responseData['2']['APP_ID']            = "'" . $data['APP_ID'] . "'";
             $responseData['2']['CASE_ID']           = "'" . $data['CASE_ID'] . "'";
             $responseData['2']['USER_ID']           = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getProcessedUser('2')) . "'";
@@ -586,11 +591,15 @@ class GeneralPolicySteps extends \AcceptanceTester
      */
     public function updatePreScoring($data, $connection)
     {
+        $I = $this;
+        $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
 
         foreach ($data as $key => $value)
         {
             $policyRules = $value['RULES'];
+            $nationalId02 = $value['RULES'];
             unset($value['RULES']);
+            unset($value['NATIONAL_ID2']);
             $query = "INSERT INTO TPEGA_AUTO_POL_RESULT_MASTER VALUES(" . implode(',', $value) . ")";
             print_r($query);
             $stid  = oci_parse($connection, $query);
@@ -606,7 +615,7 @@ class GeneralPolicySteps extends \AcceptanceTester
                 oci_commit($connection);
             }
 
-            $queryUpdate = "UPDATE TPEGA_AUTO_RUN_MASTER SET COMP_DT = SYSDATE WHERE CASE_ID = " . $value['CASE_ID'];
+            $queryUpdate = "UPDATE TPEGA_AUTO_RUN_MASTER SET COMP_DT = SYSDATE, ID_NO2 = " . $nationalId02 . ", REMARK = " . $applicationStatus . " WHERE CASE_ID = " . $value['CASE_ID'];
             print_r($queryUpdate);
             $stidUpdate  = oci_parse($connection, $queryUpdate);
             oci_execute($stidUpdate);

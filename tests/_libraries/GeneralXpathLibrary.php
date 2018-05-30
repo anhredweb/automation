@@ -29,6 +29,8 @@ class GeneralXpathLibrary
 	
 	public static $nationalIdScoring = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.PersonalInfo.Person.Contact.NationalId")])[1]//span';
 	
+	public static $nationalId2Scoring = '(//div[@data-node-id="Identification"]//div[contains(@data-ui-meta, ".NationalID02")])[1]//span';
+
 	public static $applicationId     = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.ApplicationID")])[1]//span';
 
 	public static $productSchemeName = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.SelectedScheme.SchemeDescription")])[1]//span';
@@ -396,6 +398,10 @@ class GeneralXpathLibrary
 	public static $decisionMakingFrame = '//div[@id="workarea"]//div[contains(@style, "display: block")]//iframe';
 	
 	public static $decisionMaking      = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab7"]//a[@tabtitle="Decision Making"]';
+
+	public static $information         = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab2"]//a[@tabtitle="Information"]';
+
+	public static $customer            = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab3"]//a[@tabtitle="Customer"]';
 
 	public static $closeButton         = '//ul[@role="tablist"]//li[2]//span[@id="close"]';
 
