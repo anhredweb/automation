@@ -592,12 +592,12 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function updatePreScoring($data, $connection)
     {
         $I = $this;
-        $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+        $applicationStatus = "'" . $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus) . "'";
 
         foreach ($data as $key => $value)
         {
             $policyRules = $value['RULES'];
-            $nationalId02 = $value['RULES'];
+            $nationalId02 = $value['NATIONAL_ID2'];
             unset($value['RULES']);
             unset($value['NATIONAL_ID2']);
             $query = "INSERT INTO TPEGA_AUTO_POL_RESULT_MASTER VALUES(" . implode(',', $value) . ")";

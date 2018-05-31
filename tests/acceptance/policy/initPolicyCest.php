@@ -66,7 +66,7 @@ class initPolicyCest
      *
      * @return  void
      */
-    protected function updateApplication(AcceptanceTester $I, $scenario)
+    public function updateApplication(AcceptanceTester $I, $scenario)
     {
         $data = $this->executeQueryCaseId($I);
 
@@ -114,7 +114,7 @@ class initPolicyCest
      *
      * @return  void
      */
-    public function createApplication(AcceptanceTester $I, $scenario)
+    protected function createApplication(AcceptanceTester $I, $scenario)
     {
         $originalData = $this->executeQuery($I);
 
