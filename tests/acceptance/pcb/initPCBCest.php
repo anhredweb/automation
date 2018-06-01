@@ -567,8 +567,7 @@ class initPCBCest
         }
 
         $reference = $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Reference'];
-        $mobile    = '';
-        $type      = '';
+        $mobile    = 0;
 
         if (isset($reference['Number']))
         {
@@ -585,7 +584,7 @@ class initPCBCest
             $mobile = $value['Number'];
         }
 
-        return !empty($mobile) ? $mobile : 0;
+        return $mobile;
     }
 
     /**
