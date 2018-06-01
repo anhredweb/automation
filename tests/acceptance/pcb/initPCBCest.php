@@ -797,12 +797,9 @@ class initPCBCest
     /**
      * Function to init Data
      *
-     * @param   AcceptanceTester  $I         Acceptance Tester case.
-     * @param   Scenario          $scenario  Scenario for test.
-     *
      * @return  void
      */
-    public function initData(AcceptanceTester $I, $scenario)
+    public function initData()
     {
         $this->executeData();
     }

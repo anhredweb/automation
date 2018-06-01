@@ -45,7 +45,7 @@ class GeneralPolicySteps extends \AcceptanceTester
 
         if ($I->checkElementNotExist(\GeneralXpathLibrary::$createButton))
         {
-            $I->skipTestCase($data['NATIONAL_ID']);
+            $I->skipTestCase('launchPortal');
 
             return false;
         }
