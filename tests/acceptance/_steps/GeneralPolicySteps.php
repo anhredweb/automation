@@ -229,7 +229,7 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function shortApplicationDocumentPolicy($product)
     {
         $I = $this;
-        $I->wait(10);
+        $I->wait(15);
 
         $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
         print_r($applicationStatus);
@@ -328,7 +328,15 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function dataCheckPolicy($data = array(), $product = NULL)
     {
         $I = $this;
-        $I->wait(5);
+        $I->wait(15);
+
+        $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+        print_r($applicationStatus);
+
+        if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+        {
+            return '';
+        }
 
         // Click Data check
         $I->click(\GeneralXpathLibrary::$dataCheck);
@@ -401,9 +409,9 @@ class GeneralPolicySteps extends \AcceptanceTester
         $caseId = str_replace("(", "", $caseId);
         $caseId = str_replace(")", "", $caseId);
         $responseData['case_id']    = $caseId;
-        $responseData['app_id']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
-        $responseData['id_no1']     = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
-        $responseData['scheme_id']  = $I->grabTextFrom(\GeneralXpathLibrary::$productSchemeName);
+        // $responseData['app_id']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
+        // $responseData['id_no1']     = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
+        // $responseData['scheme_id']  = $I->grabTextFrom(\GeneralXpathLibrary::$productSchemeName);
         $responseData['curr_stage'] = $I->grabTextFrom(\GeneralXpathLibrary::$currentStage);
         $responseData['remark']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
         $responseData['item_id']    = $itemId;

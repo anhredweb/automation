@@ -66,7 +66,7 @@ class initPolicyCest
      *
      * @return  void
      */
-    public function updateApplication(AcceptanceTester $I, $scenario)
+    protected function updateApplication(AcceptanceTester $I, $scenario)
     {
         $data = $this->executeQueryCaseId($I);
 
@@ -114,7 +114,7 @@ class initPolicyCest
      *
      * @return  void
      */
-    protected function createApplication(AcceptanceTester $I, $scenario)
+    public function createApplication(AcceptanceTester $I, $scenario)
     {
         $originalData = $this->executeQuery($I);
 
@@ -196,18 +196,7 @@ class initPolicyCest
 
                 if (!$I->shortApplicationDocumentPolicy($product))
                 {
-                    $I->wantTo('GetData');
-                    $caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
-                    $caseId = str_replace('(', '', $caseId);
-                    $caseId = str_replace(')', '', $caseId);
-                    $responseData = $I->getData($caseId, $product, $item);
-
-                    if (!empty($responseData))
-                    {
-                        $I->updateData($responseData, $I->connectOracle());
-                    }
-
-                    $I->switchToIFrame();
+                    $this->skipCase($I, $product, $item);
 
                     continue;
                 }
@@ -227,6 +216,8 @@ class initPolicyCest
 
                 if ($caseId == '')
                 {
+                    $this->skipCase($I, $product, $item);
+
                     continue;
                 }
 
@@ -242,5 +233,30 @@ class initPolicyCest
             }
 
         }
+    }
+
+    /**
+     * Function to get data
+     *
+     * @param   AcceptanceTester  $I        Acceptance Tester case.
+     * @param   string            $product  Product line.
+     * @param   int               $item     Item ID.
+     *
+     * @return  mixed
+     */
+    protected function skipCase($I, $product, $item)
+    {
+        $I->wantTo('GetData');
+        $caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+        $caseId = str_replace('(', '', $caseId);
+        $caseId = str_replace(')', '', $caseId);
+        $responseData = $I->getData($caseId, $product, $item);
+
+        if (!empty($responseData))
+        {
+            $I->updateData($responseData, $I->connectOracle());
+        }
+
+        $I->switchToIFrame();
     }
 }
