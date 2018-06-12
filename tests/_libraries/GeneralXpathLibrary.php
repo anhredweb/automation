@@ -444,6 +444,18 @@ class GeneralXpathLibrary
     }
 
     /**
+     * Function to get pre-scoring type
+     *
+     * @param  int $number  Number of pre-scoring
+     *
+     * @return string
+     */
+    public static function getPreScoringType($number)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-1")]//div[contains(@class, "item-1")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
      * Function to get pre-scoring
      *
      * @param  int $number  Number of pre-scoring
