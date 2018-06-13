@@ -637,7 +637,7 @@ class GeneralPolicySteps extends \AcceptanceTester
      *
      * @return void
      */
-    public function fetchresponse(&$response, $data, $row)
+    public function fetchData(&$response, $data, $row)
     {
         $I = $this;
         $response[$row]['NATIONAL_ID']              = $this->formatString($data['national_id']);
