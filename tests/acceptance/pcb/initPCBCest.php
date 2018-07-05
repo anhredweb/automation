@@ -19,17 +19,18 @@ class initPCBCest
      */
     protected function executeData()
     {
-        $listFiles = array_diff(scandir('./PCB/'), array('..', '.'));
+        $pcbPath   = './PCB_UAT/';
+        $listFiles = array_diff(scandir($pcbPath), array('..', '.'));
 
         foreach ($listFiles as $key => $file)
         {
             print_r($file);
 
             // Init Data
-            $path     = './PCB/' . $file;
-            $xml      = simplexml_load_file($path);
-            $json     = json_encode($xml);
-            $data     = json_decode($json, true);
+            $path = $pcbPath . $file;
+            $xml  = simplexml_load_file($path);
+            $json = json_encode($xml);
+            $data = json_decode($json, true);
 
             // Get Data
             $cbSubjectCode              = $this->getCBSubjectCode($data);
@@ -49,27 +50,43 @@ class initPCBCest
             $acCreditLimit              = $this->getACCreditLimit($data);
             $acCreditLimitNonInstalment = $this->getACCreditLimitNonInstalment($data);
 
+            $pcbStatus = 'PCB FOUND';
+            $pcbResult = 'NEGATIVE';
+
+            if ($maxCurrentDebtGroup === 1 && $maxCurrentDebtGroup5Years <= 2)
+            {
+                $pcbStatus = 'PCB FOUND';
+                $pcbResult = 'POSITIVE';
+            }
+            elseif ($maxCurrentDebtGroup === 0 && $maxCurrentDebtGroup5Years === 0)
+            {
+                $pcbStatus = 'PCB NO RESULT FOUND';
+                $pcbResult = 'NEUTRAL';
+            }
+
             $initData = array(
-                $this->formatString($file),
-                $this->formatString($cbSubjectCode),
-                $maxCurrentDebtGroup,
-                $maxCurrentDebtGroup5Years,
-                $pcbScore,
-                $this->formatString($nationalID),
-                $this->formatString($fullName),
-                $this->formatString($address),
-                $this->formatString($mobile),
-                $this->formatString($gender),
-                "TO_DATE(" . $this->formatString($dateOfBirth) . ", 'DD/MM/YYYY')",
-                $monthlyInstalment,
-                $creditLimit,
-                $creditLimitNonInstalment,
-                $acMonthlyInstalment,
-                $acCreditLimit,
-                $acCreditLimitNonInstalment
+                'file'                           => $this->formatString($file),
+                'cb_subject_code'                => $this->formatString($cbSubjectCode),
+                'max_current_debt_group'         => $maxCurrentDebtGroup,
+                'max_current_debt_group_5_years' => $maxCurrentDebtGroup5Years,
+                'pcb_score'                      => $pcbScore,
+                'national_id'                    => $this->formatString($nationalID),
+                'full_name'                      => $this->formatString($fullName),
+                'address'                        => $this->formatString($address),
+                'mobile'                         => $this->formatString($mobile),
+                'gender'                         => $this->formatString($gender),
+                'date_of_birth'                  => $this->formatDate($dateOfBirth),
+                'monthly_instalment'             => $monthlyInstalment,
+                'credit_limit'                   => $creditLimit,
+                'credit_limit_non_instalment'    => $creditLimitNonInstalment,
+                'ac_monthly_instalment'          => $acMonthlyInstalment,
+                'ac_credit_limit'                => $acCreditLimit,
+                'ac_credit_limit_non_instalment' => $acCreditLimitNonInstalment,
+                'pcb_status'                     => $pcbStatus,
+                'pcb_result'                     => $pcbResult
             );
 
-            $this->updateData($initData);
+            // $this->updateData($initData);
             print_r($key);
             print_r($initData);
         }
@@ -276,16 +293,38 @@ class initPCBCest
         $resultCards = array();
         $cardsData = $this->getCardsData($xmlArray);
 
-        if (!empty($cardsData) && !empty($cardsData['CommonData']) && $cardsData['CommonData']['ContractPhase'] == 'LV')
+        if (empty($cardsData))
         {
-            $resultCards[] = $cardsData['Profiles'];
+            return 0;
         }
 
-        $cards = array();
+        if (!empty($cardsData['CommonData']))
+        {
+            $resultCards = $cardsData['Profiles'];
+        }
+        else
+        {
+            foreach ($cardsData as $key => $value)
+            {
+                if (empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+                {
+                    continue;
+                }
+
+                $resultCards[] = $value['Profiles'];
+            }
+        }
 
         if (empty($resultCards))
         {
             return 0;
+        }
+
+        $cards = array();
+
+        if (!empty($cardsData['CommonData']))
+        {
+            $resultCards = array($resultCards);
         }
 
         foreach ($resultCards as $key => $value)
@@ -483,7 +522,7 @@ class initPCBCest
      */
     protected function getPCBScore($xmlArray)
     {
-        return !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['ScoreProfile']['ScoreDetailst']['ScoreRaw']) ? $xmlArray['RI_Req_Output']['Contract']['ScoreProfile']['ScoreDetailst']['ScoreRaw'] : 0;
+        return !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['ScoreProfile']['ScoreDetail']['ScoreRaw']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['ScoreProfile']['ScoreDetail']['ScoreRaw'] : 0;
     }
 
     /**
@@ -783,7 +822,7 @@ class initPCBCest
     }
 
     /**
-     * Function to update is run status
+     * Function to format string
      *
      * @param  string  $string  String to format
      *
@@ -792,6 +831,18 @@ class initPCBCest
     protected function formatString($string)
     {
         return "'" . str_replace("'", " ", $string) . "'";
+    }
+
+    /**
+     * Function to format date
+     *
+     * @param  string  $date  Date to format
+     *
+     * @return string
+     */
+    protected function formatDate($date)
+    {
+        return "TO_DATE(" . $this->formatString($date) . ", 'DD/MM/YYYY')";
     }
 
     /**
@@ -804,3 +855,4 @@ class initPCBCest
         $this->executeData();
     }
 }
+

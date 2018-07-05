@@ -68,6 +68,28 @@ class initPolicyCest
      */
     public function updateApplication(AcceptanceTester $I, $scenario)
     {
+        $array = array(1, 3, 5, 2, 4);
+        $count = count($array);
+        $a = 0;
+
+        for ($i = 0; $i < $count; $i++)
+        {
+            for ($j = 0; $j < $count; $j++)
+            {
+                if ($array[$i] < $array[$j])
+                {
+                    $a = $array[$i];
+                    $array[$i] = $array[$j];
+                    $array[$j] = $a;
+                }
+            }
+        }
+
+        print_r($array);
+
+        $str = '1, 2, 3, 4, 5';
+        $str = array_sum(explode($str));
+
         $data = $this->executeQueryCaseId($I);
 
         if (empty($data))

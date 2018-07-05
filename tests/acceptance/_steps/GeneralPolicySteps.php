@@ -453,7 +453,7 @@ class GeneralPolicySteps extends \AcceptanceTester
 
     /**
      * Function to search application
-
+     *
      * @param  array  $data  Data
      *
      * @return array
