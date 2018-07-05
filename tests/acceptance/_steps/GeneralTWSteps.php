@@ -59,7 +59,7 @@ class GeneralTWSteps extends \AcceptanceTester
 	 *
 	 * @param  array  $data  Data
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function fullDataEntry($data)
 	{
@@ -146,8 +146,8 @@ class GeneralTWSteps extends \AcceptanceTester
 	/**
 	 * Function to update score to DB
 	 *
-	 * @param  array   $data        Data to update
-	 * @param  string  $connection  Oracle connection
+	 * @param  array     $data        Data to update
+	 * @param  resource  $connection  Oracle connection
 	 *
 	 * @return void
 	 */
@@ -169,14 +169,14 @@ class GeneralTWSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
 	}
 
 	/**
 	 * Function to check score and update to DB
 	 *
-	 * @param  array   $data        Data to update
-	 * @param  string  $connection  Oracle connection
+	 * @param  array     $data        Data to update
+	 * @param  resource  $connection  Oracle connection
 	 *
 	 * @return void
 	 */
@@ -223,7 +223,7 @@ class GeneralTWSteps extends \AcceptanceTester
 
         if (empty($rows))
         {
-        	return false;
+        	return;
         }
 
         foreach ($rows as $column => $score)
@@ -302,6 +302,6 @@ class GeneralTWSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-       	return true;
+       	return;
 	}
 }

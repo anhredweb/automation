@@ -8,7 +8,6 @@
 namespace AcceptanceTester;
 
 use Codeception\Module\WebDriver;
-use Codeception\Module\GeneralHelper;
 
 /**
  * Class GeneralCDLSteps
@@ -61,7 +60,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 	 *
 	 * @param  array  $data  Data
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function fullDataEntry($data)
 	{
@@ -161,8 +160,8 @@ class GeneralCDLSteps extends \AcceptanceTester
 	/**
 	 * Function to update score to DB
 	 *
-	 * @param  array   $data        Data to update
-	 * @param  string  $connection  Oracle connection
+	 * @param  array     $data        Data to update
+	 * @param  resource  $connection  Oracle connection
 	 *
 	 * @return void
 	 */
@@ -184,14 +183,14 @@ class GeneralCDLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
 	}
 
 	/**
 	 * Function to check score and update to DB
 	 *
-	 * @param  array   $data        Data to update
-	 * @param  string  $connection  Oracle connection
+	 * @param  array     $data        Data to update
+	 * @param  resource  $connection  Oracle connection
 	 *
 	 * @return void
 	 */
@@ -244,7 +243,7 @@ class GeneralCDLSteps extends \AcceptanceTester
 
         if (empty($rows))
         {
-        	return false;
+        	return;
         }
 
         foreach ($rows as $column => $score)
@@ -335,6 +334,6 @@ class GeneralCDLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-       	return true;
+       	return;
 	}
 }

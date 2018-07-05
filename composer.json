@@ -1,7 +1,16 @@
 {
-    "require": {
+	"name"       : "vuonghuynhthanhtu/automation",
+    "description": "FE Credit Automation Testing PEGA",
+    "license"    : "GPL-2.0+",
+    "minimum-stability": "stable",
+    "require"    : {
+        "php": ">=7.0"
+    },
+    "require-dev": {
         "codeception/codeception": "*",
         "fzaninotto/faker": "~1",
-        "monolog/monolog": "^1.23"
+        "monolog/monolog": "^1.23",
+        "consolidation/robo": "~1",
+        "se/selenium-server-standalone": "^3.11"
     }
 }

@@ -41,7 +41,7 @@ class CollateralSteps extends \AcceptanceTester
 	 *
 	 * @param  string  $applicationId  application ID
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function searchColaterral($applicationId)
 	{
@@ -57,7 +57,7 @@ class CollateralSteps extends \AcceptanceTester
 
 		if (trim($cdlType) != 'Consumer Durable')
 		{
-			return false;
+			return array();
 		}
 
 		$I->wait(1);

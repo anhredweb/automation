@@ -19,17 +19,18 @@ class initPCBCest
      */
     protected function executeData()
     {
-        $listFiles = array_diff(scandir('./PCB/'), array('..', '.'));
+        $pcbPath   = './PCB_UAT/';
+        $listFiles = array_diff(scandir($pcbPath), array('..', '.'));
 
         foreach ($listFiles as $key => $file)
         {
             print_r($file);
 
             // Init Data
-            $path     = './PCB/' . $file;
-            $xml      = simplexml_load_file($path);
-            $json     = json_encode($xml);
-            $data     = json_decode($json, true);
+            $path = $pcbPath . $file;
+            $xml  = simplexml_load_file($path);
+            $json = json_encode($xml);
+            $data = json_decode($json, true);
 
             // Get Data
             $cbSubjectCode              = $this->getCBSubjectCode($data);
@@ -40,6 +41,8 @@ class initPCBCest
             $fullName                   = $this->getFullName($data);
             $address                    = $this->getAddress($data);
             $mobile                     = $this->getMobile($data);
+            $gender                     = $this->getGender($data);
+            $dateOfBirth                = $this->getDateOfBirth($data);
             $monthlyInstalment          = $this->getMonthlyInstalment($data);
             $creditLimit                = $this->getCreditLimit($data);
             $creditLimitNonInstalment   = $this->getCreditLimitNonInstalment($data);
@@ -47,25 +50,43 @@ class initPCBCest
             $acCreditLimit              = $this->getACCreditLimit($data);
             $acCreditLimitNonInstalment = $this->getACCreditLimitNonInstalment($data);
 
+            $pcbStatus = 'PCB FOUND';
+            $pcbResult = 'NEGATIVE';
+
+            if ($maxCurrentDebtGroup === 1 && $maxCurrentDebtGroup5Years <= 2)
+            {
+                $pcbStatus = 'PCB FOUND';
+                $pcbResult = 'POSITIVE';
+            }
+            elseif ($maxCurrentDebtGroup === 0 && $maxCurrentDebtGroup5Years === 0)
+            {
+                $pcbStatus = 'PCB NO RESULT FOUND';
+                $pcbResult = 'NEUTRAL';
+            }
+
             $initData = array(
-                $this->formatString($file),
-                $this->formatString($cbSubjectCode),
-                $maxCurrentDebtGroup,
-                $maxCurrentDebtGroup5Years,
-                $pcbScore,
-                $this->formatString($nationalID),
-                $this->formatString($fullName),
-                $this->formatString($address),
-                $this->formatString($mobile),
-                $monthlyInstalment,
-                $creditLimit,
-                $creditLimitNonInstalment,
-                $acMonthlyInstalment,
-                $acCreditLimit,
-                $acCreditLimitNonInstalment
+                'file'                           => $this->formatString($file),
+                'cb_subject_code'                => $this->formatString($cbSubjectCode),
+                'max_current_debt_group'         => $maxCurrentDebtGroup,
+                'max_current_debt_group_5_years' => $maxCurrentDebtGroup5Years,
+                'pcb_score'                      => $pcbScore,
+                'national_id'                    => $this->formatString($nationalID),
+                'full_name'                      => $this->formatString($fullName),
+                'address'                        => $this->formatString($address),
+                'mobile'                         => $this->formatString($mobile),
+                'gender'                         => $this->formatString($gender),
+                'date_of_birth'                  => $this->formatDate($dateOfBirth),
+                'monthly_instalment'             => $monthlyInstalment,
+                'credit_limit'                   => $creditLimit,
+                'credit_limit_non_instalment'    => $creditLimitNonInstalment,
+                'ac_monthly_instalment'          => $acMonthlyInstalment,
+                'ac_credit_limit'                => $acCreditLimit,
+                'ac_credit_limit_non_instalment' => $acCreditLimitNonInstalment,
+                'pcb_status'                     => $pcbStatus,
+                'pcb_result'                     => $pcbResult
             );
 
-            $this->updateData($initData);
+            // $this->updateData($initData);
             print_r($key);
             print_r($initData);
         }
@@ -272,16 +293,38 @@ class initPCBCest
         $resultCards = array();
         $cardsData = $this->getCardsData($xmlArray);
 
-        if (!empty($cardsData) && !empty($cardsData['CommonData']) && $cardsData['CommonData']['ContractPhase'] == 'LV')
+        if (empty($cardsData))
         {
-            $resultCards[] = $cardsData['Profiles'];
+            return 0;
         }
 
-        $cards = array();
+        if (!empty($cardsData['CommonData']))
+        {
+            $resultCards = $cardsData['Profiles'];
+        }
+        else
+        {
+            foreach ($cardsData as $key => $value)
+            {
+                if (empty($value['CommonData']) && $value['CommonData']['ContractPhase'] != 'LV')
+                {
+                    continue;
+                }
+
+                $resultCards[] = $value['Profiles'];
+            }
+        }
 
         if (empty($resultCards))
         {
             return 0;
+        }
+
+        $cards = array();
+
+        if (!empty($cardsData['CommonData']))
+        {
+            $resultCards = array($resultCards);
         }
 
         foreach ($resultCards as $key => $value)
@@ -479,7 +522,7 @@ class initPCBCest
      */
     protected function getPCBScore($xmlArray)
     {
-        return !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['ScoreProfile']['ScoreDetailst']['ScoreRaw']) ? $xmlArray['RI_Req_Output']['Contract']['ScoreProfile']['ScoreDetailst']['ScoreRaw'] : 0;
+        return !empty($xmlArray['RI_Req_Output']['CreditHistory']['Contract']['ScoreProfile']['ScoreDetail']['ScoreRaw']) ? $xmlArray['RI_Req_Output']['CreditHistory']['Contract']['ScoreProfile']['ScoreDetail']['ScoreRaw'] : 0;
     }
 
     /**
@@ -519,6 +562,36 @@ class initPCBCest
     }
 
     /**
+     * Get Gender
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  string
+     */
+    protected function getGender($xmlArray)
+    {
+        return !empty($xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Gender']) ? $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Gender'] : '';
+    }
+
+    /**
+     * Get Date of Birth
+     *
+     * @param  $xmlArray  array  XML Array
+     *
+     * @return  string
+     */
+    protected function getDateOfBirth($xmlArray)
+    {
+        $dateOfBirth = !empty($xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['DateOfBirth']) ? $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['DateOfBirth'] : '';
+
+        $day = substr($dateOfBirth, 0, 2);
+        $month = substr($dateOfBirth, 2, 2);
+        $year = substr($dateOfBirth, 4, 4);
+
+        return $day . '/' . $month . '/' . $year;
+    }
+
+    /**
      * Get Mobile
      *
      * @param  $xmlArray  array  XML Array
@@ -533,17 +606,16 @@ class initPCBCest
         }
 
         $reference = $xmlArray['RI_Req_Output']['Subject']['Matched']['Person']['Reference'];
-        $mobile    = '';
-        $type      = '';
+        $mobile    = 0;
 
-        if (!empty($reference['Number']))
+        if (isset($reference['Number']))
         {
-            $reference = array($reference);
+            return (!empty($reference['Type']) && ($reference['Type'] == 'PN' || $reference['Type'] == 'MP')) ? $reference['Number'] : 0;
         }
 
         foreach ($reference as $key => $value)
         {
-            if (!is_array($value) && ($value['Type'] != 'PN' || $value['Type'] != 'MP'))
+            if (!is_array($value) && !empty($value['Type']) && ($value['Type'] != 'PN' || $value['Type'] != 'MP'))
             {
                 continue;
             }
@@ -551,7 +623,7 @@ class initPCBCest
             $mobile = $value['Number'];
         }
 
-        return !empty($mobile) ? $mobile : 0;
+        return $mobile;
     }
 
     /**
@@ -750,7 +822,7 @@ class initPCBCest
     }
 
     /**
-     * Function to update is run status
+     * Function to format string
      *
      * @param  string  $string  String to format
      *
@@ -762,31 +834,25 @@ class initPCBCest
     }
 
     /**
-     * Function to init Data
+     * Function to format date
      *
-     * @param   AcceptanceTester  $I         Acceptance Tester case.
-     * @param   Scenario          $scenario  Scenario for test.
+     * @param  string  $date  Date to format
+     *
+     * @return string
+     */
+    protected function formatDate($date)
+    {
+        return "TO_DATE(" . $this->formatString($date) . ", 'DD/MM/YYYY')";
+    }
+
+    /**
+     * Function to init Data
      *
      * @return  void
      */
-    public function initData(AcceptanceTester $I, $scenario)
+    public function initData()
     {
-        // $this->executeData();
-
-        $connection = $this->connectOracle();
-        $query      = "SELECT APP_ID_C FROM T_TEST_DATA_MINH";
-        $stid       = oci_parse($this->connectOracleUAT05(), $query);
-        oci_execute($stid);
-        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_COLUMN);
-
-        foreach ($data['APP_ID_C'] as $key => $value)
-        {
-            $queryInsert = "INSERT INTO T_TEST_DATA_MINH_CM_ID VALUES(" . $value . ")";
-            $stidInsert  = oci_parse($connection, $queryInsert);
-            oci_execute($stidInsert);
-            oci_commit($connection);
-
-            print_r($value . ' - ');
-        }
+        $this->executeData();
     }
 }
+

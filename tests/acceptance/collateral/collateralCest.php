@@ -52,7 +52,7 @@ class collateralCest
         $query      = "SELECT * FROM MONITOR_PEGA_TEMP_CDL_COLLATERAL WHERE LAC_COLLATERAL_DESC_C IS NULL";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
-        $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
 
         return $data;
     }

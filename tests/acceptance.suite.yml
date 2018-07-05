@@ -8,10 +8,11 @@ actor: AcceptanceTester
 modules:
        enabled:
           - WebDriver:
-             url: 'https://pega-uat.fecredit.com.vn'
+             url: 'http://localhost/'
              browser: chrome # 'chrome' or 'firefox'
              window_size: maximize # disabled in ChromeDriver
              clear_cookies: true
+             reset: true
              wait: 5
           - \Helper\GeneralHelper
           # - Db:

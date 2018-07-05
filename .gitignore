@@ -23,9 +23,10 @@ bower_components/
 # Test related files
 codecept.phar
 selenium.log
+PCB/*
 tests/_output
 tests/RoboFile.ini
-selenium-server-standalone.jar
+selenium-server-standalone-3.6.0.jar
 tests/_support/_generated/*
 
 # Never ignore

@@ -162,6 +162,10 @@ class GeneralPLSteps extends \AcceptanceTester
             return false;
         }
 
+        // Click Scan and Attach Documents
+        // $I->click(\GeneralXpathLibrary::$dataCheck);
+        // $I->wait(2);
+
         // Click demo data
         $I->wait(2);
         $I->click(\GeneralXpathLibrary::$demoPLDataDocument);
@@ -229,8 +233,8 @@ class GeneralPLSteps extends \AcceptanceTester
     /**
      * Function to update score to DB
      *
-     * @param  array   $data        Data to update
-     * @param  string  $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */
@@ -252,14 +256,14 @@ class GeneralPLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
     }
 
     /**
      * Function to check score and update to DB
      *
-     * @param  array   $data        Data to update
-     * @param  string  $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */
@@ -312,7 +316,7 @@ class GeneralPLSteps extends \AcceptanceTester
 
         if (empty($rows))
         {
-            return false;
+            return;
         }
 
         foreach ($rows as $column => $score)
@@ -403,14 +407,14 @@ class GeneralPLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
     }
 
     /**
      * Function to update is run status
      *
-     * @param  array   $data        Data to update
-     * @param  string  $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */
@@ -421,14 +425,14 @@ class GeneralPLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
     }
 
     /**
      * Function to update is run status
      *
-     * @param  array   $data        Data to update
-     * @param  string  $connection  Oracle connection
+     * @param  array     $data        Data to update
+     * @param  resource  $connection  Oracle connection
      *
      * @return void
      */
@@ -439,6 +443,6 @@ class GeneralPLSteps extends \AcceptanceTester
         oci_execute($stid);
         oci_commit($connection);
 
-        return true;
+        return;
     }
 }

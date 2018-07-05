@@ -68,6 +68,28 @@ class initPolicyCest
      */
     public function updateApplication(AcceptanceTester $I, $scenario)
     {
+        $array = array(1, 3, 5, 2, 4);
+        $count = count($array);
+        $a = 0;
+
+        for ($i = 0; $i < $count; $i++)
+        {
+            for ($j = 0; $j < $count; $j++)
+            {
+                if ($array[$i] < $array[$j])
+                {
+                    $a = $array[$i];
+                    $array[$i] = $array[$j];
+                    $array[$j] = $a;
+                }
+            }
+        }
+
+        print_r($array);
+
+        $str = '1, 2, 3, 4, 5';
+        $str = array_sum(explode($str));
+
         $data = $this->executeQueryCaseId($I);
 
         if (empty($data))
@@ -196,16 +218,7 @@ class initPolicyCest
 
                 if (!$I->shortApplicationDocumentPolicy($product))
                 {
-                    $I->wantTo('GetData');
-                    $caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
-                    $caseId = str_replace('(', '', $caseId);
-                    $caseId = str_replace(')', '', $caseId);
-                    $responseData = $I->getData($caseId, $product, $item);
-
-                    if (!empty($responseData))
-                    {
-                        $I->updateData($responseData, $I->connectOracle());
-                    }
+                    $this->skipCase($I, $product, $item);
 
                     continue;
                 }
@@ -225,6 +238,8 @@ class initPolicyCest
 
                 if ($caseId == '')
                 {
+                    $this->skipCase($I, $product, $item);
+
                     continue;
                 }
 
@@ -240,5 +255,30 @@ class initPolicyCest
             }
 
         }
+    }
+
+    /**
+     * Function to get data
+     *
+     * @param   AcceptanceTester  $I        Acceptance Tester case.
+     * @param   string            $product  Product line.
+     * @param   int               $item     Item ID.
+     *
+     * @return  mixed
+     */
+    protected function skipCase($I, $product, $item)
+    {
+        $I->wantTo('GetData');
+        $caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
+        $caseId = str_replace('(', '', $caseId);
+        $caseId = str_replace(')', '', $caseId);
+        $responseData = $I->getData($caseId, $product, $item);
+
+        if (!empty($responseData))
+        {
+            $I->updateData($responseData, $I->connectOracle());
+        }
+
+        $I->switchToIFrame();
     }
 }

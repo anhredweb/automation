@@ -45,7 +45,7 @@ class GeneralPolicySteps extends \AcceptanceTester
 
         if ($I->checkElementNotExist(\GeneralXpathLibrary::$createButton))
         {
-            $I->skipTestCase($data['NATIONAL_ID']);
+            $I->skipTestCase('launchPortal');
 
             return false;
         }
@@ -229,8 +229,10 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function shortApplicationDocumentPolicy($product)
     {
         $I = $this;
+        $I->wait(15);
 
         $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+        print_r($applicationStatus);
 
         if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
         {
@@ -326,7 +328,15 @@ class GeneralPolicySteps extends \AcceptanceTester
     public function dataCheckPolicy($data = array(), $product = NULL)
     {
         $I = $this;
-        $I->wait(3);
+        $I->wait(15);
+
+        $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+        print_r($applicationStatus);
+
+        if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
+        {
+            return '';
+        }
 
         // Click Data check
         $I->click(\GeneralXpathLibrary::$dataCheck);
@@ -399,9 +409,9 @@ class GeneralPolicySteps extends \AcceptanceTester
         $caseId = str_replace("(", "", $caseId);
         $caseId = str_replace(")", "", $caseId);
         $responseData['case_id']    = $caseId;
-        $responseData['app_id']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
-        $responseData['id_no1']     = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
-        $responseData['scheme_id']  = $I->grabTextFrom(\GeneralXpathLibrary::$productSchemeName);
+        // $responseData['app_id']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationId);
+        // $responseData['id_no1']     = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
+        // $responseData['scheme_id']  = $I->grabTextFrom(\GeneralXpathLibrary::$productSchemeName);
         $responseData['curr_stage'] = $I->grabTextFrom(\GeneralXpathLibrary::$currentStage);
         $responseData['remark']     = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
         $responseData['item_id']    = $itemId;
@@ -443,7 +453,7 @@ class GeneralPolicySteps extends \AcceptanceTester
 
     /**
      * Function to search application
-
+     *
      * @param  array  $data  Data
      *
      * @return array
@@ -467,46 +477,58 @@ class GeneralPolicySteps extends \AcceptanceTester
         $iframeName = $I->grabAttributeFrom(\GeneralXpathLibrary::$decisionMakingFrame, 'name');
         $I->switchToIFrame($iframeName);
         $I->wait(1);
+        $I->click(\GeneralXpathLibrary::$information);
+        $I->wait(1);
+        $I->click(\GeneralXpathLibrary::$customer);
+        $nationalId02 = $I->grabTextFrom(\GeneralXpathLibrary::$nationalId2Scoring);
+        $I->wait(1);
         $I->click(\GeneralXpathLibrary::$decisionMaking);
         $I->wait(1);
 
-        $applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+        $nationalId = $I->grabTextFrom(\GeneralXpathLibrary::$nationalIdScoring);
+        $response                 = array();
+        $response['national_id']  = $nationalId;
+        $response['national_id2'] = $nationalId02;
+        $response['app_id']       = $data['APP_ID'];
+        $response['case_id']      = $data['CASE_ID'];
 
         $responseData                           = array();
-        $responseData['1']['APP_ID']            = "'" . $data['APP_ID'] . "'";
-        $responseData['1']['CASE_ID']           = "'" . $data['CASE_ID'] . "'";
-        $responseData['1']['USER_ID']           = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getProcessedUser('1')) . "'";
-        $responseData['1']['TRXN_DT']           = "TO_DATE('" . $I->grabTextFrom(\GeneralXpathLibrary::getTransactionDate('1')) . "', 'DD/MM/YYYY HH24:MI:SS')";
-        $responseData['1']['TYPE']              = "'" . 'PreScoring1' . "'";
-        $responseData['1']['FINAL_RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '5')) . "'";
-        $responseData['1']['CD_XSELL_ELIGIBLE'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '3')) . "'";
-        $responseData['1']['HARD_CNT']          = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '2'));
-        $responseData['1']['SOFT_CNT']          = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '4'));
-        $responseData['1']['WAIVE_CNT']         = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '6'));
-        $responseData['1']['ROUND']             = 0;
-        $responseData['1']['RULES'][1]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '1')) . "'";
-        $responseData['1']['RULES'][1]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '1')) . "'";
-        $responseData['1']['RULES'][1]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '1')) . "'";
-        $responseData['1']['RULES'][1]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '1')) . "'";
-        $responseData['1']['RULES'][2]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '2')) . "'";
-        $responseData['1']['RULES'][2]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '2')) . "'";
-        $responseData['1']['RULES'][2]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '2')) . "'";
-        $responseData['1']['RULES'][2]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '2')) . "'";
-        $responseData['1']['RULES'][3]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '3')) . "'";
-        $responseData['1']['RULES'][3]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '3')) . "'";
-        $responseData['1']['RULES'][3]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '3')) . "'";
-        $responseData['1']['RULES'][3]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '3')) . "'";
-        $responseData['1']['RULES'][4]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '4')) . "'";
-        $responseData['1']['RULES'][4]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '4')) . "'";
-        $responseData['1']['RULES'][4]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '4')) . "'";
-        $responseData['1']['RULES'][4]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '4')) . "'";
+        $responseData['1']['NATIONAL_ID']             = $this->formatString($nationalId);
+        $responseData['1']['NATIONAL_ID2']            = $this->formatString($nationalId02);
+        $responseData['1']['APP_ID']                  = $this->formatString($data['APP_ID']);
+        $responseData['1']['CASE_ID']                 = $this->formatString($data['CASE_ID']);
+        $responseData['1']['USER_ID']                 = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getProcessedUser('1')));
+        $responseData['1']['TRXN_DT']                 = "TO_DATE('" . $I->grabTextFrom(\GeneralXpathLibrary::getTransactionDate('1')) . "', 'DD/MM/YYYY HH24:MI:SS')";
+        $responseData['1']['TYPE']                    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPreScoringType('1')));
+        $responseData['1']['FINAL_RESULT']            = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '5')));
+        $responseData['1']['CD_XSELL_ELIGIBLE']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '3')));
+        $responseData['1']['HARD_CNT']                = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '2'));
+        $responseData['1']['SOFT_CNT']                = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '4'));
+        $responseData['1']['WAIVE_CNT']               = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('1', '6'));
+        $responseData['1']['ROUND']                   = 0;
+        $responseData['1']['RULES'][1]['RULE_DESC']   = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '1')));
+        $responseData['1']['RULES'][1]['SCACTION']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '1')));
+        $responseData['1']['RULES'][1]['RESULT']      = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '1')));
+        $responseData['1']['RULES'][1]['RESULT_INFO'] = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '1')));
+        $responseData['1']['RULES'][2]['RULE_DESC']   = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '2')));
+        $responseData['1']['RULES'][2]['SCACTION']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '2')));
+        $responseData['1']['RULES'][2]['RESULT']      = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '2')));
+        $responseData['1']['RULES'][2]['RESULT_INFO'] = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '2')));
+        $responseData['1']['RULES'][3]['RULE_DESC']   = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '3')));
+        $responseData['1']['RULES'][3]['SCACTION']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '3')));
+        $responseData['1']['RULES'][3]['RESULT']      = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '3')));
+        $responseData['1']['RULES'][3]['RESULT_INFO'] = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '3')));
+        $responseData['1']['RULES'][4]['RULE_DESC']   = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '4')));
+        $responseData['1']['RULES'][4]['SCACTION']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '4')));
+        $responseData['1']['RULES'][4]['RESULT']      = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '4')));
+        $responseData['1']['RULES'][4]['RESULT_INFO'] = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '4')));
 
         if ($data['PRODUCT'] != 'PL')
         {
-            $responseData['1']['RULES'][5]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '5')) . "'";
-            $responseData['1']['RULES'][5]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '5')) . "'";
-            $responseData['1']['RULES'][5]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '5')) . "'";
-            $responseData['1']['RULES'][5]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '5')) . "'";
+            $responseData['1']['RULES'][5]['RULE_DESC']   = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('1', '5')));
+            $responseData['1']['RULES'][5]['SCACTION']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('1', '5')));
+            $responseData['1']['RULES'][5]['RESULT']      = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('1', '5')));
+            $responseData['1']['RULES'][5]['RESULT_INFO'] = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('1', '5')));
         }
 
         $I->wait(1);
@@ -514,57 +536,15 @@ class GeneralPolicySteps extends \AcceptanceTester
 
         if (!empty($elementExist))
         {
-            $responseData['2']['APP_ID']            = "'" . $data['APP_ID'] . "'";
-            $responseData['2']['CASE_ID']           = "'" . $data['CASE_ID'] . "'";
-            $responseData['2']['USER_ID']           = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getProcessedUser('2')) . "'";
-            $responseData['2']['TRXN_DT']           = "TO_DATE('" . $I->grabTextFrom(\GeneralXpathLibrary::getTransactionDate('2')) . "', 'DD/MM/YYYY HH24:MI:SS')";
-            $responseData['2']['TYPE']              = "'" . 'PreScoring2' . "'";
-            $responseData['2']['FINAL_RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('2', '5')) . "'";
-            $responseData['2']['CD_XSELL_ELIGIBLE'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('2', '3')) . "'";
-            $responseData['2']['HARD_CNT']          = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('2', '2'));
-            $responseData['2']['SOFT_CNT']          = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('2', '4'));
-            $responseData['2']['WAIVE_CNT']         = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult('2', '6'));
-            $responseData['2']['ROUND']             = 0;
-            $responseData['2']['RULES'][1]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '1')) . "'";
-            $responseData['2']['RULES'][1]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '1')) . "'";
-            $responseData['2']['RULES'][1]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '1')) . "'";
-            $responseData['2']['RULES'][1]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '1')) . "'";
-            $responseData['2']['RULES'][2]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '2')) . "'";
-            $responseData['2']['RULES'][2]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '2')) . "'";
-            $responseData['2']['RULES'][2]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '2')) . "'";
-            $responseData['2']['RULES'][2]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '2')) . "'";
-            $responseData['2']['RULES'][3]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '3')) . "'";
-            $responseData['2']['RULES'][3]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '3')) . "'";
-            $responseData['2']['RULES'][3]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '3')) . "'";
-            $responseData['2']['RULES'][3]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '3')) . "'";
-            $responseData['2']['RULES'][4]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '4')) . "'";
-            $responseData['2']['RULES'][4]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '4')) . "'";
-            $responseData['2']['RULES'][4]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '4')) . "'";
-            $responseData['2']['RULES'][4]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '4')) . "'";
-            $responseData['2']['RULES'][5]['RULE_DESC']   = "'" . str_replace("'", '`', $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '5'))) . "'";
-            $responseData['2']['RULES'][5]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '5')) . "'";
-            $responseData['2']['RULES'][5]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '5')) . "'";
-            $responseData['2']['RULES'][5]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '5')) . "'";
-            $responseData['2']['RULES'][6]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '6')) . "'";
-            $responseData['2']['RULES'][6]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '6')) . "'";
-            $responseData['2']['RULES'][6]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '6')) . "'";
-            $responseData['2']['RULES'][6]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '6')) . "'";
-            $responseData['2']['RULES'][7]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '7')) . "'";
-            $responseData['2']['RULES'][7]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '7')) . "'";
-            $responseData['2']['RULES'][7]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '7')) . "'";
-            $responseData['2']['RULES'][7]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '7')) . "'";
-            $responseData['2']['RULES'][8]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '8')) . "'";
-            $responseData['2']['RULES'][8]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '8')) . "'";
-            $responseData['2']['RULES'][8]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '8')) . "'";
-            $responseData['2']['RULES'][8]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '8')) . "'";
-            $responseData['2']['RULES'][9]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '9')) . "'";
-            $responseData['2']['RULES'][9]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '9')) . "'";
-            $responseData['2']['RULES'][9]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '9')) . "'";
-            $responseData['2']['RULES'][9]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '9')) . "'";
-            $responseData['2']['RULES'][10]['RULE_DESC']   = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring('2', '10')) . "'";
-            $responseData['2']['RULES'][10]['SCACTION']    = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction('2', '10')) . "'";
-            $responseData['2']['RULES'][10]['RESULT']      = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult('2', '10')) . "'";
-            $responseData['2']['RULES'][10]['RESULT_INFO'] = "'" . $I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo('2', '10')) . "'";
+            $this->fetchData($responseData, $response, 2);
+        }
+
+        $I->wait(1);
+        $elementExistOMA = array_filter($I->grabMultiple(\GeneralXpathLibrary::getTransactionDate('3')));
+
+        if (!empty($elementExistOMA))
+        {
+            $this->fetchData($responseData, $response, 3);
         }
 
         $I->wait(2);
@@ -584,11 +564,17 @@ class GeneralPolicySteps extends \AcceptanceTester
      */
     public function updatePreScoring($data, $connection)
     {
+        $I = $this;
+        $applicationStatus = "'" . $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus) . "'";
 
         foreach ($data as $key => $value)
         {
-            $policyRules = $value['RULES'];
+            $policyRules  = $value['RULES'];
+            $nationalId   = $value['NATIONAL_ID'];
+            $nationalId02 = $value['NATIONAL_ID2'];
             unset($value['RULES']);
+            unset($value['NATIONAL_ID']);
+            unset($value['NATIONAL_ID2']);
             $query = "INSERT INTO TPEGA_AUTO_POL_RESULT_MASTER VALUES(" . implode(',', $value) . ")";
             print_r($query);
             $stid  = oci_parse($connection, $query);
@@ -604,7 +590,7 @@ class GeneralPolicySteps extends \AcceptanceTester
                 oci_commit($connection);
             }
 
-            $queryUpdate = "UPDATE TPEGA_AUTO_RUN_MASTER SET COMP_DT = SYSDATE WHERE CASE_ID = " . $value['CASE_ID'];
+            $queryUpdate = "UPDATE TPEGA_AUTO_RUN_MASTER SET COMP_DT = SYSDATE, ID_NO1 = " . $nationalId . ", ID_NO2 = " . $nationalId02 . ", REMARK = " . $applicationStatus . " WHERE CASE_ID = " . $value['CASE_ID'];
             print_r($queryUpdate);
             $stidUpdate  = oci_parse($connection, $queryUpdate);
             oci_execute($stidUpdate);
@@ -640,5 +626,84 @@ class GeneralPolicySteps extends \AcceptanceTester
                 $I->selectOption($field, array('value' => $value));
                 break;
         }
+    }
+
+    /**
+     * Function to fetch data
+     *
+     * @param  array   $response  Response Data
+     * @param  array   $data      Data
+     * @param  string  $row       Row
+     *
+     * @return void
+     */
+    public function fetchData(&$response, $data, $row)
+    {
+        $I = $this;
+        $response[$row]['NATIONAL_ID']              = $this->formatString($data['national_id']);
+        $response[$row]['NATIONAL_ID2']             = $this->formatString($data['national_id2']);
+        $response[$row]['APP_ID']                   = $this->formatString($data['app_id']);
+        $response[$row]['CASE_ID']                  = $this->formatString($data['case_id']);
+        $response[$row]['USER_ID']                  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getProcessedUser($row)));
+        $response[$row]['TRXN_DT']                  = "TO_DATE('" . $I->grabTextFrom(\GeneralXpathLibrary::getTransactionDate($row)) . "', 'DD/MM/YYYY HH24:MI:SS')";
+        $response[$row]['TYPE']                     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPreScoringType($row)));
+        $response[$row]['FINAL_RESULT']             = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult($row, '5')));
+        $response[$row]['CD_XSELL_ELIGIBLE']        = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult($row, '3')));
+        $response[$row]['HARD_CNT']                 = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult($row, '2'));
+        $response[$row]['SOFT_CNT']                 = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult($row, '4'));
+        $response[$row]['WAIVE_CNT']                = (int) $I->grabTextFrom(\GeneralXpathLibrary::getPrescoringResult($row, '6'));
+        $response[$row]['ROUND']                    = 0;
+        $response[$row]['RULES'][1]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '1')));
+        $response[$row]['RULES'][1]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '1')));
+        $response[$row]['RULES'][1]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '1')));
+        $response[$row]['RULES'][1]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '1')));
+        $response[$row]['RULES'][2]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '2')));
+        $response[$row]['RULES'][2]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '2')));
+        $response[$row]['RULES'][2]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '2')));
+        $response[$row]['RULES'][2]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '2')));
+        $response[$row]['RULES'][3]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '3')));
+        $response[$row]['RULES'][3]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '3')));
+        $response[$row]['RULES'][3]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '3')));
+        $response[$row]['RULES'][3]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '3')));
+        $response[$row]['RULES'][4]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '4')));
+        $response[$row]['RULES'][4]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '4')));
+        $response[$row]['RULES'][4]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '4')));
+        $response[$row]['RULES'][4]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '4')));
+        $response[$row]['RULES'][5]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '5')));
+        $response[$row]['RULES'][5]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '5')));
+        $response[$row]['RULES'][5]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '5')));
+        $response[$row]['RULES'][5]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '5')));    
+        $response[$row]['RULES'][6]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '6')));
+        $response[$row]['RULES'][6]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '6')));
+        $response[$row]['RULES'][6]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '6')));
+        $response[$row]['RULES'][6]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '6')));
+        $response[$row]['RULES'][7]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '7')));
+        $response[$row]['RULES'][7]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '7')));
+        $response[$row]['RULES'][7]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '7')));
+        $response[$row]['RULES'][7]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '7')));
+        $response[$row]['RULES'][8]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '8')));
+        $response[$row]['RULES'][8]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '8')));
+        $response[$row]['RULES'][8]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '8')));
+        $response[$row]['RULES'][8]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '8')));
+        $response[$row]['RULES'][9]['RULE_DESC']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '9')));
+        $response[$row]['RULES'][9]['SCACTION']     = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '9')));
+        $response[$row]['RULES'][9]['RESULT']       = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '9')));
+        $response[$row]['RULES'][9]['RESULT_INFO']  = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '9')));
+        $response[$row]['RULES'][10]['RULE_DESC']   = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyPrescoring($row, '10')));
+        $response[$row]['RULES'][10]['SCACTION']    = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCAction($row, '10')));
+        $response[$row]['RULES'][10]['RESULT']      = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicyScoreResult($row, '10')));
+        $response[$row]['RULES'][10]['RESULT_INFO'] = $this->formatString($I->grabTextFrom(\GeneralXpathLibrary::getPolicySCResultInfo($row, '10')));
+    }
+
+    /**
+     * Function to update is run status
+     *
+     * @param  string  $string  String to format
+     *
+     * @return string
+     */
+    protected function formatString($string)
+    {
+        return "'" . str_replace("'", " ", $string) . "'";
     }
 }

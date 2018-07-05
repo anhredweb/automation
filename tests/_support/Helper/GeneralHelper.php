@@ -80,7 +80,7 @@ class GeneralHelper extends \Codeception\Module
 	/**
 	 * Function to check popup
 	 *
-	 * @param  array  $imageName  Image name
+	 * @param  string  $imageName  Image name
 	 * 
 	 * @return void
 	 */

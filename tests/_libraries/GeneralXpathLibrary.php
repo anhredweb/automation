@@ -24,10 +24,16 @@ class GeneralXpathLibrary
 	public static $caseId            = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]//span[contains(@class, "case_title")]';
 	
 	public static $applicationStatus = '//div[@data-node-id="pyCaseHeader"]//div[contains(@class, "content-item content-field item-3")]//div[contains(@class, "dataValueRead")]//img//following-sibling::span';
+
+	public static $currentStage      = '//div[@data-node-id="pyCaseHeader"]//div[contains(@data-ui-meta, "CurrentStage")]//div[contains(@data-ui-meta, "CurrentStageLabel")]//span';
 	
-	public static $nationalIdScoring = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.PersonalInfo.Person.Contact.NationalId")])[1]//span';
+	public static $nationalIdScoring = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.PersonalInfo.Person.Contact.NationalId")])[1]//span';
 	
-	public static $applicationId     = '(//div[@data-node-id="pyCaseContainer"]//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.ApplicationID")])[1]//span';
+	public static $nationalId2Scoring = '(//div[@data-node-id="Identification"]//div[contains(@data-ui-meta, ".NationalID02")])[1]//span';
+
+	public static $applicationId     = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.ApplicationID")])[1]//span';
+
+	public static $productSchemeName = '(//div[@data-node-id="pyCaseSummary"]//div[contains(@data-ui-meta, ".LoanApp.SelectedScheme.SchemeDescription")])[1]//span';
 	
 	public static $totalScore        = '(//div[@data-node-id="ScoringInfo"]//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[contains(@class, "content-item content-field item-2")]//label[contains(@for, "Score")]//following-sibling::div[contains(@class, "dataValueRead")]//span';
 	
@@ -97,9 +103,9 @@ class GeneralXpathLibrary
 
 	public static $rowProductScheme  = '//tr[contains(@id, "$PpyWorkPage$pFilteredSchemes")]';
 	
-	public static $demoDataCDLInitApp  = '//button[@name="NewProcess_pyWorkPage_13"]';
+	public static $demoDataCDLInitApp  = '//button[@name="NewProcess_pyWorkPage_15"]';
 
-	public static $demoDataTWInitApp   = '//button[@name="NewProcess_pyWorkPage_17"]';
+	public static $demoDataTWInitApp   = '//button[@name="NewProcess_pyWorkPage_74"]';
 	
 	public static $createDataInitApp   = '//button[@name="NewProcessButtons_pyWorkPage_1"]';
 
@@ -113,6 +119,8 @@ class GeneralXpathLibrary
 	public static $gender             = '//select[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pGender"]';
 	
 	public static $nationalId         = 'input[name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalId"]';
+
+	public static $nationalId2        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalID02"]';
 	
 	public static $dateOfIssue        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pPerson$pContact$pNationalIdDateIssue"]//following-sibling::img';
 
@@ -132,9 +140,9 @@ class GeneralXpathLibrary
 
 	public static $disbursementChannel = '//select[@name="$PpyWorkPage$pLoanApp$pLoanDetail$pDisbursementChannel"]';
 
-	public static $demoDataShortApp   = '//button[@data-click-id="[["showMenu",[{"dataSource":"DemoDataShortApp", "isNavTypeCustom":"false", "className":"FECredit-Base-Loan-Work-Loan-CD","menuAlign":"left","format":"menu-format-standard" , "loadBehavior":"ondisplay", "ellipsisAfter":"999","usingPage":"pyWorkPage", "useNewMenu":"true", "isMobile":"false", "navPageName":"pyNavigation1508927626414"},":event"]]]"]';
+	public static $demoDataShortApp   = '//button[contains(@data-click, "DemoDataShortApp")]';
 	
-	public static $demoDataG1ShortApp = '//button[@id="pyNavigation1509437842034"]';
+	public static $demoDataG1ShortApp = '//ul[contains(@style, "display: block;")]/li[contains(@class, "menu-item")]/a[contains(@data-click, "DemoDataEnterShortAppG1G6")]';
 	
 	public static $submitShortApp     = '//button[@data-test-id="20151224215849068133296"]';
 
@@ -151,7 +159,6 @@ class GeneralXpathLibrary
 	public static $addItemButton         = '//div[@data-node-id="AddDelete"]//a[@data-test-id="2016121614080304138535"]';
 
 	// Good Fields
-	
 	public static $assetType             = '//select[@name="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l2$pAssetType"]';
 	
 	public static $rowGoodData           = '//div[@gpropindex="PFinancialGoods1"]//div[@id="gridBody_right"]//table[@id="bodyTbl_right"]//tr[@id="$PpyWorkPage$pLoanApp$pFinancialGoods$pFinancialGoods$l1"]';	
@@ -187,7 +194,6 @@ class GeneralXpathLibrary
 	public static $saveGoodButton        = '//button[@id="RowDetailsButtonSubmit"]';
 
 	// Loan Fields
-	
 	public static $requestedAmount       = '//input[@id="RequestedAmount"]';
 
 	public static $requestedAmountJS     = 'input#RequestedAmount';
@@ -201,7 +207,6 @@ class GeneralXpathLibrary
 	public static $tenor                 = 'input#RequestedTenure';
 
 	// Customer Fields	
-	
 	public static $isFbOwner             = '//input[@id="IsFBOwner"]';
 
 	public static $title                 = '//select[@id="Title"]';
@@ -213,7 +218,6 @@ class GeneralXpathLibrary
 	public static $education             = '//select[@id="EducationId"]';
 
 	// Family Fields
-
 	public static $spouseLastname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pLastName"]';
 
 	public static $spouseFirstname        = '//input[@name="$PpyWorkPage$pLoanApp$pPersonalInfo$pSpouse$pPerson$pContact$pFirstName"]';
@@ -278,7 +282,6 @@ class GeneralXpathLibrary
 	public static $familyIncome          = '//input[@id="NetAmount2"]';
 
 	// Reference Fields
-
 	public static $rowPhoneReference1    = '//div[@aria-labelledby="Tab9"]//div[@data-node-id="OtherReferensedPersons"]//table[@id="gridLayoutTable"]//tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l1"]';
 
 	public static $rowMobile1    = '// tr[@id="$PpyWorkPage$pLoanApp$pPersonalInfo$pOtherReferensedPersons$l1$pPerson$pPhones$l1"]//td[3]';
@@ -310,6 +313,8 @@ class GeneralXpathLibrary
 	public static $demoDataDataCheck       = '//button[@name="DataCheck_pyWorkPage_"]';
 	
 	public static $cicResult               = '//select[@id="CICCheckResult"]';
+
+	public static $cicReason               = '//select[@id="CICCheckResultReason"]';
 	
 	public static $pcbResult               = '//select[@id="PCBCheckResult"]';
 	
@@ -366,10 +371,10 @@ class GeneralXpathLibrary
 	
 	public static $popupMessage      = 'Please correct flagged fields before submitting the form!';
 	
-	public static $errorDiv          = '//div[contains(@class, "inputErrorDiv")]//span[contains(@class, "inputError")]';
+	public static $errorDiv          = '//div[@id="errorDiv"]//div[@id="error"]';
 
     // Error message text 
-    public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
+	public static $errorMessageText = '//div[@data-node-id="DisplayErrors"]//div[@id="EXPAND-INNERDIV"]//span';
 
     // Access by LOS2
 	public static $emailOnTop2         = '//a[contains(@title, "tu.vuong@fecredit.com.vn")]';
@@ -394,6 +399,10 @@ class GeneralXpathLibrary
 	
 	public static $decisionMaking      = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab7"]//a[@tabtitle="Decision Making"]';
 
+	public static $information         = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab2"]//a[@tabtitle="Information"]';
+
+	public static $customer            = '//div[@data-node-id="CaseContainerBottom"]//div[@data-node-id="pyCaseContent"]//ul[contains(@class, "headerTabsList")]//li[@id="Tab3"]//a[@tabtitle="Customer"]';
+
 	public static $closeButton         = '//ul[@role="tablist"]//li[2]//span[@id="close"]';
 
 	public static $loanCloseButton     = '//div[@node_name="ActionAreaRight"]//div[contains(@class, "item-7")]//a';
@@ -403,9 +412,9 @@ class GeneralXpathLibrary
      *
      * @param  int $tabId Tab ID
      *
-     * @return xpath
+     * @return string
      */
-    public function getTabId($tabId)
+    public static function getTabId($tabId)
     {
         return '//div[@data-node-id="FullAppContainer"]//div[contains(@id, "PEGA_TABBED")]//ul[@role="tablist"]//li[@id="Tab' . $tabId . '"]//a';
     }
@@ -415,9 +424,9 @@ class GeneralXpathLibrary
      *
      * @param  int $tabId Tab ID
      *
-     * @return xpath
+     * @return string
      */
-    public function getPhoneTabId($tabId)
+    public static function getPhoneTabId($tabId)
     {
         return '//div[@tabgroupid="TGPHVContactDetailsA"]/ul//li[@id="Tab' . $tabId . '"]';
     }
@@ -427,10 +436,111 @@ class GeneralXpathLibrary
      *
      * @param  int $scoreRow Score row number
      *
-     * @return xpath
+     * @return string
      */
-    public function getScore($scoreRow)
+    public static function getScore($scoreRow)
     {
         return '(//div[@swp=".pyDescription,.StrategyResult.Result"])[3]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(3).ScResult"]//div[@base_ref=".ScResult(' . $scoreRow . ')"]//div[contains(@class, "content-item content-field item-2")]//div[contains(@class, "dataValueRead")]/span';
+    }
+
+    /**
+     * Function to get pre-scoring type
+     *
+     * @param  int $number  Number of pre-scoring
+     *
+     * @return string
+     */
+    public static function getPreScoringType($number)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-1")]//div[contains(@class, "item-1")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     *
+     * @return string
+     */
+    public static function getTransactionDate($number)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-1")]//div[contains(@class, "item-3")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     *
+     * @return string
+     */
+    public static function getProcessedUser($number)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-1")]//div[contains(@class, "item-5")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPrescoringResult($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[contains(@class, "item-2")]//div[contains(@class, "item-' . $row . '")]//div[contains(@class, "dataValueRead")]//span)[1]';
+    }
+
+    /**
+     * Function to get pre-scoring
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicyPrescoring($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row . ')"]//div[contains(@class, "header-content")]/span[contains(@class, "header-title")][1])[1]';
+    }
+
+    /**
+     * Function to get score result
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicyScoreResult($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row. ')"]//div[contains(@class, "layout-content-stacked")]//div[contains(@class, "content-layout item-1")]//div[contains(@class, "item-2")]//div[contains(@class, "dataValueRead")]/span)[1]';
+    }
+
+    /**
+     * Function to get score
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicySCAction($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row . ')"]//div[contains(@class, "layout-content-stacked")]//div[contains(@class, "content-layout item-1")]//div[contains(@class, "item-3")]//div[contains(@class, "dataValueRead")]/span)[1]';
+    }
+
+    /**
+     * Function to get score
+     *
+     * @param  int $number  Number of pre-scoring
+     * @param  int $row     Policy row number
+     *
+     * @return string
+     */
+    public static function getPolicySCResultInfo($number, $row)
+    {
+        return '(//div[contains(@base_ref, ".LoanApp.ScoringHistory(' . $number . ')")]//div[@data-repeat-source="pyWorkPage.LoanApp.ScoringHistory(' . $number . ').ScResult"]//div[@base_ref=".ScResult(' . $row . ')"]//div[contains(@class, "layout-content-stacked")]//div[contains(@class, "content-layout item-2")]//div[contains(@class, "item-1")]//div[contains(@class, "dataValueRead")]/span)[1]';
     }
 }

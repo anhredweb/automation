@@ -15,7 +15,7 @@ class initTWCest
     /**
      * @var  string
      */
-    private $defaultData;
+    private $defaultData = array();
 
     /**
      * Constructor.
@@ -47,43 +47,24 @@ class initTWCest
             'PERSONAL_INCOME'        => '35000000',
             'FAMILY_INCOME'          => '40000000',
             'PHONE_REFERENCE1'       => '01652679145',
-            'PHONE_REFERENCE2'       => '01652679146',
+            'PHONE_REFERENCE2'       => '01652679146'
         );
     }
 
-    /**
-     * Connect to Oracle.
-     *
-     * @return  mixed
-     */
-    protected function connectOracle()
-    {
-        $db = "(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.11.14)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = finnuat4.fecredit.com.vn)))" ;
-
-        // Create connection to Oracle
-        $conn = oci_connect("MULCASTRANS", "ANSF1UAT04itdbaBca", $db, 'AL32UTF8');
-
-        if (!$conn) 
-        {
-            $m = oci_error();
-            return $m['message'];
-        }
-
-        return $conn;
-    }
-
-     /**
+   /**
      * Execute Query.
+     *
+     * @param   AcceptanceTester  $I  Acceptance Tester case.
      *
      * @return  array
      */
-    protected function executeQuery()
+    protected function executeQuery($I)
     {
-        $connection = $this->connectOracle();
+        $connection = $I->connectOracle();
         $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'DD/MM/YYYY') AS DATE_OF_BIRTH, to_char(PHONE, '0000000000') AS PHONE, to_char(PHONE_REFERENCE1, '0000000000') AS PHONE_REFERENCE1, to_char(PHONE_REFERENCE2, '0000000000') AS PHONE_REFERENCE2 FROM AUTOMATION_TEST_CASE_TW a WHERE a.STATUS = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
-        $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
 
         return $data;
     }
@@ -98,11 +79,11 @@ class initTWCest
      */
     public function createTWApplication(AcceptanceTester $I, $scenario)
     {
-        $data = $this->executeQuery();
+        $data = $this->executeQuery($I);
 
         if (empty($data))
         {
-            return true;
+            return;
         }
 
         $I->amOnUrl(\GeneralXpathLibrary::$url);
@@ -180,10 +161,10 @@ class initTWCest
             if (!empty($responseData))
             {
                 $I->wantTo('Update score');
-                $I->updateScore($responseData, $this->connectOracle());   
+                $I->updateScore($responseData, $I->connectOracle());   
 
                 $I->wantTo('Check score');
-                $I->checkScore($responseData, $this->connectOracle());              
+                $I->checkScore($responseData, $I->connectOracle());              
             }
 
             $I->switchToIFrame();

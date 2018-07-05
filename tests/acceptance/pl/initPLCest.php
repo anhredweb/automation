@@ -15,7 +15,7 @@ class initPLCest
     /**
      * @var  string
      */
-    private $defaultData;
+    private $defaultData = array();
 
     /**
      * Constructor.
@@ -43,11 +43,11 @@ class initPLCest
             'PERSONAL_INCOME'        => '35000000',
             'FAMILY_INCOME'          => '40000000',
             'PHONE_REFERENCE1'       => '01652679145',
-            'PHONE_REFERENCE2'       => '01652679146',
+            'PHONE_REFERENCE2'       => '01652679146'
         );
     }
 
-     /**
+    /**
      * Execute Query.
      *
      * @param   AcceptanceTester  $I  Acceptance Tester case.
@@ -57,10 +57,10 @@ class initPLCest
     protected function executeQuery($I)
     {
         $connection = $I->connectOracle();
-        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE NOTE = 'NTB_S5' AND STATUS = 0";
+        $query      = "SELECT a.*, to_char(DATE_OF_BIRTH, 'MM/DD/YYYY') AS DATE_OF_BIRTH FROM AUTOMATION_TEST_CASE_PL a WHERE SUB_SEGMENT = 'NTB_S2' AND IS_RUN = 0";
         $stid       = oci_parse($connection, $query);
         oci_execute($stid);
-        $rows = oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_fetch_all($stid, $data, NULL, NULL, OCI_FETCHSTATEMENT_BY_ROW);
 
         return $data;
     }
@@ -79,7 +79,7 @@ class initPLCest
 
         if (empty($data))
         {
-            return true;
+            return;
         }
 
         $I->amOnUrl(\GeneralXpathLibrary::$url);
@@ -170,7 +170,7 @@ class initPLCest
             $I->wantTo('Check data');
             $caseId = $I->dataCheck('PL', $case);
 
-            if ($caseId == false)
+            if ($caseId == '')
             {
                 continue;
             }

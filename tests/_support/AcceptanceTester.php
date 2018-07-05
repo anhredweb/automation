@@ -7,7 +7,6 @@
 
 use Codeception\Lib\ModuleContainer;
 use Codeception\Module\WebDriver;
-use Codeception\Module\GeneralHelper;
 /**
  * Class Helper
  *
@@ -27,15 +26,7 @@ class AcceptanceTester extends \Codeception\Actor
         $db = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.110.93)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = finnuat5.fecredit.com.vn)))" ;
 
         // Create connection to Oracle
-        $conn = oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
-
-        if (!$conn) 
-        {
-            $m = oci_error();
-            return $m['message'];
-        }
-
-        return $conn;
+        return oci_connect("MULCASTRANS", "ANSF1UAT05", $db, 'AL32UTF8');
     }
 
    /**
@@ -50,6 +41,15 @@ class AcceptanceTester extends \Codeception\Actor
 	{
 		$I = $this;
 		$I->fillField(\GeneralXpathLibrary::$username, $username);
+        $I->fillField(\GeneralXpathLibrary::$password, $password);
+        $I->click(\GeneralXpathLibrary::$loginButton);
+
+        if ($I->checkElementNotExist(\GeneralXpathLibrary::$errorDiv))
+		{
+			return;
+		}
+
+        $I->fillField(\GeneralXpathLibrary::$username, $username);
         $I->fillField(\GeneralXpathLibrary::$password, $password);
         $I->click(\GeneralXpathLibrary::$loginButton);
 	}
@@ -103,8 +103,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->click(\GeneralXpathLibrary::$rowDealerCode);
 		$I->wait(1);
 
-
-
 		// Fill POS code
 		$I->click(\GeneralXpathLibrary::$posCode);
 		$I->wait(1);
@@ -156,36 +154,24 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to entry short data for Application
 	 *
-	 * @param  array  $data     Data
-	 * @param  array  $product  Product
+	 * @param  array   $data     Data
+	 * @param  string  $product  Product
 	 *
 	 * @return boolean
 	 */
 	public function shortApplication($data, $product = NULL)
 	{
-		$faker     = \Faker\Factory::create();
-		$firstname = str_replace("'", " ", $faker->firstname);
-		$lastname  = str_replace("'", " ", $faker->lastname);
-		$I         = $this;
+		$I = $this;
 		$I->wait(2);
 
 		// $I->click(\GeneralXpathLibrary::$dataCheck);
 		// $I->wait(2);
-
-		// Fill firstname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$firstname . "').val('" . $firstname . "')");
-		$I->wait(1);
-
-		// Fill lastname
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$lastname . "').val('" . $lastname . "')");
-		$I->wait(1);
-
-		$genders = array('M', 'F');
-
-		if (!in_array($data['GENDER'], $genders))
-		{
-			$data['GENDER'] = 'M';
-		}
+		
+		// Click demo data
+        $I->click(\GeneralXpathLibrary::$demoDataShortApp);
+        $I->wait(2);
+        $I->click(\GeneralXpathLibrary::$demoDataG1ShortApp);
+        $I->wait(2);
 
 		// Select gender
 		$I->selectOption(\GeneralXpathLibrary::$gender, array('value' => $data['GENDER']));
@@ -195,40 +181,13 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$nationalId . "').val('" . $data['NATIONAL_ID'] . "')");
 		$I->wait(1);
 
-		// Fill date of issue
-		$I->click(\GeneralXpathLibrary::$dateOfIssue);
-		$I->wait(2);
-		$I->click(\GeneralXpathLibrary::$todayLink);
-		$I->wait(2);
-
 		// Fill date of birth
 		$I->fillField(\GeneralXpathLibrary::$dateOfBirth, $data['DATE_OF_BIRTH']);
 		$I->wait(2);
 
-		if (empty($data['FB_NUMBER']))
-		{
-			$data['FB_NUMBER'] = 'FB#' . $data['NATIONAL_ID'];
-		}
-
-		// Fill family book number
-		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$fbNumber . "').val('" . $data['FB_NUMBER'] . "')");
-		$I->wait(1);
-
 		// Fill phone
 		$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$phone . "').val('" . $data['PHONE'] . "')");
 		$I->wait(2);
-
-		// Fill hometown
-		if (!empty($data['HOMETOWN']))
-		{
-			$I->click(\GeneralXpathLibrary::$hometown);
-			$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$hometownJS . "').val('" . $data['HOMETOWN'] . "')");
-			$I->wait(2);
-			$I->pressKey(\GeneralXpathLibrary::$hometown, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN);
-			$I->wait(1);
-			$I->click(\GeneralXpathLibrary::$rowHometown);
-			$I->wait(2);
-		}
 
 		// Select Disbursement Channel
 		if ($product == 'PL')
@@ -260,7 +219,7 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to check documents for Application
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function shortApplicationDocument()
 	{
@@ -275,6 +234,10 @@ class AcceptanceTester extends \Codeception\Actor
 			return false;
 		}
 
+		// Click Scan and Attach Documents
+		$I->click(\GeneralXpathLibrary::$dataCheck);
+		$I->wait(2);
+
 		// Click demo data
 		$I->wait(2);
 		$I->click(\GeneralXpathLibrary::$demoDataDocument);
@@ -283,6 +246,8 @@ class AcceptanceTester extends \Codeception\Actor
 		// Click submit data
 		$I->click(\GeneralXpathLibrary::$submitDocument);
 		$I->wait(2);
+
+		return true;
 	}
 
 	/**
@@ -294,33 +259,28 @@ class AcceptanceTester extends \Codeception\Actor
      */
 	public function generalFullDataEntry($data)
 	{
-		$faker = \Faker\Factory::create();
-		$I     = $this;
+		$faker      = \Faker\Factory::create();
+		$I          = $this;
+		$nationalId = (int) date('YmdHi');
 
 		//Customer Tab
         $I->click(\GeneralXpathLibrary::getTabId('4'));
         $I->wait(1);
 
         // Select title
-        if ($data['GENDER'] == 'M')
-        {
-            $I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mr.'));
-        }
-        else
-        {
-            $I->selectOption(\GeneralXpathLibrary::$title, array('value' => 'Mrs.'));
-        }
+        $title = $data['GENDER'] == 'M' ? 'Mr.' : 'Mrs.';
+        $I->selectOption(\GeneralXpathLibrary::$title, array('value' => $title));
 
         // Check/Uncheck FB Owner
         if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'Y')
         {
             $I->wait(1);
-            $I->checkOption(\GeneralXpathLibrary::$isFbOwner);  
+            $I->checkOption(\GeneralXpathLibrary::$isFbOwner);
         }
         else
         {
             $I->wait(1);
-            $I->uncheckOption(\GeneralXpathLibrary::$isFbOwner);    
+            $I->uncheckOption(\GeneralXpathLibrary::$isFbOwner);
         }
 
         // Select education
@@ -351,7 +311,6 @@ class AcceptanceTester extends \Codeception\Actor
         {
             $I->click(\GeneralXpathLibrary::getTabId('5'));
             $I->wait(2);
-            $nationalId = (int) date('YmdHi');
         }
 
         if (!empty($data['IS_FB_OWNER']) && $data['IS_FB_OWNER'] == 'N')
@@ -380,8 +339,6 @@ class AcceptanceTester extends \Codeception\Actor
             $I->selectOption(\GeneralXpathLibrary::$spouseGender, array('value' => $spouseGender));
             $I->wait(2);
             $I->fillField(\GeneralXpathLibrary::$spouseNationalId, $nationalId + 2);
-            $I->wait(2);
-            $I->fillField(\GeneralXpathLibrary::$spouseRelationPeriod, $faker->numberBetween(1, 9));
             $I->wait(2);
         }
 
@@ -416,7 +373,6 @@ class AcceptanceTester extends \Codeception\Actor
 			$I->click(\GeneralXpathLibrary::$rowWard);
 			$I->wait(2);
         }
-        
 
         // Work Tab
         if ((isset($data['YEAR_IN_CURR_JOB']) && (int) $data['YEAR_IN_CURR_JOB'] >= 0) || !empty($data['COMP_TAX_CODE']))
@@ -424,7 +380,7 @@ class AcceptanceTester extends \Codeception\Actor
         	$I->click(\GeneralXpathLibrary::getTabId('7'));
             $I->wait(2);
 
-            if (!empty($data['COMP_TAX_CODE']))
+            if (!empty($data['COMP_TAX_CODE']) && $data['COMP_TAX_CODE'] != '000-000-111-999')
             {
             	$I->click(\GeneralXpathLibrary::$compTaxCode);
 				$I->executeJS("return jQuery('" . \GeneralXpathLibrary::$compTaxCodeJS . "').val('').val('" . $data["COMP_TAX_CODE"] . "')");
@@ -572,15 +528,8 @@ class AcceptanceTester extends \Codeception\Actor
 
 		if ($product == 'PL')
 		{
-			if (empty($data['CIC_DESCRIPTION']))
-	        {
-	            $data['CIC_DESCRIPTION'] = 'NULL';
-	        }
-
-	        if (empty($data['PCB_DESCRIPTION']))
-	        {
-	            $data['PCB_DESCRIPTION'] = 'NULL';
-	        }
+	        $data['CIC_DESCRIPTION'] = empty($data['CIC_DESCRIPTION']) ? $data['CIC_DESCRIPTION'] : 'NULL';
+	        $data['PCB_DESCRIPTION'] = empty($data['PCB_DESCRIPTION']) ? $data['PCB_DESCRIPTION'] : 'NULL';
 
 			// Click Add item to add CIC
 			$I->click(\GeneralXpathLibrary::$cicAddItem);
@@ -648,7 +597,7 @@ class AcceptanceTester extends \Codeception\Actor
 
 		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft')
 		{
-			return false;
+			return '';
 		}
 
 		print_r($applicationStatus);
@@ -761,7 +710,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param  string  $product  Product name
 	 * @param  array   $data     Data
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function searchApplication($caseId, $product, $data)
 	{
@@ -784,6 +733,13 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->wait(1);
 		$I->click(\GeneralXpathLibrary::$decisionMaking);
 		$I->wait(1);
+
+		$applicationStatus = $I->grabTextFrom(\GeneralXpathLibrary::$applicationStatus);
+
+		if (trim($applicationStatus) == 'Resolved-Rejected-Hard' || trim($applicationStatus) == 'Resolved-Rejected-Soft' || trim($applicationStatus) == 'Pending-DC')
+		{
+			return array();
+		}
 
 		$responseData = array();
 		$caseId = $I->grabTextFrom(\GeneralXpathLibrary::$caseId);
